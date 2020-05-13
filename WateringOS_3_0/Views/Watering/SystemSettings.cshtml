@@ -1,0 +1,328 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @*<link href="https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap" rel="stylesheet">*@
+    <link rel="stylesheet" href="~/css/site.css" />
+    <style type="text/css">
+        .btn-block {
+            display: block;
+            width: 100%;
+            margin-top: .5rem;
+        }
+
+        input[type="text"] {
+            height: 24px;
+            /*font-family: 'Roboto', sans-serif;*/
+            font-size: 14px;
+        }
+
+        input[type="checkbox"] {
+            height: 20px;
+            width: 20px;
+        }
+
+        .alert {
+            display: block;
+            margin: 2px 0px 0px 0px;
+            padding: 0px 0px 0px 20px; /* top right bottom left */
+        }
+
+        html {
+            overflow: scroll;
+        }
+
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent; /* make scrollbar transparent */
+        }
+    </style>
+</head>
+
+<system.webServer>
+    <httpProtocol>
+        <customHeaders>
+            <add name="Access-Control-Allow-Origin" value="*" />
+            <add name="Access-Control-Allow-Methods" value="GET, POST, PUT, DELETE, OPTIONS" />
+            <add name="Access-Control-Allow-Headers" value="Origin, X-Requested-With, Content-Type, Accept" />
+        </customHeaders>
+    </httpProtocol>
+</system.webServer>
+
+<script src="~/js/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        Read();
+    });
+    function showalert(message, alerttype) {
+        $('#message_container').append('<div id="alertdiv" class="alert ' + alerttype + '"><span>' + message + '</span></div>')
+        setTimeout(function () {  // this will automatically close the alert and remove this if the users doesnt close it in 5 secs
+            $("#alertdiv").remove();
+        }, 2000);
+    }
+
+    function Write() {
+        showalert('Writing settings...', 'alert-info');
+
+        document.getElementById("btn_write").disabled = true;
+        document.getElementById("btn_read").disabled = true;
+        document.getElementById("btn_write_spinner").style.display = "inline-block";
+
+        $.post("/Settings/Get_Task_cycle",        { data: document.getElementById("usr_cycle").value });
+        $.post("/Settings/Get_FastLog",           { data: document.getElementById("usr_logfast").value }); 
+        $.post("/Settings/Get_Log_Enviroment",    { data: document.getElementById("usr_logenv").value });
+        $.post("/Settings/Get_Log_Power",         { data: document.getElementById("usr_logpower").value });
+        $.post("/Settings/Get_Log_Level",         { data: document.getElementById("usr_loglevel").value });
+
+        $.post("/Settings/Get_DLY_Auto_LogOff",   { data: document.getElementById("usr_autologoff").value });
+
+        $.post("/Settings/Get_Tank_Min",          { data: document.getElementById("usr_tankmin").value });
+        $.post("/Settings/Get_Tank_Max",          { data: document.getElementById("usr_tankmax").value });
+
+        $.post("/Settings/Get_Wat_min_tank",      { data: document.getElementById("usr_watmintank").value });
+        $.post("/Settings/Get_Wat_min_vol",       { data: document.getElementById("usr_watminvol").value });
+        $.post("/Settings/Get_Wat_min_time",      { data: document.getElementById("usr_watmintime").value });
+        $.post("/Settings/Get_Wat_max_vol",       { data: document.getElementById("usr_watmaxvol").value });
+        $.post("/Settings/Get_Wat_max_time",      { data: document.getElementById("usr_watmaxtime").value });
+
+        $.post("/Settings/Get_ALM_TankLevel",     { data: document.getElementById("usr_almtank").value });
+        $.post("/Settings/Get_ALM_MinPress",      { data: document.getElementById("usr_almminpress").value });
+        $.post("/Settings/Get_ALM_MaxPress",      { data: document.getElementById("usr_almmaxpress").value });
+        $.post("/Settings/Get_ALM_NoPumpDelay",   { data: document.getElementById("usr_nopumpdelay").value });
+        $.post("/Settings/Get_ALM_NoValveDelay",  { data: document.getElementById("usr_novalvedelay").value });
+        $.post("/Settings/Get_ALM_PressOffDelay", { data: document.getElementById("usr_pressoffdelay").value });
+        $.post("/Settings/Get_ALM_PressOffValue", { data: document.getElementById("usr_pressoffvalue").value });
+
+        $.post("/Settings/Get_DLY_ValveOpen",     { data: document.getElementById("usr_delayvalveopen").value });
+        $.post("/Settings/Get_DLY_PumpStop",      { data: document.getElementById("usr_delaypumpstop").value });
+
+        $.post("/Settings/WriteToFile", function (result) { if (!result) { showalert('Could not write to file.', 'alert-danger'); } });
+
+        document.getElementById("btn_write").disabled = false;
+        document.getElementById("btn_read").disabled = false;
+        document.getElementById("btn_write_spinner").style.display = "none";
+    }
+    function Read() {
+        showalert('Reading settings...', 'alert-info');
+
+        document.getElementById("btn_write").disabled = true;
+        document.getElementById("btn_read").disabled = true;
+        document.getElementById("btn_read_spinner").style.display = "inline-block";
+
+
+        $.post("/Settings/ReadFromFile",      function (result) { if (!result) { showalert('Could not read from file.', 'alert-danger'); } });
+
+        $.post("/Settings/Task_cycle",        function (result) { document.getElementById("usr_cycle").value = result });
+        $.post("/Settings/FastLog",           function (result) { document.getElementById("usr_logfast").value = result });
+        $.post("/Settings/Log_Enviroment",    function (result) { document.getElementById("usr_logenv").value = result });
+        $.post("/Settings/Log_Power",         function (result) { document.getElementById("usr_logpower").value = result });
+        $.post("/Settings/Log_Level",         function (result) { document.getElementById("usr_loglevel").value = result });
+
+        $.post("/Settings/DLY_Auto_LogOff",   function (result) { document.getElementById("usr_autologoff").value = result });
+
+        $.post("/Settings/Tank_Min",          function (result) { document.getElementById("usr_tankmin").value = result });
+        $.post("/Settings/Tank_Max",          function (result) { document.getElementById("usr_tankmax").value = result });
+
+        $.post("/Settings/Wat_min_tank",      function (result) { document.getElementById("usr_watmintank").value = result });
+        $.post("/Settings/Wat_min_vol",       function (result) { document.getElementById("usr_watminvol").value = result });
+        $.post("/Settings/Wat_min_time",      function (result) { document.getElementById("usr_watmintime").value = result });
+        $.post("/Settings/Wat_max_vol",       function (result) { document.getElementById("usr_watmaxvol").value = result });
+        $.post("/Settings/Wat_max_time",      function (result) { document.getElementById("usr_watmaxtime").value = result });
+
+        $.post("/Settings/ALM_TankLevel",     function (result) { document.getElementById("usr_almtank").value = result });
+        $.post("/Settings/ALM_MinPress",      function (result) { document.getElementById("usr_almminpress").value = result });
+        $.post("/Settings/ALM_MaxPress",      function (result) { document.getElementById("usr_almmaxpress").value = result });
+        $.post("/Settings/ALM_NoPumpDelay",   function (result) { document.getElementById("usr_nopumpdelay").value = result });
+        $.post("/Settings/ALM_NoValveDelay",  function (result) { document.getElementById("usr_novalvedelay").value = result });
+        $.post("/Settings/ALM_PressOffDelay", function (result) { document.getElementById("usr_pressoffdelay").value = result });
+        $.post("/Settings/ALM_PressOffValue", function (result) { document.getElementById("usr_pressoffvalue").value = result });
+
+        $.post("/Settings/DLY_ValveOpen",     function (result) { document.getElementById("usr_delayvalveopen").value = result });
+        $.post("/Settings/DLY_PumpStop",      function (result) { document.getElementById("usr_delaypumpstop").value = result });
+
+        document.getElementById("btn_write").disabled = false;
+        document.getElementById("btn_read").disabled = false;
+        document.getElementById("btn_read_spinner").style.display = "none";
+
+    }
+</script>
+
+<div class="container" style="width:100%;margin:80px 0px 0px 0px;">
+    <div class="container-fluid" id="message_container" style="width:inherit;max-width:inherit;min-width:inherit;position:fixed;padding:0px 0px 24px 0px"></div>
+    <div class="container-fluid" style="width:100%;padding:0px 0px 24px 0px"><h3>System Settings</h3></div>
+    <div class="container-fluid" style="width:fit-content;margin-left:50px">
+        <table class="grid" width="100%" height="100%" style="text-align:left;padding:50px 0px 0px 50px">
+            <tbody>
+                <tr>
+                    <td style="text-align: right;padding-right:6px;width:150px">TSK_cycle</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_cycle" min="500" max="5000" step="100"></td>
+                    <td style="text-align:left;width:100px">ms</td>
+                    <td style="text-align:right;width:150px;padding-right:6px">ALM_TankLevel</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_almtank" min="1" max="50" step="1"></td>
+                    <td style="text-align:left">%</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: right;padding-right:6px">ALM_MinPress</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_almminpress" min="100" max="5000" step="100"></td>
+                    <td style="text-align:left">mbar</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="text-align: right;padding-right:6px">LOG_fast</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_logfast" min="50" max="1000" step="10"></td>
+                    <td style="text-align: left">ms</td>
+                    <td style="text-align: right;padding-right:6px">ALM_MaxPress</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_almmaxpress" min="1000" max="9000" step="100"></td>
+                    <td style="text-align:left">mbar</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right:6px">LOG_environment</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_logenv" min="1" max="60" step="1"></td>
+                    <td style="text-align:left">min</td>
+                    <td style="text-align: right;padding-right:6px">ALM_NoPumpDelay</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_nopumpdelay" min="100" max="9000" step="100"></td>
+                    <td style="text-align:left">ms</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right:6px">LOG_power</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_logpower" min="1000" max="5000" step="100"></td>
+                    <td style="text-align:left">ms</td>
+                    <td style="text-align: right;padding-right:6px">ALM_NoValveDelay</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_novalvedelay" min="100" max="9000" step="100"></td>
+                    <td style="text-align:left">ms</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right:6px">LOG_level</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_loglevel" min="1" max="60" step="1"></td>
+                    <td style="text-align:left">min</td>
+                    <td style="text-align: right;padding-right:6px">ALM_PressOffDelay</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_pressoffdelay" min="100" max="9000" step="100"></td>
+                    <td style="text-align:left">ms</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: right;padding-right:6px">ALM_PressOffValue</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_pressoffvalue" min="100" max="9000" step="100"></td>
+                    <td style="text-align:left">mbar</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right:6px">DLY_AutoLogOff</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_autologoff" min="1" max="60" step="1"></td>
+                    <td style="text-align:left">min</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr style="height:24px"></tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align:right;padding-right:6px">DLY_ValveOpen</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_delayvalveopen" min="100" max="9000" step="100"></td>
+                    <td style="text-align:left">ms</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right:6px">TNK_min</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_tankmin" min="0" max="255" step="1"></td>
+                    <td style="text-align:left">int</td>
+                    <td style="text-align:right;padding-right:6px">DLY_PumpStop</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_delaypumpstop" min="100" max="9000" step="100"></td>
+                    <td style="text-align:left">ms</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right:6px">TNK_max</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_tankmax" min="0" max="255" step="1"></td>
+                    <td style="text-align:left">int</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right:6px">WAT_min_tank</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_watmintank" min="0" max="50" step="1"></td>
+                    <td style="text-align:left">%</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right:6px">WAT_min_vol</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_watminvol" min="10" max="500" step="10"></td>
+                    <td style="text-align:left">ml</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right:6px">WAT_min_time</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_watmintime" min="500" max="5000" step="100"></td>
+                    <td style="text-align:left">s</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right:6px">WAT_max_vol</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_watmaxvol" min="500" max="2500" step="1"></td>
+                    <td style="text-align:left">ml</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right:6px">WAT_max_time</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_watmaxtime" min="1" max="60" step="1"></td>
+                    <td style="text-align:left">s</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr style="height:24px"></tr>
+            </tbody>
+        </table>
+        <table class="grid" width="100%" height="100%" style="text-align:left;margin-top:20px">
+            <tbody>
+                <tr>
+                    <td style="width:200px">
+                        <button style="width: 72px; display: inline" type="button" onclick="Read()" id="btn_read" class="btn btn-outline-danger btn-sm btn-block"><span id="btn_read_spinner" class="spinner-border spinner-border-sm" style="display:none"></span>   Read </button>
+                        <button style="width: 72px; display: inline" type="button" onclick="Write()" id="btn_write" class="btn btn-danger btn-sm btn-block">        <span id="btn_write_spinner" class="spinner-border spinner-border-sm" style="display:none"></span>   Write</button>
+                    </td>
+                    <td style="width:auto"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

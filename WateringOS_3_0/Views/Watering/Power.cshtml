@@ -1,0 +1,413 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/Chart.bundle.js"></script>
+    <script src="~/js/moment.js"></script>
+</head>
+
+<div class="container-fluid" style="width:100%;padding:90px 0px 0px 60px">
+    <table class="grid" width="100%">
+        <tbody>
+            <tr>
+                <td style="width:130px"><h5>Power Supply</h5></td>
+                <td></td>
+                <td style="width:80px"><button style="width:72px" onclick="Show24h()" id="btn_24H" class="btn btn-outline-primary btn-sm btn-block" default>24 hrs</button></td>
+                <td style="width:80px"><button style="width:72px" onclick="Show1wk()" id="btn_1WK" class="btn btn-outline-primary btn-sm btn-block" default>1 week</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<canvas id="power_chart" style="width:100%;height:500px;min-height:300px;margin:10px 0px 0px 0px;"></canvas>
+<canvas id="watchdog_chart" style="width:100%;height:200px;min-height:150px;margin:10px 0px 0px 0px;"></canvas>
+
+<script>
+    var power_canvas    = document.getElementById('power_chart').getContext('2d');
+    var watchdog_canvas = document.getElementById('watchdog_chart').getContext('2d');
+    var PowerChart = new Chart(power_canvas, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                        label: 'Power Good 5V',
+                        fill: true,
+                        backgroundColor: 'rgba(239, 83, 80, 0.3)',
+                        borderColor: "#ef5350",
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        data: [],
+                        lineTension: 0
+                    }, {
+                        label: 'Power Good 12V',
+                        fill: true,
+                        backgroundColor: 'rgba(171, 71, 188, 0.3)',
+                        borderColor: "#ab47bc",
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        data: [],
+                        lineTension: 0
+                    },
+                    {
+                        label: 'Power Good 24V',
+                        fill: true,
+                        backgroundColor: 'rgba(92, 107, 192, 0.3)',
+                        borderColor: "#5c6bc0",
+                        borderWidth: 1.5,
+                        pointRadius: 0,
+                        data: [],
+                        lineTension: 0
+                    }, {
+                        label: 'Power Fail 5V',
+                        fill: true,
+                        backgroundColor: 'rgba(38, 166, 154, 0.3)',
+                        borderColor: "#26a69a",
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        data: [],
+                        lineTension: 0
+                    }, {
+                        label: 'Power Fail 12V',
+                        fill: true,
+                        backgroundColor: 'rgba(102, 187, 106, 0.3)',
+                        borderColor: "#66bb6a",
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        data: [],
+                        lineTension: 0
+                    },
+                    {
+                        label: 'Power Fail 24V',
+                        fill: true,
+                        backgroundColor: 'rgba(255, 238, 88, 0.3)',
+                        borderColor: "#ffee58",
+                        borderWidth: 1.5,
+                        pointRadius: 0,
+                        data: [],
+                        lineTension: 0
+                    },
+                    {
+                        label: 'Day Grid',
+                        fill: false,
+                        borderColor: "#5f5f5f",
+                        borderWidth: 1.5,
+                        pointRadius: 0,
+                        data: [],
+                        lineTension: 0
+                    }]
+            },
+        options: {
+            title: {
+                display: false,
+                text: 'Ground/Rain',
+                fontSize: 16,
+                fontFamily: 'Helvetica'
+            },
+            legend: {
+                display: true
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        max: 2,
+                        min: 0,
+                        stepSize: 1,
+                        callback: function (value, index, values) { return value; }
+                    },
+                    scaleLabel: {
+                        display: false,
+                        labelString: ''
+                    }
+                }],
+                xAxes: [{
+                    type: 'time',
+                    ticks: {
+                        major: {
+                            enabled: true,
+                            fontStyle: 'bold',
+                            fontSiz: 14,
+                            unit: 'day'
+                        },
+                        source: 'auto',
+                        autoSkip: 'true',
+                        autoSkipPadding: 25
+                    },
+                    time: {
+                        unit: 'hour',
+                        displayFormats: {
+                            hour: 'HH:mm'
+                        }
+                    }
+                }]
+            },
+            tooltips: {
+                position: 'nearest',
+                mode: 'index',
+                intersect: true,
+                callbacks: {
+                    title: function (tooltipItem, data) {
+                        var vTitle = [];
+                        vTitle[0] = moment(tooltipItem[0].label).format("ddd, DD/MMM");
+                        vTitle[1] = moment(tooltipItem[0].label).format("HH:mm");
+                        return vTitle;
+                    },
+                    label: function (tooltipItem, data) {
+                        var vLabel = data.datasets[tooltipItem.datasetIndex].label + " " + tooltipItem.value + "°C"
+                        return vLabel;
+                    }
+                }
+            },
+            hover: {
+                animationDuration: 0
+            }
+        }
+        });
+    var WatchdogChart = new Chart(watchdog_canvas, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'WatchDog',
+                fill: true,
+                backgroundColor: 'rgba(236, 64, 122, 0.3)',
+                borderColor: "#ec407a",
+                borderWidth: 1.5,
+                pointRadius: 0,
+                data: [],
+                lineTension: 0
+            },
+                {
+                    label: 'Day Grid',
+                    fill: false,
+                    //backgroundColor: 'rgba(3, 169, 244, 0.3)',
+                    borderColor: "#5f5f5f",
+                    borderWidth: 1.5,
+                    pointRadius: 0,
+                    data: [],
+                    lineTension: 0
+                }]
+        },
+        options: {
+            title: {
+                display: false,
+                text: 'Temperatures',
+                fontSize: 16,
+                fontFamily: 'Helvetica'
+            },
+            legend: {
+                display: true
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        max: 2,
+                        min: 0,
+                        stepSize: 1
+                    },
+                    scaleLabel: {
+                        display: false,
+                        labelString: ' '
+                    }
+                }],
+                xAxes: [{
+                    type: 'time',
+                    ticks: {
+                        major: {
+                            enabled: true,
+                            fontStyle: 'bold',
+                            fontSiz: 14,
+                            unit: 'day'
+                        },
+                        source: 'auto',
+                        autoSkip: 'true',
+                        autoSkipPadding: 25
+                    },
+                    time: {
+                        unit: 'hour',
+                        displayFormats: {
+                            hour: 'HH:mm'
+                        }
+                    }
+                }]
+            },
+            tooltips: {
+                position: 'nearest',
+                mode: 'index',
+                intersect: true,
+                callbacks: {
+                    title: function (tooltipItem, data) {
+                        var vTitle = [];
+                        vTitle[0] = moment(tooltipItem[0].label).format("ddd, DD/MMM");
+                        vTitle[1] = moment(tooltipItem[0].label).format("HH:mm");
+                        return vTitle;
+                    },
+                    label: function (tooltipItem, data) {
+                        var vLabel = data.datasets[tooltipItem.datasetIndex].label + " " + tooltipItem.value + "°C"
+                        return vLabel;
+                    }
+                }
+            },
+            hover: {
+                animationDuration: 0
+            }
+        }
+    });
+
+    $(document).ready(function () { Show1wk(); });
+
+    function ClearData() {
+        PowerChart.data.labels = [];
+        WatchdogChart.data.labels = [];
+        PowerChart.data.datasets[0].data = [];
+        PowerChart.data.datasets[1].data = [];
+        PowerChart.data.datasets[2].data = [];
+        PowerChart.data.datasets[3].data = [];
+        PowerChart.data.datasets[4].data = [];
+        PowerChart.data.datasets[5].data = [];
+        PowerChart.data.datasets[6].data = [];
+        WatchdogChart.data.datasets[0].data = [];
+        WatchdogChart.data.datasets[1].data = [];
+        PowerChart.update();
+        WatchdogChart.update();
+    }
+
+        function Show24h() {
+        ClearData();
+        $.ajax({
+				type: "POST",
+				dataType: "json",
+				contentType: "application/json",
+				url: '@Url.Action("GetPowerData", "DataProvision")',
+                success: function (result) {
+                    PowerChart.data.labels.push(moment().subtract(24, 'hour'));
+                    WatchdogChart.data.labels.push(moment().subtract(24, 'hour'));
+                    // Major Gridlines
+                    PowerChart.data.datasets[6].data.push({ x: moment().hour(0).minute(0).second(0), y: 120 });
+                    PowerChart.data.datasets[6].data.push({ x: moment().hour(0).minute(0).second(0), y: -50 });
+                    WatchdogChart.data.datasets[1].data.push({ x: moment().hour(0).minute(0).second(0), y: 120 });
+                    WatchdogChart.data.datasets[1].data.push({ x: moment().hour(0).minute(0).second(0), y: -50 });
+                    // -----
+                    $.each(result, function (i, v) {
+                        if (moment(v.TimeStamp) >= moment().subtract(24, 'hours')) {
+                            PowerChart.data.datasets[0].data.push({
+                                x: moment(v.TimeStamp),
+                                y: v.PowerGood_5V
+                            });
+                            PowerChart.data.datasets[1].data.push({
+                                x: moment(v.TimeStamp),
+                                y: v.PowerGood_12V
+                            });
+                            PowerChart.data.datasets[2].data.push({
+                                x: moment(v.TimeStamp),
+                                y: v.PowerGood_24V
+                            });
+                            PowerChart.data.datasets[3].data.push({
+                                x: moment(v.TimeStamp),
+                                y: v.PowerFail_5V
+                            });
+                            PowerChart.data.datasets[4].data.push({
+                                x: moment(v.TimeStamp),
+                                y: v.PowerFail_12V
+                            });
+                            PowerChart.data.datasets[5].data.push({
+                                x: moment(v.TimeStamp),
+                                y: v.PowerFail_24V
+                            });
+                            WatchdogChart.data.datasets[0].data.push({
+                                x: moment(v.TimeStamp),
+                                y: v.WatchdogPrealarm
+                            });
+                        }
+                    });
+
+                    WatchdogChart.data.labels.push(moment());
+                    PowerChart.data.labels.push(moment());
+                    WatchdogChart.update();
+                    PowerChart.update();
+                }
+            });
+    }
+
+    function Show1wk() {
+        ClearData();
+        $.ajax({
+				type: "POST",
+				dataType: "json",
+				contentType: "application/json",
+				url: '@Url.Action("GetPowerData", "DataProvision")',
+                success: function (result) {
+                    PowerChart.data.labels.push(moment().minute(0).subtract(168, 'hour'));
+                    WatchdogChart.data.labels.push(moment().minute(0).subtract(168, 'hour'));
+                    // Major Gridlines (PowerChart)
+                    PowerChart.data.datasets[6].data.push({ x: moment().hour(0).minute(0).second(0),                    y: 120 });
+                    PowerChart.data.datasets[6].data.push({ x: moment().hour(0).minute(0).second(0),                    y: -50 });
+                    PowerChart.data.datasets[6].data.push({ x: moment().hour(0).minute(0).second(0).subtract(1, 'day'), y: -50 });
+                    PowerChart.data.datasets[6].data.push({ x: moment().hour(0).minute(0).second(0).subtract(1, 'day'), y: 120 });
+                    PowerChart.data.datasets[6].data.push({ x: moment().hour(0).minute(0).second(0).subtract(2, 'day'), y: 120 });
+                    PowerChart.data.datasets[6].data.push({ x: moment().hour(0).minute(0).second(0).subtract(2, 'day'), y: -50 });
+                    PowerChart.data.datasets[6].data.push({ x: moment().hour(0).minute(0).second(0).subtract(3, 'day'), y: -50 });
+                    PowerChart.data.datasets[6].data.push({ x: moment().hour(0).minute(0).second(0).subtract(3, 'day'), y: 120 });
+                    PowerChart.data.datasets[6].data.push({ x: moment().hour(0).minute(0).second(0).subtract(4, 'day'), y: 120 });
+                    PowerChart.data.datasets[6].data.push({ x: moment().hour(0).minute(0).second(0).subtract(4, 'day'), y: -50 });
+                    PowerChart.data.datasets[6].data.push({ x: moment().hour(0).minute(0).second(0).subtract(5, 'day'), y: -50 });
+                    PowerChart.data.datasets[6].data.push({ x: moment().hour(0).minute(0).second(0).subtract(5, 'day'), y: 120 });
+                    PowerChart.data.datasets[6].data.push({ x: moment().hour(0).minute(0).second(0).subtract(6, 'day'), y: 120 });
+                    PowerChart.data.datasets[6].data.push({ x: moment().hour(0).minute(0).second(0).subtract(6, 'day'), y: -50 });
+                    // Major Gridlines (WatchdogChart)
+                    WatchdogChart.data.datasets[1].data.push({ x: moment().hour(0).minute(0).second(0), y: 120 });
+                    WatchdogChart.data.datasets[1].data.push({ x: moment().hour(0).minute(0).second(0), y: -50 });
+                    WatchdogChart.data.datasets[1].data.push({ x: moment().hour(0).minute(0).second(0).subtract(1, 'day'), y: -50 });
+                    WatchdogChart.data.datasets[1].data.push({ x: moment().hour(0).minute(0).second(0).subtract(1, 'day'), y: 120 });
+                    WatchdogChart.data.datasets[1].data.push({ x: moment().hour(0).minute(0).second(0).subtract(2, 'day'), y: 120 });
+                    WatchdogChart.data.datasets[1].data.push({ x: moment().hour(0).minute(0).second(0).subtract(2, 'day'), y: -50 });
+                    WatchdogChart.data.datasets[1].data.push({ x: moment().hour(0).minute(0).second(0).subtract(3, 'day'), y: -50 });
+                    WatchdogChart.data.datasets[1].data.push({ x: moment().hour(0).minute(0).second(0).subtract(3, 'day'), y: 120 });
+                    WatchdogChart.data.datasets[1].data.push({ x: moment().hour(0).minute(0).second(0).subtract(4, 'day'), y: 120 });
+                    WatchdogChart.data.datasets[1].data.push({ x: moment().hour(0).minute(0).second(0).subtract(4, 'day'), y: -50 });
+                    WatchdogChart.data.datasets[1].data.push({ x: moment().hour(0).minute(0).second(0).subtract(5, 'day'), y: -50 });
+                    WatchdogChart.data.datasets[1].data.push({ x: moment().hour(0).minute(0).second(0).subtract(5, 'day'), y: 120 });
+                    WatchdogChart.data.datasets[1].data.push({ x: moment().hour(0).minute(0).second(0).subtract(6, 'day'), y: 120 });
+                    WatchdogChart.data.datasets[1].data.push({ x: moment().hour(0).minute(0).second(0).subtract(6, 'day'), y: -50 });
+                    // ----
+                    $.each(result, function (i, v) {
+                        if (moment(v.TimeStamp) >= moment().subtract(168, 'hours')) {
+                            PowerChart.data.datasets[0].data.push({
+                                x: moment(v.TimeStamp),
+                                y: v.PowerGood_5V
+                            });
+                            PowerChart.data.datasets[1].data.push({
+                                x: moment(v.TimeStamp),
+                                y: v.PowerGood_12V
+                            });
+                            PowerChart.data.datasets[2].data.push({
+                                x: moment(v.TimeStamp),
+                                y: v.PowerGood_24V
+                            });
+                            PowerChart.data.datasets[3].data.push({
+                                x: moment(v.TimeStamp),
+                                y: v.PowerFail_5V
+                            });
+                            PowerChart.data.datasets[4].data.push({
+                                x: moment(v.TimeStamp),
+                                y: v.PowerFail_12V
+                            });
+                            PowerChart.data.datasets[5].data.push({
+                                x: moment(v.TimeStamp),
+                                y: v.PowerFail_24V
+                            });
+                            WatchdogChart.data.datasets[0].data.push({
+                                x: moment(v.TimeStamp),
+                                y: v.WatchdogPrealarm
+                            });
+                        }
+                    });
+                    WatchdogChart.data.labels.push(moment().minute(0).add(1, 'hour'));
+                    PowerChart.data.labels.push(moment().minute(0).add(1, 'hour'));
+                    WatchdogChart.update();
+                    PowerChart.update();
+                }
+            });
+    }
+
+</script>

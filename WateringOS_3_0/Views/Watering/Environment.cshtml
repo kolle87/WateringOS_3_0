@@ -1,0 +1,372 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <head>
+        <script src="~/js/jquery.min.js"></script>
+        <script src="~/js/Chart.bundle.js"></script>
+        <script src="~/js/moment.js"></script>
+    </head>
+
+<div class="container-fluid" style="width:100%;padding:90px 0px 0px 60px">
+    <table class="grid" width="100%">
+        <tbody>
+            <tr>
+                <td style="width:130px"><h5>Environmental</h5></td>
+                <td></td>
+                <td style="width:80px"><button style="width:72px" onclick="Show24h()" id="btn_24H" class="btn btn-outline-primary btn-sm btn-block" default>24 hrs</button></td>
+                <td style="width:80px"><button style="width:72px" onclick="Show1wk()" id="btn_1WK" class="btn btn-outline-primary btn-sm btn-block" default>1 week</button></td>
+                
+            </tr>
+        </tbody>
+    </table>
+</div>
+<canvas id="tmp_chart" style="width:100%;height:500px;min-height:300px;margin:10px 0px 0px 0px;"></canvas>
+<canvas id="env_chart" style="width:100%;height:200px;min-height:150px;margin:10px 0px 0px 0px;"></canvas>
+
+<script>
+    var env_canvas = document.getElementById('env_chart').getContext('2d');
+    var tmp_canvas = document.getElementById('tmp_chart').getContext('2d');
+    var EnvChart = new Chart(env_canvas, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                        label: 'Rain',
+                        fill: true,
+                        backgroundColor: 'rgba(3, 169, 244, 0.3)',
+                        borderColor: "#03a9f4",
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        data: [],
+                        lineTension: 0
+                }, {
+                        label: 'Ground',
+                        fill: true,
+                        backgroundColor: 'rgba(233, 32, 99, 0.3)',
+                        borderColor: "#e91e63",
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        data: [],
+                        lineTension: 0
+                    },
+                    {
+                        label: 'Day Grid',
+                        fill: false,
+                        borderColor: "#5f5f5f",
+                        borderWidth: 1.5,
+                        pointRadius: 0,
+                        data: [],
+                        lineTension: 0
+                    }]
+            },
+        options: {
+            title: {
+                display: false,
+                text: 'Ground/Rain',
+                fontSize: 16,
+                fontFamily: 'Helvetica'
+            },
+            legend: {
+                display: true
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        max:  2,
+                        min: -2,
+                        stepSize: 1,
+                        callback: function (value, index, values) { return '  ' + value; }
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: '  '
+                    }
+                }],
+                xAxes: [{
+                    type: 'time',
+                    ticks: {
+                        major: {
+                            enabled: true,
+                            fontStyle: 'bold',
+                            fontSiz: 14,
+                            unit: 'day'
+                        },
+                        source: 'auto',
+                        autoSkip: 'true',
+                        autoSkipPadding: 25
+                    },
+                    time: {
+                        unit: 'hour',
+                        displayFormats: {
+                            hour: 'HH:mm'
+                        }
+                    }
+                }]
+            },
+            tooltips: {
+                position: 'nearest',
+                mode: 'index',
+                intersect: true,
+                callbacks: {
+                    title: function (tooltipItem, data) {
+                        var vTitle = [];
+                        vTitle[0] = moment(tooltipItem[0].label).format("ddd, DD/MMM");
+                        vTitle[1] = moment(tooltipItem[0].label).format("HH:mm");
+                        return vTitle;
+                    },
+                    label: function (tooltipItem, data) {
+                        var vLabel = data.datasets[tooltipItem.datasetIndex].label + " " + tooltipItem.value + "°C"
+                        return vLabel;
+                    }
+                }
+            },
+            hover: {
+                animationDuration: 0
+            }
+        }
+        });
+    var TmpChart = new Chart(tmp_canvas, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Ambient',
+                fill: false,
+                backgroundColor: 'rgba(3, 169, 244, 0.3)',
+                borderColor: "#03a9f4",
+                borderWidth: 2,
+                pointRadius: 0,
+                data: []
+            }, {
+                label: 'CPU',
+                fill: false,
+                backgroundColor: 'rgba(233, 32, 99, 0.3)',
+                borderColor: "#e91e63",
+                borderWidth: 2,
+                pointRadius: 0,
+                data: []
+            }, {
+                label: 'Exposed',
+                fill: false,
+                backgroundColor: 'rgba(255, 160, 0, 0.3)',
+                borderColor: "#ffa000",
+                borderWidth: 2,
+                pointRadius: 0,
+                data: []
+            },
+            {
+                label: 'Day Grid',
+                fill: false,
+                borderColor: "#5f5f5f",
+                borderWidth: 1.5,
+                pointRadius: 0,
+                data: [],
+                lineTension: 0
+            }]
+        },
+        options: {
+            title: {
+                display: false,
+                text: 'Temperatures',
+                fontSize: 16,
+                fontFamily: 'Helvetica'
+            },
+            legend: {
+                display: true
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        max: 50,
+                        min: -10,
+                        stepSize: 10
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: '[°C]'
+                    }
+                }],
+                xAxes: [{
+                    type: 'time',
+                    ticks: {
+                        major: {
+                            enabled: true,
+                            fontStyle: 'bold',
+                            fontSiz: 14,
+                            unit: 'day'
+                        },
+                        source: 'auto',
+                        autoSkip: 'true',
+                        autoSkipPadding: 25
+                    },
+                    time: {
+                        unit: 'hour',
+                        displayFormats: {
+                            hour: 'HH:mm'
+                        }
+                    }
+                }]
+            },
+            tooltips: {
+                position: 'nearest',
+                mode: 'index',
+                intersect: true,
+                callbacks: {
+                    title: function (tooltipItem, data) {
+                        var vTitle = [];
+                        vTitle[0] = moment(tooltipItem[0].label).format("ddd, DD/MMM");
+                        vTitle[1] = moment(tooltipItem[0].label).format("HH:mm");
+                        return vTitle;
+                    },
+                    label: function (tooltipItem, data) {
+                        var vLabel = data.datasets[tooltipItem.datasetIndex].label + " " + tooltipItem.value + "°C"
+                        return vLabel;
+                    }
+                }
+            },
+            hover: {
+                animationDuration: 0
+            }
+        }
+    });
+
+    $(document).ready(function () { Show1wk(); });
+
+    function ClearData() {
+        TmpChart.data.labels = [];
+        EnvChart.data.labels = [];
+        TmpChart.data.datasets[0].data = [];
+        TmpChart.data.datasets[1].data = [];
+        TmpChart.data.datasets[2].data = [];
+        TmpChart.data.datasets[3].data = [];
+        EnvChart.data.datasets[0].data = [];
+        EnvChart.data.datasets[1].data = [];
+        EnvChart.data.datasets[2].data = [];
+        TmpChart.update();
+        EnvChart.update();
+    }
+
+        function Show24h() {
+        ClearData();
+        $.ajax({
+				type: "POST",
+				dataType: "json",
+				contentType: "application/json",
+				url: '@Url.Action("GetEnvData","DataProvision")',
+                success: function (result) {
+                    TmpChart.data.labels.push(moment().subtract(24, 'hour'));
+                    EnvChart.data.labels.push(moment().subtract(24, 'hour'));
+                    // Major Gridlines
+                    TmpChart.data.datasets[3].data.push({ x: moment().hour(0).minute(0).second(0), y: 120 });
+                    TmpChart.data.datasets[3].data.push({ x: moment().hour(0).minute(0).second(0), y: -50 });
+                    EnvChart.data.datasets[2].data.push({ x: moment().hour(0).minute(0).second(0), y: 120 });
+                    EnvChart.data.datasets[2].data.push({ x: moment().hour(0).minute(0).second(0), y: -50 });
+                    // -----
+                    $.each(result, function (i, v) {
+                        if (moment(v.TimeStamp) >= moment().subtract(24, 'hours')) {
+                            TmpChart.data.datasets[0].data.push({
+                                x: moment(v.TimeStamp),
+                                y: v.TempAmb
+                            });
+                            TmpChart.data.datasets[1].data.push({
+                                x: moment(v.TimeStamp),
+                                y: v.TempCPU
+                            });
+                            TmpChart.data.datasets[2].data.push({
+                                x: moment(v.TimeStamp),
+                                y: v.TempExp
+                            });
+                            EnvChart.data.datasets[0].data.push({
+                                x: moment(v.TimeStamp),
+                                y: v.Rain
+                            });
+                            EnvChart.data.datasets[1].data.push({
+                                x: moment(v.TimeStamp),
+                                y: v.Ground * (-1)
+                            });
+                        }
+                    });
+
+                    EnvChart.data.labels.push(moment());
+                    TmpChart.data.labels.push(moment());
+                    EnvChart.update();
+                    TmpChart.update();
+                }
+            });
+    }
+
+    function Show1wk() {
+        ClearData();
+        $.ajax({
+				type: "POST",
+				dataType: "json",
+				contentType: "application/json",
+				url: '@Url.Action("GetEnvData", "DataProvision")',
+                success: function (result) {
+                    TmpChart.data.labels.push(moment().minute(0).subtract(168, 'hour'));
+                    EnvChart.data.labels.push(moment().minute(0).subtract(168, 'hour'));
+                    // Major Gridlines (TmpChart)
+                    TmpChart.data.datasets[3].data.push({ x: moment().hour(0).minute(0).second(0),                    y: 120 });
+                    TmpChart.data.datasets[3].data.push({ x: moment().hour(0).minute(0).second(0),                    y: -50 });
+                    TmpChart.data.datasets[3].data.push({ x: moment().hour(0).minute(0).second(0).subtract(1, 'day'), y: -50 });
+                    TmpChart.data.datasets[3].data.push({ x: moment().hour(0).minute(0).second(0).subtract(1, 'day'), y: 120 });
+                    TmpChart.data.datasets[3].data.push({ x: moment().hour(0).minute(0).second(0).subtract(2, 'day'), y: 120 });
+                    TmpChart.data.datasets[3].data.push({ x: moment().hour(0).minute(0).second(0).subtract(2, 'day'), y: -50 });
+                    TmpChart.data.datasets[3].data.push({ x: moment().hour(0).minute(0).second(0).subtract(3, 'day'), y: -50 });
+                    TmpChart.data.datasets[3].data.push({ x: moment().hour(0).minute(0).second(0).subtract(3, 'day'), y: 120 });
+                    TmpChart.data.datasets[3].data.push({ x: moment().hour(0).minute(0).second(0).subtract(4, 'day'), y: 120 });
+                    TmpChart.data.datasets[3].data.push({ x: moment().hour(0).minute(0).second(0).subtract(4, 'day'), y: -50 });
+                    TmpChart.data.datasets[3].data.push({ x: moment().hour(0).minute(0).second(0).subtract(5, 'day'), y: -50 });
+                    TmpChart.data.datasets[3].data.push({ x: moment().hour(0).minute(0).second(0).subtract(5, 'day'), y: 120 });
+                    TmpChart.data.datasets[3].data.push({ x: moment().hour(0).minute(0).second(0).subtract(6, 'day'), y: 120 });
+                    TmpChart.data.datasets[3].data.push({ x: moment().hour(0).minute(0).second(0).subtract(6, 'day'), y: -50 });
+                    // Major Gridlines (EnvChart)
+                    EnvChart.data.datasets[2].data.push({ x: moment().hour(0).minute(0).second(0), y: 120 });
+                    EnvChart.data.datasets[2].data.push({ x: moment().hour(0).minute(0).second(0), y: -50 });
+                    EnvChart.data.datasets[2].data.push({ x: moment().hour(0).minute(0).second(0).subtract(1, 'day'), y: -50 });
+                    EnvChart.data.datasets[2].data.push({ x: moment().hour(0).minute(0).second(0).subtract(1, 'day'), y: 120 });
+                    EnvChart.data.datasets[2].data.push({ x: moment().hour(0).minute(0).second(0).subtract(2, 'day'), y: 120 });
+                    EnvChart.data.datasets[2].data.push({ x: moment().hour(0).minute(0).second(0).subtract(2, 'day'), y: -50 });
+                    EnvChart.data.datasets[2].data.push({ x: moment().hour(0).minute(0).second(0).subtract(3, 'day'), y: -50 });
+                    EnvChart.data.datasets[2].data.push({ x: moment().hour(0).minute(0).second(0).subtract(3, 'day'), y: 120 });
+                    EnvChart.data.datasets[2].data.push({ x: moment().hour(0).minute(0).second(0).subtract(4, 'day'), y: 120 });
+                    EnvChart.data.datasets[2].data.push({ x: moment().hour(0).minute(0).second(0).subtract(4, 'day'), y: -50 });
+                    EnvChart.data.datasets[2].data.push({ x: moment().hour(0).minute(0).second(0).subtract(5, 'day'), y: -50 });
+                    EnvChart.data.datasets[2].data.push({ x: moment().hour(0).minute(0).second(0).subtract(5, 'day'), y: 120 });
+                    EnvChart.data.datasets[2].data.push({ x: moment().hour(0).minute(0).second(0).subtract(6, 'day'), y: 120 });
+                    EnvChart.data.datasets[2].data.push({ x: moment().hour(0).minute(0).second(0).subtract(6, 'day'), y: -50 });
+                    // ----
+                    $.each(result, function (i, v) {
+                        if (moment(v.TimeStamp) >= moment().subtract(168, 'hours')) {
+                            TmpChart.data.datasets[0].data.push({
+                                x: moment(v.TimeStamp),
+                                y: v.TempAmb
+                            });
+                            TmpChart.data.datasets[1].data.push({
+                                x: moment(v.TimeStamp),
+                                y: v.TempCPU
+                            });
+                            TmpChart.data.datasets[2].data.push({
+                                x: moment(v.TimeStamp),
+                                y: v.TempExp
+                            });
+                            EnvChart.data.datasets[0].data.push({
+                                x: moment(v.TimeStamp),
+                                y: v.Rain
+                            });
+                            EnvChart.data.datasets[1].data.push({
+                                x: moment(v.TimeStamp),
+                                y: v.Ground * (-1)
+                            });
+                        }
+                    });
+                    EnvChart.data.labels.push(moment().minute(0).add(1, 'hour'));
+                    TmpChart.data.labels.push(moment().minute(0).add(1, 'hour'));
+                    EnvChart.update();
+                    TmpChart.update();
+                }
+            });
+    }
+
+</script>

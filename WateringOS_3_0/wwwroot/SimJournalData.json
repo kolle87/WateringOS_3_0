@@ -1,0 +1,702 @@
+[
+  {
+    "TimeStamp": "26/Apr/2020 08:10:53.348",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Error while writing data string to SQL:           ",
+    "Details": "Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding."
+  },
+  {
+    "TimeStamp": "26/Apr/2020 11:24:53.648",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Error while writing data string to SQL:           ",
+    "Details": "Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding."
+  },
+  {
+    "TimeStamp": "26/Apr/2020 12:00:01.877",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Trigger Sunday noon                               ",
+    "Details": "The routine on Sunday noon for watering of plants was triggered."
+  },
+  {
+    "TimeStamp": "26/Apr/2020 12:00:01.885",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Ground damp - Ground factor applied               ",
+    "Details": "The ground sensor is active. The rain factor will be applied to the watering volume."
+  },
+  {
+    "TimeStamp": "26/Apr/2020 12:00:01.974",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Watering Plant 1                                  ",
+    "Details": "The routine activated watering of plant "
+  },
+  {
+    "TimeStamp": "26/Apr/2020 12:00:08.035",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Watering Plant 1 finsihed                         ",
+    "Details": "The watering procedure of Plant 1 ended after 4sec and 80 ml"
+  },
+  {
+    "TimeStamp": "26/Apr/2020 12:00:13.045",
+    "Type": "Information",
+    "App": "[APP]",
+    "Message": "Counters reset                                    ",
+    "Details": "The flow counters were reset after watering."
+  },
+  {
+    "TimeStamp": "26/Apr/2020 17:36:03.906",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Error while writing data string to SQL:           ",
+    "Details": "Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding."
+  },
+  {
+    "TimeStamp": "26/Apr/2020 20:00:01.658",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Trigger Sunday evening                            ",
+    "Details": "The routine on Sunday evening for watering of plants was triggered."
+  },
+  {
+    "TimeStamp": "26/Apr/2020 20:00:01.742",
+    "Type": "Information",
+    "App": "[APP]",
+    "Message": "Counters reset                                    ",
+    "Details": "The flow counters were reset after watering."
+  },
+  {
+    "TimeStamp": "27/Apr/2020 02:03:59.358",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Error while writing data string to SQL:           ",
+    "Details": "Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding."
+  },
+  {
+    "TimeStamp": "27/Apr/2020 04:07:27.350",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Error while writing data string to SQL:           ",
+    "Details": "Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding."
+  },
+  {
+    "TimeStamp": "27/Apr/2020 06:00:01.406",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Trigger Monday morning                            ",
+    "Details": "The routine on Monday morning for watering of plants was triggered."
+  },
+  {
+    "TimeStamp": "27/Apr/2020 06:00:01.412",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Rain recognized - Rain factor applied             ",
+    "Details": "The rain sensor is active. The rain factor will be applied to the watering volume."
+  },
+  {
+    "TimeStamp": "27/Apr/2020 06:00:01.491",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Watering Plant 2                                  ",
+    "Details": "The routine activated watering of plant "
+  },
+  {
+    "TimeStamp": "27/Apr/2020 06:00:19.726",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Watering Plant 2 finsihed                         ",
+    "Details": "The watering procedure of Plant 2 ended after 16sec and 300 ml"
+  },
+  {
+    "TimeStamp": "27/Apr/2020 06:00:24.754",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Watering Plant 3                                  ",
+    "Details": "The routine activated watering of plant "
+  },
+  {
+    "TimeStamp": "27/Apr/2020 06:01:57.732",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Watering Plant 3 finsihed                         ",
+    "Details": "The watering procedure of Plant 3 ended after 90sec and 480 ml"
+  },
+  {
+    "TimeStamp": "27/Apr/2020 06:02:02.753",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Watering Plant 4                                  ",
+    "Details": "The routine activated watering of plant "
+  },
+  {
+    "TimeStamp": "27/Apr/2020 06:02:43.510",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Watering Plant 4 finsihed                         ",
+    "Details": "The watering procedure of Plant 4 ended after 37sec and 480 ml"
+  },
+  {
+    "TimeStamp": "27/Apr/2020 06:02:51.043",
+    "Type": "Information",
+    "App": "[APP]",
+    "Message": "Counters reset                                    ",
+    "Details": "The flow counters were reset after watering."
+  },
+  {
+    "TimeStamp": "27/Apr/2020 12:00:01.338",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Trigger Monday noon                               ",
+    "Details": "The routine on Monday noon for watering of plants was triggered."
+  },
+  {
+    "TimeStamp": "27/Apr/2020 12:00:01.388",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Watering Plant 1                                  ",
+    "Details": "The routine activated watering of plant "
+  },
+  {
+    "TimeStamp": "27/Apr/2020 12:00:40.759",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Watering Plant 1 finsihed                         ",
+    "Details": "The watering procedure of Plant 1 ended after 37sec and 810 ml"
+  },
+  {
+    "TimeStamp": "27/Apr/2020 12:00:45.789",
+    "Type": "Information",
+    "App": "[APP]",
+    "Message": "Counters reset                                    ",
+    "Details": "The flow counters were reset after watering."
+  },
+  {
+    "TimeStamp": "27/Apr/2020 20:00:01.116",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Trigger Monday evening                            ",
+    "Details": "The routine on Monday evening for watering of plants was triggered."
+  },
+  {
+    "TimeStamp": "27/Apr/2020 20:00:01.124",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Ground damp - Ground factor applied               ",
+    "Details": "The ground sensor is active. The rain factor will be applied to the watering volume."
+  },
+  {
+    "TimeStamp": "27/Apr/2020 20:00:01.180",
+    "Type": "Information",
+    "App": "[APP]",
+    "Message": "Counters reset                                    ",
+    "Details": "The flow counters were reset after watering."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 06:00:01.933",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Trigger Tuesday morning                           ",
+    "Details": "The routine on Tuesday morning for watering of plants was triggered."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 06:00:01.940",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Rain recognized - Rain factor applied             ",
+    "Details": "The rain sensor is active. The rain factor will be applied to the watering volume."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 06:00:02.125",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Watering Plant 2                                  ",
+    "Details": "The routine activated watering of plant "
+  },
+  {
+    "TimeStamp": "28/Apr/2020 06:00:20.267",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Watering Plant 2 finsihed                         ",
+    "Details": "The watering procedure of Plant 2 ended after 16sec and 300 ml"
+  },
+  {
+    "TimeStamp": "28/Apr/2020 06:00:25.304",
+    "Type": "Information",
+    "App": "[APP]",
+    "Message": "Counters reset                                    ",
+    "Details": "The flow counters were reset after watering."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:22.365",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Error while writing data string to SQL:           ",
+    "Details": "One or more errors occurred. (Unable to write data to the transport connection: An existing connection was forcibly closed by the remote host.)"
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:23.329",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Error while writing data string to SQL:           ",
+    "Details": "Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding. A transport-level error has occurred when receiving results from the server. (provider: TCP Provider, error: 35 - An internal exception was caught)"
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:24.354",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "SQL connection closed                             ",
+    "Details": "The SQL connection is closed."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:24.361",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Restart SQL connection                            ",
+    "Details": "The SQL connection will be reinitialized."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:24.368",
+    "Type": "Information",
+    "App": "[SQL]",
+    "Message": "Start initialisation                              ",
+    "Details": "The intialization of the SQL server class has started."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:24.554",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:25.570",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:26.559",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:27.563",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:28.570",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:29.596",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:30.569",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:31.551",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:32.573",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:33.565",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:34.570",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:35.576",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:36.564",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:37.565",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:38.568",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:39.568",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:40.555",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:41.568",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:42.567",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:43.569",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:44.568",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:45.572",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:46.546",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:46.763",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Error in SQL Class:                               ",
+    "Details": "A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: TCP Provider, error: 35 - An internal exception was caught)"
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:47.756",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "SQL connection closed                             ",
+    "Details": "The SQL connection is closed."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:47.764",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Restart SQL connection                            ",
+    "Details": "The SQL connection will be reinitialized."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:47.771",
+    "Type": "Information",
+    "App": "[SQL]",
+    "Message": "Start initialisation                              ",
+    "Details": "The intialization of the SQL server class has started."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:47.959",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:48.969",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:49.966",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:50.949",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:51.968",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:52.969",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:53.950",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:54.975",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 12:00:01.737",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Trigger Tuesday noon                              ",
+    "Details": "The routine on Tuesday noon for watering of plants was triggered."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 12:00:01.744",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Rain recognized - Rain factor applied             ",
+    "Details": "The rain sensor is active. The rain factor will be applied to the watering volume."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 12:00:01.751",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Ground damp - Ground factor applied               ",
+    "Details": "The ground sensor is active. The rain factor will be applied to the watering volume."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 12:00:01.763",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Watering Plant 1                                  ",
+    "Details": "The routine activated watering of plant "
+  },
+  {
+    "TimeStamp": "28/Apr/2020 12:00:04.800",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Watering Plant 1 finsihed                         ",
+    "Details": "The watering procedure of Plant 1 ended after 1sec and 10 ml"
+  },
+  {
+    "TimeStamp": "28/Apr/2020 12:00:09.824",
+    "Type": "Information",
+    "App": "[APP]",
+    "Message": "Counters reset                                    ",
+    "Details": "The flow counters were reset after watering."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 20:00:01.513",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Trigger Tuesday evening                           ",
+    "Details": "The routine on Tuesday evening for watering of plants was triggered."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 20:00:01.521",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Rain recognized - Rain factor applied             ",
+    "Details": "The rain sensor is active. The rain factor will be applied to the watering volume."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 20:00:01.528",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Ground damp - Ground factor applied               ",
+    "Details": "The ground sensor is active. The rain factor will be applied to the watering volume."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 20:00:01.546",
+    "Type": "Information",
+    "App": "[APP]",
+    "Message": "Counters reset                                    ",
+    "Details": "The flow counters were reset after watering."
+  },
+  {
+    "TimeStamp": "29/Apr/2020 03:26:45.077",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Error while writing data string to SQL:           ",
+    "Details": "Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding."
+  },
+  {
+    "TimeStamp": "29/Apr/2020 06:00:01.226",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Trigger Wednesday morning                         ",
+    "Details": "The routine on Wednesday morning for watering of plants was triggered."
+  },
+  {
+    "TimeStamp": "29/Apr/2020 06:00:01.234",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Rain recognized - Rain factor applied             ",
+    "Details": "The rain sensor is active. The rain factor will be applied to the watering volume."
+  },
+  {
+    "TimeStamp": "29/Apr/2020 06:00:01.241",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Ground damp - Ground factor applied               ",
+    "Details": "The ground sensor is active. The rain factor will be applied to the watering volume."
+  },
+  {
+    "TimeStamp": "29/Apr/2020 06:00:01.255",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Watering Plant 2                                  ",
+    "Details": "The routine activated watering of plant "
+  },
+  {
+    "TimeStamp": "29/Apr/2020 06:00:16.404",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Watering Plant 2 finsihed                         ",
+    "Details": "The watering procedure of Plant 2 ended after 13sec and 240 ml"
+  },
+  {
+    "TimeStamp": "29/Apr/2020 06:00:21.432",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Watering Plant 3                                  ",
+    "Details": "The routine activated watering of plant "
+  },
+  {
+    "TimeStamp": "29/Apr/2020 06:01:53.290",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Watering Plant 3 finsihed                         ",
+    "Details": "The watering procedure of Plant 3 ended after 89sec and 480 ml"
+  },
+  {
+    "TimeStamp": "29/Apr/2020 06:01:58.306",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Watering Plant 4                                  ",
+    "Details": "The routine activated watering of plant "
+  },
+  {
+    "TimeStamp": "29/Apr/2020 06:02:37.757",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Watering Plant 4 finsihed                         ",
+    "Details": "The watering procedure of Plant 4 ended after 37sec and 480 ml"
+  },
+  {
+    "TimeStamp": "29/Apr/2020 06:02:42.779",
+    "Type": "Information",
+    "App": "[APP]",
+    "Message": "Counters reset                                    ",
+    "Details": "The flow counters were reset after watering."
+  },
+  {
+    "TimeStamp": "29/Apr/2020 12:00:01.056",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Trigger Wednesday noon                            ",
+    "Details": "The routine on Wednesday noon for watering of plants was triggered."
+  },
+  {
+    "TimeStamp": "29/Apr/2020 12:00:01.077",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Rain recognized - Rain factor applied             ",
+    "Details": "The rain sensor is active. The rain factor will be applied to the watering volume."
+  },
+  {
+    "TimeStamp": "29/Apr/2020 12:00:01.085",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Ground damp - Ground factor applied               ",
+    "Details": "The ground sensor is active. The rain factor will be applied to the watering volume."
+  },
+  {
+    "TimeStamp": "29/Apr/2020 12:00:01.101",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Watering Plant 1                                  ",
+    "Details": "The routine activated watering of plant "
+  },
+  {
+    "TimeStamp": "29/Apr/2020 12:00:04.138",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Watering Plant 1 finsihed                         ",
+    "Details": "The watering procedure of Plant 1 ended after 1sec and 10 ml"
+  },
+  {
+    "TimeStamp": "29/Apr/2020 12:00:09.161",
+    "Type": "Information",
+    "App": "[APP]",
+    "Message": "Counters reset                                    ",
+    "Details": "The flow counters were reset after watering."
+  }
+]

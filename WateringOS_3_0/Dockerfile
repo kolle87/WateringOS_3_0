@@ -1,0 +1,21 @@
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
+WORKDIR /app
+EXPOSE 8001
+
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
+WORKDIR /src
+COPY ["WateringOS_3_0/WateringOS_3_0.csproj", "WateringOS_3_0/"]
+RUN dotnet restore "WateringOS_3_0/WateringOS_3_0.csproj"
+COPY . .
+WORKDIR "/src/WateringOS_3_0"
+RUN dotnet build "WateringOS_3_0.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "WateringOS_3_0.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "WateringOS_3_0.dll"]

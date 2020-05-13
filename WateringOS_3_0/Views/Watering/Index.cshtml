@@ -1,0 +1,471 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <style type="text/css">
+        .progress {
+            background-color: #f5f5f5;
+            border-radius: 3px;
+            box-shadow: none;
+        }
+
+            .progress.progress-xs {
+                height: 5px;
+                margin-top: 5px;
+            }
+
+            .progress.progress-sm {
+                height: 10px;
+                margin-top: 5px;
+            }
+
+            .progress.progress-lg {
+                height: 25px;
+            }
+
+            .progress.vertical {
+                position: relative;
+                width: 100%;
+                height: 99%;
+                display: inline-grid;
+                margin: 0px 5px 5px 5px;
+            }
+
+                .progress.vertical > .progress-bar {
+                    width: 100% !important;
+                    position: absolute;
+                    bottom: 0;
+                }
+
+                .progress.vertical.progress-xs {
+                    width: 5px;
+                    margin-top: 5px;
+                }
+
+                .progress.vertical.progress-sm {
+                    width: 10px;
+                    margin-top: 5px;
+                }
+
+                .progress.vertical.progress-lg {
+                    width: 30px;
+                }
+
+        .progress-bar {
+            background-color: #2196f3;
+            box-shadow: none;
+        }
+
+            .progress-bar.text-left {
+                text-align: left;
+            }
+
+                .progress-bar.text-left span {
+                    margin-left: 10px;
+                }
+
+            .progress-bar.text-right {
+                text-align: right;
+            }
+
+                .progress-bar.text-right span {
+                    margin-right: 10px;
+                }
+
+            .progress.active .progress-bar,
+            .progress-bar.active {
+                -webkit-animation: progress-bar-stripes 2s linear infinite;
+                -o-animation: progress-bar-stripes 2s linear infinite;
+                animation: progress-bar-stripes 2s linear infinite;
+            }
+
+        .progress-striped .progress-bar,
+        .progress-bar-striped {
+            background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+            background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+            background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+            background-size: 40px 40px;
+        }
+
+        .progress-bar-secondary {
+            background-color: #323a45;
+        }
+
+        .progress-bar-default {
+            background-color: #b0bec5;
+        }
+
+        .progress-bar-success {
+            background-color: #64dd17;
+        }
+
+        .progress-bar-info {
+            background-color: #29b6f6;
+        }
+
+        .progress-bar-warning {
+            background-color: #ffd600;
+        }
+
+        .progress-bar-danger {
+            background-color: #ef1c1c;
+        }
+    </style>
+</head>
+
+<script src="~/js/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        ReceiveValues();
+    });
+    setInterval(function () {
+        ReceiveValues();
+    }, 1000);
+    function ReceiveValues() {
+        $('#txt_TimeStamp').load('/DataProvision/GetLastTimestamp');
+        $.post("/DataProvision/CurrentStatePump", function (result) {
+            if (result == true) {
+                document.getElementById("stat_pump").style.backgroundColor = "forestgreen";
+            }
+            else {
+                document.getElementById("stat_pump").style.backgroundColor = "crimson";
+            }
+        });
+        $.post("/DataProvision/CurrentStateValve1", function (result) {
+            if (result == true) {
+                document.getElementById("stat_vv1").style.backgroundColor = "forestgreen";
+            }
+            else {
+                document.getElementById("stat_vv1").style.backgroundColor = "crimson";
+            }
+        });
+        $.post("/DataProvision/CurrentStateValve2", function (result) {
+            if (result == true) {
+                document.getElementById("stat_vv2").style.backgroundColor = "forestgreen";
+            }
+            else {
+                document.getElementById("stat_vv2").style.backgroundColor = "crimson";
+            }
+        });
+        $.post("/DataProvision/CurrentStateValve3", function (result) {
+            if (result == true) {
+                document.getElementById("stat_vv3").style.backgroundColor = "forestgreen";
+            }
+            else {
+                document.getElementById("stat_vv3").style.backgroundColor = "crimson";
+            }
+        });
+        $.post("/DataProvision/CurrentStateValve4", function (result) {
+            if (result == true) {
+                document.getElementById("stat_vv4").style.backgroundColor = "forestgreen";
+            }
+            else {
+                document.getElementById("stat_vv4").style.backgroundColor = "crimson";
+            }
+        });
+        $.post("/DataProvision/CurrentStateValve5", function (result) {
+            if (result == true) {
+                document.getElementById("stat_vv5").style.backgroundColor = "forestgreen";
+            }
+            else {
+                document.getElementById("stat_vv5").style.backgroundColor = "crimson";
+            }
+        });
+
+        $.post("/DataProvision/CurrentStatePG5", function (result) { if (result == true) { document.getElementById("stat_PG5").style.backgroundColor = "forestgreen"; } else { document.getElementById("stat_PG5").style.backgroundColor = "crimson"; } });
+        $.post("/DataProvision/CurrentStatePG12", function (result) { if (result == true) { document.getElementById("stat_PG12").style.backgroundColor = "forestgreen"; } else { document.getElementById("stat_PG12").style.backgroundColor = "crimson"; } });
+        $.post("/DataProvision/CurrentStatePG24", function (result) { if (result == true) { document.getElementById("stat_PG24").style.backgroundColor = "forestgreen"; } else { document.getElementById("stat_PG24").style.backgroundColor = "crimson"; } });
+        $.post("/DataProvision/CurrentStatePF5", function (result) { if (result == true) { document.getElementById("stat_PF5").style.backgroundColor = "forestgreen"; } else { document.getElementById("stat_PF5").style.backgroundColor = "crimson"; } });
+        $.post("/DataProvision/CurrentStatePF12", function (result) { if (result == true) { document.getElementById("stat_PF12").style.backgroundColor = "forestgreen"; } else { document.getElementById("stat_PF12").style.backgroundColor = "crimson"; } });
+        $.post("/DataProvision/CurrentStatePF24", function (result) { if (result == true) { document.getElementById("stat_PF24").style.backgroundColor = "forestgreen"; } else { document.getElementById("stat_PF24").style.backgroundColor = "crimson"; } });
+
+        $.post("/DataProvision/GetCurrentLevel", function (result) {
+            document.getElementById("txt_Tank").textContent = result + "%";
+            document.getElementById("prog_Tank").style.height = result + "%";
+        });
+        $.post("/DataProvision/GetCurrentPressure", function (result) {
+            document.getElementById("txt_press").textContent = Math.round(result * 10) / 10 + " bar";
+            document.getElementById("prog_press").style.height = Math.round(result) * 10 + "%";
+        });
+        $.post("/DataProvision/GetCurrentRain", function (result) {
+            switch (result) {
+                case 1: document.getElementById("stat_Rain").textContent = "DRY"; break;
+                case 2: document.getElementById("stat_Rain").textContent = "RAIN"; break;
+                default: document.getElementById("stat_Rain").textContent = "---"; document.getElementById("stat_Rain").style.color = "red"; break;
+            }
+        });
+        $.post("/DataProvision/GetCurrentGround", function (result) {
+            switch (result) {
+                case 1: document.getElementById("stat_Ground").textContent = "DRY"; break;
+                case 2: document.getElementById("stat_Ground").textContent = "DAMP"; break;
+                default: document.getElementById("stat_Ground").textContent = "---"; document.getElementById("stat_Ground").style.color = "red"; break;
+            }
+        });
+
+        $.post("/DataProvision/GetCurrentFlow1", function (result) {
+            document.getElementById('txt_Flow1').textContent = Math.round(result) + "ml";
+            document.getElementById("prog_Flow1").style.width = (Math.round(result) * 100) / 2550 + "%"
+        });
+        $.post("/DataProvision/GetCurrentFlow2", function (result) {
+            document.getElementById('txt_Flow2').textContent = Math.round(result) + "ml";
+            document.getElementById("prog_Flow2").style.width = (Math.round(result) * 100) / 2550 + "%"
+        });
+        $.post("/DataProvision/GetCurrentFlow3", function (result) {
+            document.getElementById('txt_Flow3').textContent = Math.round(result) + "ml";
+            document.getElementById("prog_Flow3").style.width = (Math.round(result) * 100) / 2550 + "%"
+        });
+        $.post("/DataProvision/GetCurrentFlow4", function (result) {
+            document.getElementById('txt_Flow4').textContent = Math.round(result) + "ml";
+            document.getElementById("prog_Flow4").style.width = (Math.round(result) * 100) / 2550 + "%"
+        });
+        $.post("/DataProvision/GetCurrentFlow5", function (result) {
+            document.getElementById('txt_Flow5').textContent = Math.round(result) + "ml";
+            document.getElementById("prog_Flow5").style.width = (Math.round(result) * 100) / 2550 + "%"
+        });
+
+        $.post("/DataProvision/GetCurrentTempCPU", function (result) { document.getElementById('stat_CPU').textContent = result; });
+        $.post("/DataProvision/GetCurrentTempAmb", function (result) { document.getElementById('stat_Amb').textContent = result; });
+        $.post("/DataProvision/GetCurrentTempExp", function (result) { document.getElementById('stat_Exp').textContent = result; });
+    }
+</script>
+
+<div class="container" style="width:100%;margin:80px 0px 0px 0px;">
+    <h3>Current Status</h3>
+    <p>Last Update: <span class="text" id="txt_TimeStamp"></span></p>
+    <div class="container-fluid" style="padding:50px 0px 0px 50px">
+        <div class="row">
+            <!-- Tank Level & Pressure -->
+            <div class="col-sm-3" style="min-height:100px;max-height:240px">
+                <table class="grid" width="100%" height="100%" style="text-align:left;">
+                    <tbody>
+                        <tr height="20%">
+                            <td><h6>Tank Level</h6></td>
+                            <td style="text-align:right"><h6>Pressure</h6></td>
+                        </tr>
+                        <tr height="80%">
+                            <td>
+                                <div class="progress vertical" style="height:100%;width:93%">
+                                    <div role="progressbar" class="progress-bar" id="prog_Tank" style="height: 10%">
+                                        <span class="text" id="txt_Tank">--%</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <table class="grid" width="100%" height="100%">
+                                    <tr>
+                                        <td></td>
+                                        <td style="height:100%;width:20px">
+                                            <div class="progress vertical" style="width:12px">
+                                                <div role="progressbar" class="progress-bar" id="prog_press" style="height: 30%"></div>
+                                            </div>
+                                        </td>
+                                        <td style="height:100%;width:40px;">
+                                            <span class="text" id="txt_press">-.-<br>bar</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Controls -->
+            <div class="col-sm-5">
+                <!-- Pump -->
+                <div class="row">
+                    <div class="col-sm-4" style="height:36px">
+                        <table class="grid" width="100%" style="text-align:center;table-layout:fixed">
+                            <tbody>
+                                <tr>
+                                    <td><div class="container" id="stat_pump" style="border-radius:10px;background-color:crimson"><span class="text" id="txt_Level" style="color:whitesmoke">Pump</span></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-8" style="text-align:center">
+                        <p></p>
+                    </div>
+                </div>
+                <!-- Valve 1 -->
+                <div class="row">
+                    <div class="col-sm-4">
+                        <table class="grid" width="100%" style="text-align:center;table-layout:fixed">
+                            <tbody>
+                                <tr>
+                                    <td><div class="container" id="stat_vv1" style="border-radius:10px;background-color:crimson"><span class="text" id="txt_Level" style="color:whitesmoke">Valve #1</span></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-8" style="padding: 5px 2px 5px 2px">
+                        <table class="grid" height="100%" width="100%" style="text-align:center;table-layout:fixed">
+                            <tbody>
+                                <tr>
+                                    <td width="20%"><span class="text" id="txt_Flow1">---ml</span></td>
+                                    <td width="80%"><div class="progress"><div class="progress-bar" role="progressbar" id="prog_Flow1" style="width:70%"></div></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Valve 2 -->
+                <div class="row">
+                    <div class="col-sm-4">
+                        <table class="grid" width="100%" style="text-align:center;table-layout:fixed">
+                            <tbody>
+                                <tr>
+                                    <td><div class="container" id="stat_vv2" style="border-radius:10px;background-color:crimson"><span class="text" id="txt_Level" style="color:whitesmoke">Valve #2</span></div></td>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-8" style="padding: 5px 2px 5px 2px">
+                        <table class="grid" height="100%" width="100%" style="text-align:center;table-layout:fixed">
+                            <tbody>
+                                <tr>
+                                    <td width="20%"><span class="text" id="txt_Flow2">---ml</span></td>
+                                    <td width="80%"><div class="progress"><div class="progress-bar" role="progressbar" id="prog_Flow2" style="width:70%"></div></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Valve 3 -->
+                <div class="row">
+                    <div class="col-sm-4">
+                        <table class="grid" width="100%" style="text-align:center;table-layout:fixed">
+                            <tbody>
+                                <tr>
+                                    <td><div class="container" id="stat_vv3" style="border-radius:10px;background-color:forestgreen"><span class="text" id="txt_Level" style="color:white">Valve #3</span></div></td>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-8" style="padding: 5px 2px 5px 2px">
+                        <table class="grid" height="100%" width="100%" style="text-align:center;table-layout:fixed">
+                            <tbody>
+                                <tr>
+                                    <td width="20%"><span class="text" id="txt_Flow3">---ml</span></td>
+                                    <td width="80%"><div class="progress"><div class="progress-bar" role="progressbar" id="prog_Flow3" style="width:70%"></div></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Valve 4 -->
+                <div class="row">
+                    <div class="col-sm-4">
+                        <table class="grid" width="100%" style="text-align:center;table-layout:fixed">
+                            <tbody>
+                                <tr>
+                                    <td><div class="container" id="stat_vv4" style="border-radius:10px;background-color:crimson"><span class="text" id="txt_Level" style="color:whitesmoke">Valve #4</span></div></td>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-8" style="padding: 5px 2px 5px 2px">
+                        <table class="grid" height="100%" width="100%" style="text-align:center;table-layout:fixed">
+                            <tbody>
+                                <tr>
+                                    <td width="20%"><span class="text" id="txt_Flow4">---ml</span></td>
+                                    <td width="80%"><div class="progress"><div class="progress-bar" role="progressbar" id="prog_Flow4" style="width:70%"></div></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Valve 5 -->
+                <div class="row">
+                    <div class="col-sm-4">
+                        <table class="grid" width="100%" style="text-align:center;table-layout:fixed">
+                            <tbody>
+                                <tr>
+                                    <td><div class="container" id="stat_vv5" style="border-radius:10px;background-color:forestgreen"><span class="text" id="txt_Level" style="color:whitesmoke">Valve #5</span></div></td>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-8" style="padding: 5px 2px 5px 2px">
+                        <table class="grid" height="100%" width="100%" style="text-align:center;table-layout:fixed">
+                            <tbody>
+                                <tr>
+                                    <td width="20%"><span class="text" id="txt_Flow5">---ml</span></td>
+                                    <td width="80%"><div class="progress"><div class="progress-bar" role="progressbar" id="prog_Flow5" style="width:70%"></div></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
+        <div class="row" style="height:56px"></div>
+        <div class="row">
+            <!-- Temperatures -->
+            <div class="col-sm-3">
+                <table class="grid" width="100%" height="100%" style="text-align:left">
+                    <tbody>
+                        <tr style="padding-bottom:12px;">
+                            <td style="text-align:left;padding-left:8px;padding-top:32px"><h6>Temperatures</h6></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right;width:18px">Ambient:</td>
+                            <td style="text-align:left;padding-left:8px"><span class="text" id="stat_Amb">17</span>°C</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right;width: 18px">Exposed:</td>
+                            <td style="text-align:left;padding-left:8px"><span class="text" id="stat_Exp">22</span>°C</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;width: 18px">CPU/Board:</td>
+                            <td style="text-align:left;padding-left:8px"><span class="text" id="stat_CPU">64</span>°C</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Power Supplies-->
+            <div class="col-sm-5">
+                <table class="grid" width="100%">
+                    <tbody>
+                        <tr style="padding-bottom:12px;">
+                            <td style="text-align: left;padding-top: 32px"><h6>Power Supply</h6></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right;width:30%;padding-right:10px">Power Good:</td>
+                            <td style="width:10%"><div class="container" id="stat_PG5" style="border-radius: 10px;background-color: crimson;text-align:center"><span class="text" style="color:whitesmoke">5V</span></div></td>
+                            <td style="width:10%"><div class="container" id="stat_PG12" style="border-radius: 10px;background-color: crimson;text-align:center"><span class="text" style="color:whitesmoke">12V</span></div></td>
+                            <td style="width:10%"><div class="container" id="stat_PG24" style="border-radius: 10px;background-color: crimson;text-align:center"><span class="text" style="color:whitesmoke">24V</span></div></td>
+                            <td style=""></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right;width:30%;padding-right:10px">Power Fail:</td>
+                            <td style="width:10%"><div class="container" id="stat_PF5" style="border-radius: 10px;background-color: crimson;text-align:center"><span class="text" style="color:whitesmoke">5V</span></div></td>
+                            <td style="width:10%"><div class="container" id="stat_PF12" style="border-radius: 10px;background-color: crimson;text-align:center"><span class="text" style="color:whitesmoke">12V</span></div></td>
+                            <td style="width:10%"><div class="container" id="stat_PF24" style="border-radius: 10px;background-color: crimson;text-align:center"><span class="text" style="color:whitesmoke">24V</span></div></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Enviroment -->
+            <div class="col-sm-4">
+                <table class="grid" width="100%" height="100%" style="text-align:left">
+                    <tbody>
+                        <tr style="padding-bottom:12px;">
+                            <td style="text-align: left;padding-left: 8px;padding-top: 32px"><h6>Enviromental</h6></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right;width:18px">Rain:</td>
+                            <td style="text-align:center;padding-left:8px;width:30px"><span class="text" id="stat_Rain">RAIN</span></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right;width: 18px">Ground:</td>
+                            <td style="text-align:center;padding-left:8px;width:30px"><span class="text" id="stat_Ground">DAMP</span></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

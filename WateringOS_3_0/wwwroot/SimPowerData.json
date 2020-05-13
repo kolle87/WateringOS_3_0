@@ -1,0 +1,52 @@
+[
+  {
+    "TimeStamp": "2020-04-18T10:44:14.8287761+02:00",
+    "PowerGood_5V": 0,
+    "PowerGood_12V": 0,
+    "PowerGood_24V": 0,
+    "PowerFail_5V": 0,
+    "PowerFail_12V": 0,
+    "PowerFail_24V": 0,
+    "WatchdogPrealarm": 0
+  },
+  {
+    "TimeStamp": "2020-04-18T20:03:49.9208661+02:00",
+    "PowerGood_5V": 0,
+    "PowerGood_12V": 0,
+    "PowerGood_24V": 0,
+    "PowerFail_5V": 0,
+    "PowerFail_12V": 0,
+    "PowerFail_24V": 0,
+    "WatchdogPrealarm": 0
+  },
+  {
+    "TimeStamp": "2020-04-19T12:02:04.1976484+02:00",
+    "PowerGood_5V": 0,
+    "PowerGood_12V": 0,
+    "PowerGood_24V": 0,
+    "PowerFail_5V": 0,
+    "PowerFail_12V": 0,
+    "PowerFail_24V": 0,
+    "WatchdogPrealarm": 0
+  },
+  {
+    "TimeStamp": "2020-04-22T07:44:10.686934+02:00",
+    "PowerGood_5V": 0,
+    "PowerGood_12V": 0,
+    "PowerGood_24V": 0,
+    "PowerFail_5V": 0,
+    "PowerFail_12V": 0,
+    "PowerFail_24V": 0,
+    "WatchdogPrealarm": 0
+  },
+  {
+    "TimeStamp": "2020-04-29T13:18:03.5312364+02:00",
+    "PowerGood_5V": 0,
+    "PowerGood_12V": 0,
+    "PowerGood_24V": 0,
+    "PowerFail_5V": 0,
+    "PowerFail_12V": 0,
+    "PowerFail_24V": 0,
+    "WatchdogPrealarm": 0
+  }
+]

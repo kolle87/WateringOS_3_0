@@ -1,0 +1,29 @@
+﻿@page
+@using Microsoft.AspNetCore.Http
+
+<script>
+    function Login() { $.post("/Watering/DoLogin", { phrase: document.getElementById("pwd").value, returnUrl: document.URL }, function (result) { window.location.href = result }); }
+</script>
+
+<div class="container" style="width:100%;margin:80px 0px 0px 0px;">
+    <div class="text-center">
+        <h1 class="display-4">Please Log in...</h1>
+        <div class="row">
+            <div class="col-sm-12" style="height:50px"></div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4 my-auto" style="text-align:right">
+                <h6 style="margin-bottom: 0">Password:</h6>
+            </div>
+            <div class="col-sm-4 my-auto">
+                <input type="password" class="form-control" id="pwd" autofocus>
+            </div>
+            <div class="col-sm-4 my-auto">
+                <button style="width:72px" type="submit" onclick="Login()" id="btn_login" class="btn btn-outline-primary btn-sm btn-block" default>LogIn</button>
+            </div>
+        </div>
+    </div>
+</div>
+    <script>
+        document.getElementById("pwd").addEventListener('keyup', function (event) { if (event.which == 13) { Login(); } });
+    </script>

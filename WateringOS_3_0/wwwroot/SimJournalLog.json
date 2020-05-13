@@ -1,0 +1,702 @@
+[
+  {
+    "TimeStamp": "28/Apr/2020 09:51:37.565",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:38.568",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:39.568",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:40.555",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:41.568",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:42.567",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:43.569",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:44.568",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:45.572",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:46.546",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:46.763",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Error in SQL Class:                               ",
+    "Details": "A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: TCP Provider, error: 35 - An internal exception was caught)"
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:47.756",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "SQL connection closed                             ",
+    "Details": "The SQL connection is closed."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:47.764",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Restart SQL connection                            ",
+    "Details": "The SQL connection will be reinitialized."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:47.771",
+    "Type": "Information",
+    "App": "[SQL]",
+    "Message": "Start initialisation                              ",
+    "Details": "The intialization of the SQL server class has started."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:47.959",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:48.969",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:49.966",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:50.949",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:51.968",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:52.969",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:53.950",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 09:51:54.975",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 12:00:01.737",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Trigger Tuesday noon                              ",
+    "Details": "The routine on Tuesday noon for watering of plants was triggered."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 12:00:01.744",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Rain recognized - Rain factor applied             ",
+    "Details": "The rain sensor is active. The rain factor will be applied to the watering volume."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 12:00:01.751",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Ground damp - Ground factor applied               ",
+    "Details": "The ground sensor is active. The rain factor will be applied to the watering volume."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 12:00:01.763",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Watering Plant 1                                  ",
+    "Details": "The routine activated watering of plant "
+  },
+  {
+    "TimeStamp": "28/Apr/2020 12:00:04.800",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Watering Plant 1 finsihed                         ",
+    "Details": "The watering procedure of Plant 1 ended after 1sec and 10 ml"
+  },
+  {
+    "TimeStamp": "28/Apr/2020 12:00:09.824",
+    "Type": "Information",
+    "App": "[APP]",
+    "Message": "Counters reset                                    ",
+    "Details": "The flow counters were reset after watering."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 20:00:01.513",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Trigger Tuesday evening                           ",
+    "Details": "The routine on Tuesday evening for watering of plants was triggered."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 20:00:01.521",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Rain recognized - Rain factor applied             ",
+    "Details": "The rain sensor is active. The rain factor will be applied to the watering volume."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 20:00:01.528",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Ground damp - Ground factor applied               ",
+    "Details": "The ground sensor is active. The rain factor will be applied to the watering volume."
+  },
+  {
+    "TimeStamp": "28/Apr/2020 20:00:01.546",
+    "Type": "Information",
+    "App": "[APP]",
+    "Message": "Counters reset                                    ",
+    "Details": "The flow counters were reset after watering."
+  },
+  {
+    "TimeStamp": "29/Apr/2020 03:26:45.077",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Error while writing data string to SQL:           ",
+    "Details": "Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding."
+  },
+  {
+    "TimeStamp": "29/Apr/2020 06:00:01.226",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Trigger Wednesday morning                         ",
+    "Details": "The routine on Wednesday morning for watering of plants was triggered."
+  },
+  {
+    "TimeStamp": "29/Apr/2020 06:00:01.234",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Rain recognized - Rain factor applied             ",
+    "Details": "The rain sensor is active. The rain factor will be applied to the watering volume."
+  },
+  {
+    "TimeStamp": "29/Apr/2020 06:00:01.241",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Ground damp - Ground factor applied               ",
+    "Details": "The ground sensor is active. The rain factor will be applied to the watering volume."
+  },
+  {
+    "TimeStamp": "29/Apr/2020 06:00:01.255",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Watering Plant 2                                  ",
+    "Details": "The routine activated watering of plant "
+  },
+  {
+    "TimeStamp": "29/Apr/2020 06:00:16.404",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Watering Plant 2 finsihed                         ",
+    "Details": "The watering procedure of Plant 2 ended after 13sec and 240 ml"
+  },
+  {
+    "TimeStamp": "29/Apr/2020 06:00:21.432",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Watering Plant 3                                  ",
+    "Details": "The routine activated watering of plant "
+  },
+  {
+    "TimeStamp": "29/Apr/2020 06:01:53.290",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Watering Plant 3 finsihed                         ",
+    "Details": "The watering procedure of Plant 3 ended after 89sec and 480 ml"
+  },
+  {
+    "TimeStamp": "29/Apr/2020 06:01:58.306",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Watering Plant 4                                  ",
+    "Details": "The routine activated watering of plant "
+  },
+  {
+    "TimeStamp": "29/Apr/2020 06:02:37.757",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Watering Plant 4 finsihed                         ",
+    "Details": "The watering procedure of Plant 4 ended after 37sec and 480 ml"
+  },
+  {
+    "TimeStamp": "29/Apr/2020 06:02:42.779",
+    "Type": "Information",
+    "App": "[APP]",
+    "Message": "Counters reset                                    ",
+    "Details": "The flow counters were reset after watering."
+  },
+  {
+    "TimeStamp": "29/Apr/2020 12:00:01.056",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Trigger Wednesday noon                            ",
+    "Details": "The routine on Wednesday noon for watering of plants was triggered."
+  },
+  {
+    "TimeStamp": "29/Apr/2020 12:00:01.077",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Rain recognized - Rain factor applied             ",
+    "Details": "The rain sensor is active. The rain factor will be applied to the watering volume."
+  },
+  {
+    "TimeStamp": "29/Apr/2020 12:00:01.085",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Ground damp - Ground factor applied               ",
+    "Details": "The ground sensor is active. The rain factor will be applied to the watering volume."
+  },
+  {
+    "TimeStamp": "29/Apr/2020 12:00:01.101",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Watering Plant 1                                  ",
+    "Details": "The routine activated watering of plant "
+  },
+  {
+    "TimeStamp": "29/Apr/2020 12:00:04.138",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Watering Plant 1 finsihed                         ",
+    "Details": "The watering procedure of Plant 1 ended after 1sec and 10 ml"
+  },
+  {
+    "TimeStamp": "29/Apr/2020 12:00:09.161",
+    "Type": "Information",
+    "App": "[APP]",
+    "Message": "Counters reset                                    ",
+    "Details": "The flow counters were reset after watering."
+  },
+  {
+    "TimeStamp": "29/Apr/2020 20:00:01.857",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Trigger Wednesday evening                         ",
+    "Details": "The routine on Wednesday evening for watering of plants was triggered."
+  },
+  {
+    "TimeStamp": "29/Apr/2020 20:00:01.865",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Ground damp - Ground factor applied               ",
+    "Details": "The ground sensor is active. The rain factor will be applied to the watering volume."
+  },
+  {
+    "TimeStamp": "29/Apr/2020 20:00:01.882",
+    "Type": "Information",
+    "App": "[APP]",
+    "Message": "Counters reset                                    ",
+    "Details": "The flow counters were reset after watering."
+  },
+  {
+    "TimeStamp": "29/Apr/2020 21:02:08.007",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Error while writing data string to SQL:           ",
+    "Details": "Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 05:40:13.174",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Error while writing data string to SQL:           ",
+    "Details": "One or more errors occurred. (Unable to write data to the transport connection: An existing connection was forcibly closed by the remote host.)"
+  },
+  {
+    "TimeStamp": "30/Apr/2020 05:40:14.152",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Error while writing data string to SQL:           ",
+    "Details": "Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding. A transport-level error has occurred when receiving results from the server. (provider: TCP Provider, error: 35 - An internal exception was caught)"
+  },
+  {
+    "TimeStamp": "30/Apr/2020 05:40:15.160",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "SQL connection closed                             ",
+    "Details": "The SQL connection is closed."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 05:40:15.173",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Restart SQL connection                            ",
+    "Details": "The SQL connection will be reinitialized."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 05:40:15.179",
+    "Type": "Information",
+    "App": "[SQL]",
+    "Message": "Start initialisation                              ",
+    "Details": "The intialization of the SQL server class has started."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 05:40:15.324",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 06:00:01.528",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Trigger Thursday morning                          ",
+    "Details": "The routine on Thursday morning for watering of plants was triggered."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 06:00:01.536",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Ground damp - Ground factor applied               ",
+    "Details": "The ground sensor is active. The rain factor will be applied to the watering volume."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 06:00:01.548",
+    "Type": "Status",
+    "App": "[WAT]",
+    "Message": "Watering Plant 2                                  ",
+    "Details": "The routine activated watering of plant "
+  },
+  {
+    "TimeStamp": "30/Apr/2020 06:00:28.760",
+    "Type": "Information",
+    "App": "[WAT]",
+    "Message": "Watering Plant 2 finsihed                         ",
+    "Details": "The watering procedure of Plant 2 ended after 25sec and 480 ml"
+  },
+  {
+    "TimeStamp": "30/Apr/2020 06:00:33.781",
+    "Type": "Information",
+    "App": "[APP]",
+    "Message": "Counters reset                                    ",
+    "Details": "The flow counters were reset after watering."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 06:06:03.536",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Error while writing data string to SQL:           ",
+    "Details": "One or more errors occurred. (Unable to write data to the transport connection: An existing connection was forcibly closed by the remote host.)"
+  },
+  {
+    "TimeStamp": "30/Apr/2020 06:06:04.501",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Error while writing data string to SQL:           ",
+    "Details": "Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding. A transport-level error has occurred when receiving results from the server. (provider: TCP Provider, error: 35 - An internal exception was caught)"
+  },
+  {
+    "TimeStamp": "30/Apr/2020 06:06:05.502",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "SQL connection closed                             ",
+    "Details": "The SQL connection is closed."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 06:06:05.510",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Restart SQL connection                            ",
+    "Details": "The SQL connection will be reinitialized."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 06:06:05.518",
+    "Type": "Information",
+    "App": "[SQL]",
+    "Message": "Start initialisation                              ",
+    "Details": "The intialization of the SQL server class has started."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 06:06:05.694",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 07:30:57.855",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Error while writing data string to SQL:           ",
+    "Details": "One or more errors occurred. (Unable to write data to the transport connection: An existing connection was forcibly closed by the remote host.)"
+  },
+  {
+    "TimeStamp": "30/Apr/2020 07:30:58.827",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Error while writing data string to SQL:           ",
+    "Details": "Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding. A transport-level error has occurred when receiving results from the server. (provider: TCP Provider, error: 35 - An internal exception was caught)"
+  },
+  {
+    "TimeStamp": "30/Apr/2020 07:30:59.849",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "SQL connection closed                             ",
+    "Details": "The SQL connection is closed."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 07:30:59.856",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Restart SQL connection                            ",
+    "Details": "The SQL connection will be reinitialized."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 07:30:59.864",
+    "Type": "Information",
+    "App": "[SQL]",
+    "Message": "Start initialisation                              ",
+    "Details": "The intialization of the SQL server class has started."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 07:31:00.032",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 07:35:45.007",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Error while writing data string to SQL:           ",
+    "Details": "One or more errors occurred. (Unable to write data to the transport connection: An existing connection was forcibly closed by the remote host.)"
+  },
+  {
+    "TimeStamp": "30/Apr/2020 07:35:45.024",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Error while writing data string to SQL:           ",
+    "Details": "Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding. A transport-level error has occurred when receiving results from the server. (provider: TCP Provider, error: 35 - An internal exception was caught)"
+  },
+  {
+    "TimeStamp": "30/Apr/2020 07:35:46.056",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "SQL connection closed                             ",
+    "Details": "The SQL connection is closed."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 07:35:46.072",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Restart SQL connection                            ",
+    "Details": "The SQL connection will be reinitialized."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 07:35:46.079",
+    "Type": "Information",
+    "App": "[SQL]",
+    "Message": "Start initialisation                              ",
+    "Details": "The intialization of the SQL server class has started."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 07:35:46.230",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 08:04:14.638",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Error while writing data string to SQL:           ",
+    "Details": "One or more errors occurred. (Unable to write data to the transport connection: An existing connection was forcibly closed by the remote host.)"
+  },
+  {
+    "TimeStamp": "30/Apr/2020 08:04:15.621",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Error while writing data string to SQL:           ",
+    "Details": "Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding. A transport-level error has occurred when receiving results from the server. (provider: TCP Provider, error: 35 - An internal exception was caught)"
+  },
+  {
+    "TimeStamp": "30/Apr/2020 08:04:16.640",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "SQL connection closed                             ",
+    "Details": "The SQL connection is closed."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 08:04:16.647",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Restart SQL connection                            ",
+    "Details": "The SQL connection will be reinitialized."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 08:04:16.655",
+    "Type": "Information",
+    "App": "[SQL]",
+    "Message": "Start initialisation                              ",
+    "Details": "The intialization of the SQL server class has started."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 08:04:16.825",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 11:00:29.627",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Error while writing data string to SQL:           ",
+    "Details": "One or more errors occurred. (Unable to write data to the transport connection: An existing connection was forcibly closed by the remote host.)"
+  },
+  {
+    "TimeStamp": "30/Apr/2020 11:00:30.606",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Error while writing data string to SQL:           ",
+    "Details": "Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding. A transport-level error has occurred when receiving results from the server. (provider: TCP Provider, error: 35 - An internal exception was caught)"
+  },
+  {
+    "TimeStamp": "30/Apr/2020 11:00:31.573",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "SQL connection closed                             ",
+    "Details": "The SQL connection is closed."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 11:00:31.580",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Restart SQL connection                            ",
+    "Details": "The SQL connection will be reinitialized."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 11:00:31.587",
+    "Type": "Information",
+    "App": "[SQL]",
+    "Message": "Start initialisation                              ",
+    "Details": "The intialization of the SQL server class has started."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 11:00:31.764",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 11:20:19.426",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Error while writing data string to SQL:           ",
+    "Details": "One or more errors occurred. (Unable to write data to the transport connection: An existing connection was forcibly closed by the remote host.)"
+  },
+  {
+    "TimeStamp": "30/Apr/2020 11:20:20.365",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Error while writing data string to SQL:           ",
+    "Details": "Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding. A transport-level error has occurred when receiving results from the server. (provider: TCP Provider, error: 35 - An internal exception was caught)"
+  },
+  {
+    "TimeStamp": "30/Apr/2020 11:20:21.331",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "SQL connection closed                             ",
+    "Details": "The SQL connection is closed."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 11:20:21.338",
+    "Type": "Error",
+    "App": "[SQL]",
+    "Message": "Restart SQL connection                            ",
+    "Details": "The SQL connection will be reinitialized."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 11:20:21.345",
+    "Type": "Information",
+    "App": "[SQL]",
+    "Message": "Start initialisation                              ",
+    "Details": "The intialization of the SQL server class has started."
+  },
+  {
+    "TimeStamp": "30/Apr/2020 11:20:21.565",
+    "Type": "Warning",
+    "App": "[SQL]",
+    "Message": "SQL connection is connecting                      ",
+    "Details": "The SQL connection object is connecting to the data source."
+  }
+]

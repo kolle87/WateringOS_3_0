@@ -1,0 +1,120 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@ViewData["Title"]</title>
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />" />
+        <style type="text/css">
+
+            .tooltip-inner {
+                min-width: 60px;
+                max-width: 800px;
+                color: #000000;
+                background: #ffffff;
+            }
+
+            .tooltip.show {
+                opacity: 0.9;
+            }
+
+            .bs-tooltip-bottom .arrow::before {
+                border-bottom-color: #ffffff;
+            }
+            .bs-tooltip-top .arrow::before {
+                border-top-color: #ffffff;
+            }
+            .alert {
+                display: block;
+                margin: 2px 2px 0px 2px;
+                padding: 0px 0px 0px 20px; /* top right bottom left */
+            }
+
+            html {
+                overflow: scroll;
+            }
+
+            ::-webkit-scrollbar {
+                width: 0px;
+                background: transparent; /* make scrollbar transparent */
+            }
+        </style>
+    </head>
+
+<system.webServer>
+    <httpProtocol>
+        <customHeaders>
+            <add name="Access-Control-Allow-Origin"  value="*" />
+            <add name="Access-Control-Allow-Methods" value="GET, POST, PUT, DELETE, OPTIONS" />
+            <add name="Access-Control-Allow-Headers" value="Origin, X-Requested-With, Content-Type, Accept" />
+        </customHeaders>
+    </httpProtocol>
+</system.webServer>
+
+<script src="~/js/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //$('[data-toggle="tooltip"]').tooltip();
+        $("body").tooltip({ selector: '[data-toggle="tooltip"]' });
+        ReadInitial();
+    });
+    setInterval(function () { ReadBuffer(); }, 1000);
+    function showalert(message, details, alerttype) {
+        $('#message_container').prepend('<div id="alertdiv" class="alert ' + alerttype + '" data-toggle="tooltip" data-placement="bottom" title="'+details+'"><span>' + message + '</span></div>')
+        /*setTimeout(function () {
+            $("#alertdiv").remove();
+        }, 5000);  */
+    }
+    function ReadInitial() {
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            url: '@Url.Action("GetJournalLogs", "DataProvision")',
+            success: function (result) {
+                $.each(result, function (i, v) {
+                    var alertType = 'alert-dark';
+                    if (v.Type == 'Status') { alertType = 'alert-success' }
+                    if (v.Type == 'Information') { alertType = 'alert-info' }
+                    if (v.Type == 'Warning') { alertType = 'alert-warning' }
+                    if (v.Type == 'Error') { alertType = 'alert-danger' }
+                    if (v.Type == 'Fatal') { alertType = 'alert-danger' }
+
+                    showalert(v.TimeStamp + " " + v.App + " " + v.Message, v.Details, alertType);
+                });
+            },
+            fail: function () { showalert('Failure reading Log', 'alert-danger') }
+			});
+    }
+    function ReadBuffer() {
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            url: '@Url.Action("GetJournalBuffer", "DataProvision")',
+            success: function (result) {
+                $.each(result, function (i, v) {
+                    var alertType = 'alert-dark';
+                    if (v.Type == 'Status')      { alertType = 'alert-success' }
+                    if (v.Type == 'Information') { alertType = 'alert-info' }
+                    if (v.Type == 'Warning')     { alertType = 'alert-warning' }
+                    if (v.Type == 'Error')       { alertType = 'alert-danger' }
+                    if (v.Type == 'Fatal')       { alertType = 'alert-danger' }
+
+                    showalert(v.TimeStamp + " " + v.App + " " + v.Message, v.Details, alertType);
+                });
+            },
+            fail: function () { showalert('Failure reading log buffer', 'alert-danger') }
+			});
+    }
+</script>
+
+<div class="container" style="width:100%;margin:80px 0px 0px 0px;">
+    <!--<div class="container-fluid" id="message_container" style="width:inherit;max-width:inherit;min-width:inherit;position:fixed;padding:0px 0px 24px 0px"></div>-->
+    <div class="container-fluid" style="width:100%;padding:0px 0px 24px 0px"><h3>Log Journal</h3></div>
+    <div style="overflow-y:scroll; height:500px;background-color:lightgray;border-radius:8px" id="message_container"></div>
+</div>

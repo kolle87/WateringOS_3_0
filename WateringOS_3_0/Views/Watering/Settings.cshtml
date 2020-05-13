@@ -1,0 +1,391 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        @*<link href="https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap" rel="stylesheet">*@
+        <link rel="stylesheet" href="~/css/site.css" />
+        <style type="text/css">
+            .btn-block {
+                display: block;
+                width: 100%;
+                margin-top: .5rem;
+            }
+            input[type="text"] {
+                height: 24px;
+                /*font-family: 'Roboto', sans-serif;*/
+                font-size: 14px;
+            }
+
+            input[type="checkbox"] {
+                height: 20px;
+                width: 20px;
+            }
+
+            .alert {
+                display: block;
+                margin: 2px 0px 0px 0px;
+                padding: 0px 0px 0px 20px; /* top right bottom left */
+            }
+
+            html {
+                overflow: scroll;
+            }
+
+            ::-webkit-scrollbar {
+                width: 0px;
+                background: transparent; /* make scrollbar transparent */
+            }
+        </style>
+    </head>
+
+<system.webServer>
+    <httpProtocol>
+        <customHeaders>
+            <add name="Access-Control-Allow-Origin" value="*" />
+            <add name="Access-Control-Allow-Methods" value="GET, POST, PUT, DELETE, OPTIONS" />
+            <add name="Access-Control-Allow-Headers" value="Origin, X-Requested-With, Content-Type, Accept" />
+        </customHeaders>
+    </httpProtocol>
+</system.webServer>
+
+<script src="~/js/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        Read();
+    });
+    function showalert(message, alerttype) {
+        $('#message_container').append('<div id="alertdiv" class="alert ' + alerttype + '"><span>' + message + '</span></div>')
+        setTimeout(function () {  // this will automatically close the alert and remove this if the users doesnt close it in 5 secs
+            $("#alertdiv").remove();
+        }, 2000);
+    }
+    
+    function Write() {
+        showalert('Writing settings...', 'alert-info');
+
+        document.getElementById("btn_write").disabled = true;
+        document.getElementById("btn_read").disabled = true;
+        document.getElementById("btn_write_spinner").style.display = "inline-block";        
+
+        if (document.getElementById("check_mor1").checked) { $.post("/Settings/Get_Morning_1", { data: true }); } else { $.post("/Settings/Get_Morning_1", { data: false }); };
+        if (document.getElementById("check_mor2").checked) { $.post("/Settings/Get_Morning_2", { data: true }); } else { $.post("/Settings/Get_Morning_2", { data: false }); };
+        if (document.getElementById("check_mor3").checked) { $.post("/Settings/Get_Morning_3", { data: true }); } else { $.post("/Settings/Get_Morning_3", { data: false }); };
+        if (document.getElementById("check_mor4").checked) { $.post("/Settings/Get_Morning_4", { data: true }); } else { $.post("/Settings/Get_Morning_4", { data: false }); };
+        if (document.getElementById("check_mor5").checked) { $.post("/Settings/Get_Morning_5", { data: true }); } else { $.post("/Settings/Get_Morning_5", { data: false }); };
+
+        if (document.getElementById("check_noon1").checked) { $.post("/Settings/Get_Noon_1", { data: true }); } else { $.post("/Settings/Get_Noon_1", { data: false }); };
+        if (document.getElementById("check_noon2").checked) { $.post("/Settings/Get_Noon_2", { data: true }); } else { $.post("/Settings/Get_Noon_2", { data: false }); };
+        if (document.getElementById("check_noon3").checked) { $.post("/Settings/Get_Noon_3", { data: true }); } else { $.post("/Settings/Get_Noon_3", { data: false }); };
+        if (document.getElementById("check_noon4").checked) { $.post("/Settings/Get_Noon_4", { data: true }); } else { $.post("/Settings/Get_Noon_4", { data: false }); };
+        if (document.getElementById("check_noon5").checked) { $.post("/Settings/Get_Noon_5", { data: true }); } else { $.post("/Settings/Get_Noon_5", { data: false }); };
+
+        if (document.getElementById("check_eve1").checked) { $.post("/Settings/Get_Evening_1", { data: true }); } else { $.post("/Settings/Get_Evening_1", { data: false }); };
+        if (document.getElementById("check_eve2").checked) { $.post("/Settings/Get_Evening_2", { data: true }); } else { $.post("/Settings/Get_Evening_2", { data: false }); };
+        if (document.getElementById("check_eve3").checked) { $.post("/Settings/Get_Evening_3", { data: true }); } else { $.post("/Settings/Get_Evening_3", { data: false }); };
+        if (document.getElementById("check_eve4").checked) { $.post("/Settings/Get_Evening_4", { data: true }); } else { $.post("/Settings/Get_Evening_4", { data: false }); };
+        if (document.getElementById("check_eve5").checked) { $.post("/Settings/Get_Evening_5", { data: true }); } else { $.post("/Settings/Get_Evening_5", { data: false }); };
+
+        if (document.getElementById("check_mon1").checked) { $.post("/Settings/Get_Plant_1_Mon", { data: true }); } else { $.post("/Settings/Get_Plant_1_Mon", { data: false }); };
+        if (document.getElementById("check_mon2").checked) { $.post("/Settings/Get_Plant_2_Mon", { data: true }); } else { $.post("/Settings/Get_Plant_2_Mon", { data: false }); };
+        if (document.getElementById("check_mon3").checked) { $.post("/Settings/Get_Plant_3_Mon", { data: true }); } else { $.post("/Settings/Get_Plant_3_Mon", { data: false }); };
+        if (document.getElementById("check_mon4").checked) { $.post("/Settings/Get_Plant_4_Mon", { data: true }); } else { $.post("/Settings/Get_Plant_4_Mon", { data: false }); };
+        if (document.getElementById("check_mon5").checked) { $.post("/Settings/Get_Plant_5_Mon", { data: true }); } else { $.post("/Settings/Get_Plant_5_Mon", { data: false }); };
+
+        if (document.getElementById("check_tue1").checked) { $.post("/Settings/Get_Plant_1_Tue", { data: true }); } else { $.post("/Settings/Get_Plant_1_Tue", { data: false }); };
+        if (document.getElementById("check_tue2").checked) { $.post("/Settings/Get_Plant_2_Tue", { data: true }); } else { $.post("/Settings/Get_Plant_2_Tue", { data: false }); };
+        if (document.getElementById("check_tue3").checked) { $.post("/Settings/Get_Plant_3_Tue", { data: true }); } else { $.post("/Settings/Get_Plant_3_Tue", { data: false }); };
+        if (document.getElementById("check_tue4").checked) { $.post("/Settings/Get_Plant_4_Tue", { data: true }); } else { $.post("/Settings/Get_Plant_4_Tue", { data: false }); };
+        if (document.getElementById("check_tue5").checked) { $.post("/Settings/Get_Plant_5_Tue", { data: true }); } else { $.post("/Settings/Get_Plant_5_Tue", { data: false }); };
+
+        if (document.getElementById("check_wed1").checked) { $.post("/Settings/Get_Plant_1_Wed", { data: true }); } else { $.post("/Settings/Get_Plant_1_Wed", { data: false }); };
+        if (document.getElementById("check_wed2").checked) { $.post("/Settings/Get_Plant_2_Wed", { data: true }); } else { $.post("/Settings/Get_Plant_2_Wed", { data: false }); };
+        if (document.getElementById("check_wed3").checked) { $.post("/Settings/Get_Plant_3_Wed", { data: true }); } else { $.post("/Settings/Get_Plant_3_Wed", { data: false }); };
+        if (document.getElementById("check_wed4").checked) { $.post("/Settings/Get_Plant_4_Wed", { data: true }); } else { $.post("/Settings/Get_Plant_4_Wed", { data: false }); };
+        if (document.getElementById("check_wed5").checked) { $.post("/Settings/Get_Plant_5_Wed", { data: true }); } else { $.post("/Settings/Get_Plant_5_Wed", { data: false }); };
+
+        if (document.getElementById("check_thu1").checked) { $.post("/Settings/Get_Plant_1_Thu", { data: true }); } else { $.post("/Settings/Get_Plant_1_Thu", { data: false }); };
+        if (document.getElementById("check_thu2").checked) { $.post("/Settings/Get_Plant_2_Thu", { data: true }); } else { $.post("/Settings/Get_Plant_2_Thu", { data: false }); };
+        if (document.getElementById("check_thu3").checked) { $.post("/Settings/Get_Plant_3_Thu", { data: true }); } else { $.post("/Settings/Get_Plant_3_Thu", { data: false }); };
+        if (document.getElementById("check_thu4").checked) { $.post("/Settings/Get_Plant_4_Thu", { data: true }); } else { $.post("/Settings/Get_Plant_4_Thu", { data: false }); };
+        if (document.getElementById("check_thu5").checked) { $.post("/Settings/Get_Plant_5_Thu", { data: true }); } else { $.post("/Settings/Get_Plant_5_Thu", { data: false }); };
+
+        if (document.getElementById("check_fri1").checked) { $.post("/Settings/Get_Plant_1_Fri", { data: true }); } else { $.post("/Settings/Get_Plant_1_Fri", { data: false }); };
+        if (document.getElementById("check_fri2").checked) { $.post("/Settings/Get_Plant_2_Fri", { data: true }); } else { $.post("/Settings/Get_Plant_2_Fri", { data: false }); };
+        if (document.getElementById("check_fri3").checked) { $.post("/Settings/Get_Plant_3_Fri", { data: true }); } else { $.post("/Settings/Get_Plant_3_Fri", { data: false }); };
+        if (document.getElementById("check_fri4").checked) { $.post("/Settings/Get_Plant_4_Fri", { data: true }); } else { $.post("/Settings/Get_Plant_4_Fri", { data: false }); };
+        if (document.getElementById("check_fri5").checked) { $.post("/Settings/Get_Plant_5_Fri", { data: true }); } else { $.post("/Settings/Get_Plant_5_Fri", { data: false }); };
+
+        if (document.getElementById("check_sat1").checked) { $.post("/Settings/Get_Plant_1_Sat", { data: true }); } else { $.post("/Settings/Get_Plant_1_Sat", { data: false }); };
+        if (document.getElementById("check_sat2").checked) { $.post("/Settings/Get_Plant_2_Sat", { data: true }); } else { $.post("/Settings/Get_Plant_2_Sat", { data: false }); };
+        if (document.getElementById("check_sat3").checked) { $.post("/Settings/Get_Plant_3_Sat", { data: true }); } else { $.post("/Settings/Get_Plant_3_Sat", { data: false }); };
+        if (document.getElementById("check_sat4").checked) { $.post("/Settings/Get_Plant_4_Sat", { data: true }); } else { $.post("/Settings/Get_Plant_4_Sat", { data: false }); };
+        if (document.getElementById("check_sat5").checked) { $.post("/Settings/Get_Plant_5_Sat", { data: true }); } else { $.post("/Settings/Get_Plant_5_Sat", { data: false }); };
+
+        if (document.getElementById("check_sun1").checked) { $.post("/Settings/Get_Plant_1_Sun", { data: true }); } else { $.post("/Settings/Get_Plant_1_Sun", { data: false }); };
+        if (document.getElementById("check_sun2").checked) { $.post("/Settings/Get_Plant_2_Sun", { data: true }); } else { $.post("/Settings/Get_Plant_2_Sun", { data: false }); };
+        if (document.getElementById("check_sun3").checked) { $.post("/Settings/Get_Plant_3_Sun", { data: true }); } else { $.post("/Settings/Get_Plant_3_Sun", { data: false }); };
+        if (document.getElementById("check_sun4").checked) { $.post("/Settings/Get_Plant_4_Sun", { data: true }); } else { $.post("/Settings/Get_Plant_4_Sun", { data: false }); };
+        if (document.getElementById("check_sun5").checked) { $.post("/Settings/Get_Plant_5_Sun", { data: true }); } else { $.post("/Settings/Get_Plant_5_Sun", { data: false }); };
+
+        $.post("/Settings/Get_Volume_1", { data: document.getElementById("usr_vol1").value });
+        $.post("/Settings/Get_Volume_2", { data: document.getElementById("usr_vol2").value });
+        $.post("/Settings/Get_Volume_3", { data: document.getElementById("usr_vol3").value });
+        $.post("/Settings/Get_Volume_4", { data: document.getElementById("usr_vol4").value });
+        $.post("/Settings/Get_Volume_5", { data: document.getElementById("usr_vol5").value });
+        $.post("/Settings/Get_RAF_1",    { data: document.getElementById("usr_raf1").value });
+        $.post("/Settings/Get_RAF_2",    { data: document.getElementById("usr_raf2").value });
+        $.post("/Settings/Get_RAF_3",    { data: document.getElementById("usr_raf3").value });
+        $.post("/Settings/Get_RAF_4",    { data: document.getElementById("usr_raf4").value });
+        $.post("/Settings/Get_RAF_5",    { data: document.getElementById("usr_raf5").value });
+        $.post("/Settings/Get_GAF_1",    { data: document.getElementById("usr_gaf1").value });
+        $.post("/Settings/Get_GAF_2",    { data: document.getElementById("usr_gaf2").value });
+        $.post("/Settings/Get_GAF_3",    { data: document.getElementById("usr_gaf3").value });
+        $.post("/Settings/Get_GAF_4",    { data: document.getElementById("usr_gaf4").value });
+        $.post("/Settings/Get_GAF_5",    { data: document.getElementById("usr_gaf5").value });
+
+        $.post("/Settings/WriteToFile", function (result) { if (!result) { showalert('Could not write to file.', 'alert-danger'); } });
+
+        document.getElementById("btn_write").disabled = false;
+        document.getElementById("btn_read").disabled = false;
+        document.getElementById("btn_write_spinner").style.display = "none";       
+    }
+    function Read() {
+        showalert('Reading settings...', 'alert-info');
+
+        document.getElementById("btn_write").disabled = true;
+        document.getElementById("btn_read").disabled = true;
+        document.getElementById("btn_read_spinner").style.display = "inline-block";
+
+
+        $.post("/Settings/ReadFromFile", function (result) { if (!result) { showalert('Could not read from file.', 'alert-danger'); } });
+
+        $.post("/Settings/Plant_1_Name", function (result) { document.getElementById("txt_Out1").textContent = result; });
+        $.post("/Settings/Plant_2_Name", function (result) { document.getElementById("txt_Out2").textContent = result; });
+        $.post("/Settings/Plant_3_Name", function (result) { document.getElementById("txt_Out3").textContent = result; });
+        $.post("/Settings/Plant_4_Name", function (result) { document.getElementById("txt_Out4").textContent = result; });
+        $.post("/Settings/Plant_5_Name", function (result) { document.getElementById("txt_Out5").textContent = result; });
+
+        $.post("/Settings/Volume_1", function (result) { document.getElementById("usr_vol1").value = result; });
+        $.post("/Settings/Volume_2", function (result) { document.getElementById("usr_vol2").value = result; });
+        $.post("/Settings/Volume_3", function (result) { document.getElementById("usr_vol3").value = result; });
+        $.post("/Settings/Volume_4", function (result) { document.getElementById("usr_vol4").value = result; });
+        $.post("/Settings/Volume_5", function (result) { document.getElementById("usr_vol5").value = result; });
+
+        $.post("/Settings/RAF_1", function (result) { document.getElementById("usr_raf1").value = result; });
+        $.post("/Settings/RAF_2", function (result) { document.getElementById("usr_raf2").value = result; });
+        $.post("/Settings/RAF_3", function (result) { document.getElementById("usr_raf3").value = result; });
+        $.post("/Settings/RAF_4", function (result) { document.getElementById("usr_raf4").value = result; });
+        $.post("/Settings/RAF_5", function (result) { document.getElementById("usr_raf5").value = result; });
+
+        $.post("/Settings/GAF_1", function (result) { document.getElementById("usr_gaf1").value = result; });
+        $.post("/Settings/GAF_2", function (result) { document.getElementById("usr_gaf2").value = result; });
+        $.post("/Settings/GAF_3", function (result) { document.getElementById("usr_gaf3").value = result; });
+        $.post("/Settings/GAF_4", function (result) { document.getElementById("usr_gaf4").value = result; });
+        $.post("/Settings/GAF_5", function (result) { document.getElementById("usr_gaf5").value = result; });
+
+        $.post("/Settings/Morning_1", function (result) { document.getElementById("check_mor1").checked = result; });
+        $.post("/Settings/Morning_2", function (result) { document.getElementById("check_mor2").checked = result; });
+        $.post("/Settings/Morning_3", function (result) { document.getElementById("check_mor3").checked = result; });
+        $.post("/Settings/Morning_4", function (result) { document.getElementById("check_mor4").checked = result; });
+        $.post("/Settings/Morning_5", function (result) { document.getElementById("check_mor5").checked = result; });
+
+        $.post("/Settings/Noon_1", function (result) { document.getElementById("check_noon1").checked = result; });
+        $.post("/Settings/Noon_2", function (result) { document.getElementById("check_noon2").checked = result; });
+        $.post("/Settings/Noon_3", function (result) { document.getElementById("check_noon3").checked = result; });
+        $.post("/Settings/Noon_4", function (result) { document.getElementById("check_noon4").checked = result; });
+        $.post("/Settings/Noon_5", function (result) { document.getElementById("check_noon5").checked = result; });
+
+        $.post("/Settings/Evening_1", function (result) { document.getElementById("check_eve1").checked = result; });
+        $.post("/Settings/Evening_2", function (result) { document.getElementById("check_eve2").checked = result; });
+        $.post("/Settings/Evening_3", function (result) { document.getElementById("check_eve3").checked = result; });
+        $.post("/Settings/Evening_4", function (result) { document.getElementById("check_eve4").checked = result; });
+        $.post("/Settings/Evening_5", function (result) { document.getElementById("check_eve5").checked = result; });
+
+        $.post("/Settings/Plant_1_Mon", function (result) { document.getElementById("check_mon1").checked = result; });
+        $.post("/Settings/Plant_2_Mon", function (result) { document.getElementById("check_mon2").checked = result; });
+        $.post("/Settings/Plant_3_Mon", function (result) { document.getElementById("check_mon3").checked = result; });
+        $.post("/Settings/Plant_4_Mon", function (result) { document.getElementById("check_mon4").checked = result; });
+        $.post("/Settings/Plant_5_Mon", function (result) { document.getElementById("check_mon5").checked = result; });
+
+        $.post("/Settings/Plant_1_Tue", function (result) { document.getElementById("check_tue1").checked = result; });
+        $.post("/Settings/Plant_2_Tue", function (result) { document.getElementById("check_tue2").checked = result; });
+        $.post("/Settings/Plant_3_Tue", function (result) { document.getElementById("check_tue3").checked = result; });
+        $.post("/Settings/Plant_4_Tue", function (result) { document.getElementById("check_tue4").checked = result; });
+        $.post("/Settings/Plant_5_Tue", function (result) { document.getElementById("check_tue5").checked = result; });
+
+        $.post("/Settings/Plant_1_Wed", function (result) { document.getElementById("check_wed1").checked = result; });
+        $.post("/Settings/Plant_2_Wed", function (result) { document.getElementById("check_wed2").checked = result; });
+        $.post("/Settings/Plant_3_Wed", function (result) { document.getElementById("check_wed3").checked = result; });
+        $.post("/Settings/Plant_4_Wed", function (result) { document.getElementById("check_wed4").checked = result; });
+        $.post("/Settings/Plant_5_Wed", function (result) { document.getElementById("check_wed5").checked = result; });
+
+        $.post("/Settings/Plant_1_Thu", function (result) { document.getElementById("check_thu1").checked = result; });
+        $.post("/Settings/Plant_2_Thu", function (result) { document.getElementById("check_thu2").checked = result; });
+        $.post("/Settings/Plant_3_Thu", function (result) { document.getElementById("check_thu3").checked = result; });
+        $.post("/Settings/Plant_4_Thu", function (result) { document.getElementById("check_thu4").checked = result; });
+        $.post("/Settings/Plant_5_Thu", function (result) { document.getElementById("check_thu5").checked = result; });
+
+        $.post("/Settings/Plant_1_Fri", function (result) { document.getElementById("check_fri1").checked = result; });
+        $.post("/Settings/Plant_2_Fri", function (result) { document.getElementById("check_fri2").checked = result; });
+        $.post("/Settings/Plant_3_Fri", function (result) { document.getElementById("check_fri3").checked = result; });
+        $.post("/Settings/Plant_4_Fri", function (result) { document.getElementById("check_fri4").checked = result; });
+        $.post("/Settings/Plant_5_Fri", function (result) { document.getElementById("check_fri5").checked = result; });
+
+        $.post("/Settings/Plant_1_Sat", function (result) { document.getElementById("check_sat1").checked = result; });
+        $.post("/Settings/Plant_2_Sat", function (result) { document.getElementById("check_sat2").checked = result; });
+        $.post("/Settings/Plant_3_Sat", function (result) { document.getElementById("check_sat3").checked = result; });
+        $.post("/Settings/Plant_4_Sat", function (result) { document.getElementById("check_sat4").checked = result; });
+        $.post("/Settings/Plant_5_Sat", function (result) { document.getElementById("check_sat5").checked = result; });
+
+        $.post("/Settings/Plant_1_Sun", function (result) { document.getElementById("check_sun1").checked = result; });
+        $.post("/Settings/Plant_2_Sun", function (result) { document.getElementById("check_sun2").checked = result; });
+        $.post("/Settings/Plant_3_Sun", function (result) { document.getElementById("check_sun3").checked = result; });
+        $.post("/Settings/Plant_4_Sun", function (result) { document.getElementById("check_sun4").checked = result; });
+
+        document.getElementById("btn_write").disabled = false;
+        document.getElementById("btn_read").disabled = false;
+        document.getElementById("btn_read_spinner").style.display = "none";
+
+    }
+</script>
+
+<div class="container" style="width:100%;margin:80px 0px 0px 0px;">
+    <div class="container-fluid" id="message_container" style="width:inherit;max-width:inherit;min-width:inherit;position:fixed;padding:0px 0px 24px 0px"></div>
+    <div class="container-fluid" style="width:100%;padding:0px 0px 24px 0px"><h3>Settings</h3></div>
+    <div class="container-fluid" style="width:fit-content;margin-left:50px">
+        <table class="grid" width="100%" height="100%" style="text-align:left;padding:50px 0px 0px 50px">
+            <tbody>
+                <tr>
+                    <td style="width:150px"></td>
+                    <td style="min-width:70px"><h6><span class="text" id="txt_Out1">Out#1</span></h6></td>
+                    <td style="min-width:70px"><h6><span class="text" id="txt_Out2">Out#2</span></h6></td>
+                    <td style="min-width:70px"><h6><span class="text" id="txt_Out3">Out#3</span></h6></td>
+                    <td style="min-width:70px"><h6><span class="text" id="txt_Out4">Out#4</span></h6></td>
+                    <td style="min-width:70px"><h6><span class="text" id="txt_Out5">Out#5</span></h6></td>
+                </tr>
+                <tr>
+                    <td style="text-align: right;padding-right:20px">Volume [ml]</td>
+                    <td><input type="number" style="width:60px;text-align: right" id="usr_vol1" min="100" max="2500" step="10"></td>
+                    <td><input type="number" style="width:60px;text-align: right" id="usr_vol2" min="100" max="2500" step="10"></td>
+                    <td><input type="number" style="width:60px;text-align: right" id="usr_vol3" min="100" max="2500" step="10"></td>
+                    <td><input type="number" style="width:60px;text-align: right" id="usr_vol4" min="100" max="2500" step="10"></td>
+                    <td><input type="number" style="width:60px;text-align: right" id="usr_vol5" min="100" max="2500" step="10"></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right:20px">Rain factor [%]</td>
+                    <td><input type="number" style="width:60px;text-align: right" id="usr_raf1" min="10" max="200" step="1"></td>
+                    <td><input type="number" style="width:60px;text-align: right" id="usr_raf2" min="10" max="200" step="1"></td>
+                    <td><input type="number" style="width:60px;text-align: right" id="usr_raf3" min="10" max="200" step="1"></td>
+                    <td><input type="number" style="width:60px;text-align: right" id="usr_raf4" min="10" max="200" step="1"></td>
+                    <td><input type="number" style="width:60px;text-align: right" id="usr_raf5" min="10" max="200" step="1"></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right:20px">Ground factor [%]</td>
+                    <td><input type="number" style="width:60px;text-align: right" id="usr_gaf1" min="10" max="200" step="1"></td>
+                    <td><input type="number" style="width:60px;text-align: right" id="usr_gaf2" min="10" max="200" step="1"></td>
+                    <td><input type="number" style="width:60px;text-align: right" id="usr_gaf3" min="10" max="200" step="1"></td>
+                    <td><input type="number" style="width:60px;text-align: right" id="usr_gaf4" min="10" max="200" step="1"></td>
+                    <td><input type="number" style="width:60px;text-align: right" id="usr_gaf5" min="10" max="200" step="1"></td>
+                </tr>
+                <tr style="height:24px"></tr>
+                <tr>
+                    <td style="text-align:right;padding-right:20px">Morning</td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_mor1"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_mor2"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_mor3"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_mor4"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_mor5"></div></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right:20px">Noon</td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_noon1"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_noon2"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_noon3"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_noon4"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_noon5"></div></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right:20px">Evening</td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_eve1"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_eve2"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_eve3"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_eve4"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_eve5"></div></td>
+                </tr>
+                <tr style="height:24px"></tr>
+                <tr>
+                    <td style="text-align:right;padding-right:20px">Monday</td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_mon1"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_mon2"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_mon3"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_mon4"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_mon5"></div></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right:20px">Tuesday</td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_tue1"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_tue2"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_tue3"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_tue4"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_tue5"></div></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right:20px">Wednesday</td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_wed1"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_wed2"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_wed3"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_wed4"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_wed5"></div></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right:20px">Thursday</td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_thu1"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_thu2"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_thu3"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_thu4"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_thu5"></div></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right:20px">Friday</td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_fri1"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_fri2"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_fri3"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_fri4"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_fri5"></div></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right:20px">Saturday</td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_sat1"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_sat2"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_sat3"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_sat4"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_sat5"></div></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right:20px">Sunday</td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_sun1"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_sun2"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_sun3"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_sun4"></div></td>
+                    <td style="padding-left:18px;padding-top:4px"><div class="check_container" style="height:20px"><input type="checkbox" id="check_sun5"></div></td>
+                </tr>
+                <tr style="height:24px"></tr>
+            </tbody>
+        </table>
+        <table class="grid" width="100%" height="100%" style="text-align:left;margin-top:20px">
+            <tbody>
+                <tr>
+                    <td style="width:200px">
+                        <button style="width: 72px; display: inline" type="button" onclick="Read()"  id="btn_read"  class="btn btn-outline-danger btn-sm btn-block"><span id="btn_read_spinner"  class="spinner-border spinner-border-sm" style="display:none"></span>   Read </button>
+                        <button style="width: 72px; display: inline" type="button" onclick="Write()" id="btn_write" class="btn btn-danger btn-sm btn-block">        <span id="btn_write_spinner" class="spinner-border spinner-border-sm" style="display:none"></span>   Write</button>
+                    </td>
+                    <td style="width:auto"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--<div style="padding-top:30px; overflow-y:scroll; max-height:144px" id="message_container"></div>-->
+</div>
