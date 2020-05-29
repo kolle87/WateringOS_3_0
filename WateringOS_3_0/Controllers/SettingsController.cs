@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -16,12 +17,14 @@ namespace WateringOS_3_0.Controllers
             {
                 Settings.System     = JsonConvert.DeserializeObject<cSystemSettings>(System.IO.File.ReadAllText(@"wwwroot/systemsettings.json"));
                 Settings.Watering   = JsonConvert.DeserializeObject<cWateringSettings>(System.IO.File.ReadAllText(@"wwwroot/wateringsettings.json"));
-                Parents.Logger_SettingsController.LogDebug("SettingsController: ReadFromFile()");
+                Console.WriteLine($"SettingsController: ReadFromFile() OK");
+                BackgroundTaskController.AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "SettingsController", LogType.Information, "ReadFromFile() OK", "Settings have been loaded from the *.json file");
                 return true;
             }
             catch (Exception e)
             {
-                Parents.Logger_SettingsController.LogError(e.Message);
+                Console.WriteLine($"SettingsController: ReadFromFile() " + e.Message);
+                BackgroundTaskController.AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "SettingsController", LogType.Error, "ReadFromFile() Fail", e.Message);
                 return false;
             }
             
@@ -32,12 +35,14 @@ namespace WateringOS_3_0.Controllers
             {
                 System.IO.File.WriteAllText(@"wwwroot/systemsettings.json",   JsonConvert.SerializeObject(Settings.System));
                 System.IO.File.WriteAllText(@"wwwroot/wateringsettings.json", JsonConvert.SerializeObject(Settings.Watering));
-                Parents.Logger_SettingsController.LogDebug("SettingsController: WriteToFile()");
+                Console.WriteLine($"SettingsController: WriteToFile() OK");
+                BackgroundTaskController.AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "SettingsController", LogType.Information, "WriteToFile() OK", "Settings have been written to the *.json file");
                 return true;
             }
             catch (Exception e)
             {
-                Parents.Logger_SettingsController.LogError(e.Message);
+                Console.WriteLine($"SettingsController: WriteToFile() " + e.Message);
+                BackgroundTaskController.AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "SettingsController", LogType.Error, "WriteToFile() Fail", e.Message);
                 return false;
             }
 
@@ -48,14 +53,14 @@ namespace WateringOS_3_0.Controllers
             {
                 Settings.System = JsonConvert.DeserializeObject<cSystemSettings>(System.IO.File.ReadAllText(@"wwwroot/systemsettings.json"));
                 Settings.Watering = JsonConvert.DeserializeObject<cWateringSettings>(System.IO.File.ReadAllText(@"wwwroot/wateringsettings.json"));
-                //Parents.Logger.LogDebug("SettingsController: ReadFromFile()");
-                Console.WriteLine($">>> OK ReadFromFileStatic() Settings loaded\n");
+                Console.WriteLine($"SettingsController: ReadFromFileStatic() OK");
+                BackgroundTaskController.AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "SettingsController", LogType.Information, "ReadFromFileStatic() OK", "Settings have been loaded by static read of the *.json file");
                 return true;
             }
             catch (Exception e)
             {
-                //Parents.Logger.LogError(
-                Console.WriteLine($">>> FAILURE ReadFromFileStatic() " + e.Message + "\n");
+                Console.WriteLine($"SettingsController: ReadFromFileStatic() " + e.Message);
+                BackgroundTaskController.AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "SettingsController", LogType.Error, "ReadFromFileStatic() Fail", e.Message);
                 return false;
             }
 
@@ -63,6 +68,7 @@ namespace WateringOS_3_0.Controllers
         // provide settings
         public int Task_cycle()         { return Settings.System.Task_cycle; }
         public int FastLog()            { return Settings.System.FastLog; }
+        public int AutoSaveLog()        { return Settings.System.Save_cycle; }
         public int Log_Enviroment()     { return Settings.System.Log_Enviroment; }
         public int Log_Power()          { return Settings.System.Log_Power; }
         public int Log_Level()          { return Settings.System.Log_Level; }
@@ -85,6 +91,8 @@ namespace WateringOS_3_0.Controllers
         public int ALM_NoValveDelay()   { return Settings.System.ALM_NoValveDelay; }
         public int ALM_PressOffDelay()  { return Settings.System.ALM_PressOffDelay; }
         public int ALM_PressOffValue()  { return Settings.System.ALM_PressOffValue; }
+        public int ALM_WarnTempCPU()    { return Settings.System.ALM_WarnTempCPU; }
+        public int ALM_MaxTempCPU()     { return Settings.System.ALM_MaxTempCPU; }
 
         public int DLY_ValveOpen()      { return Settings.System.DLY_ValveOpen; }
         public int DLY_PumpStop()       { return Settings.System.DLY_PumpStop; }
@@ -176,6 +184,7 @@ namespace WateringOS_3_0.Controllers
 //---------------------------------------------------------------------------
 // receive settings
         public void Get_Task_cycle(int data) { Settings.System.Task_cycle = data; }
+        public void Get_AutoSaveLog(int data) { Settings.System.Save_cycle = data; }
         public void Get_FastLog(int data) { Settings.System.FastLog = data; }
         public void Get_Log_Enviroment(int data) { Settings.System.Log_Enviroment = data; }
         public void Get_Log_Power(int data) { Settings.System.Log_Power = data; }
@@ -199,6 +208,8 @@ namespace WateringOS_3_0.Controllers
         public void Get_ALM_NoValveDelay(int data) { Settings.System.ALM_NoValveDelay = data; }
         public void Get_ALM_PressOffDelay(int data) { Settings.System.ALM_PressOffDelay = data; }
         public void Get_ALM_PressOffValue(int data) { Settings.System.ALM_PressOffValue = data; }
+        public void Get_ALM_WarnTempCPU(int data) { Settings.System.ALM_WarnTempCPU = data; }
+        public void Get_ALM_MaxTempCPU(int data) { Settings.System.ALM_MaxTempCPU = data; }
 
         public void Get_DLY_ValveOpen(int data) { Settings.System.DLY_ValveOpen = data; }
         public void Get_DLY_PumpStop(int data) { Settings.System.DLY_PumpStop = data; }

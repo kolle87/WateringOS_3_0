@@ -21,18 +21,18 @@ namespace WateringOS_3_0
         private SpiConnectionSettings AtMega_Settings;
 
         // Public Declarations
-        public byte Flow1 { get; private set; }
-        public byte Flow2 { get; private set; }
-        public byte Flow3 { get; private set; }
-        public byte Flow4 { get; private set; }
-        public byte Flow5 { get; private set; }
-        public byte Rain { get; private set; }
-        public byte Level { get; private set; }
-        public byte LevelRaw { get; private set; }
-        public byte Pressure { get; private set; }
-        public byte Ground { get; private set; }
-        public byte MinLevel { get; set; }
-        public byte MaxLevel { get; set; }
+        public byte   Flow1 { get; private set; }
+        public byte   Flow2 { get; private set; }
+        public byte   Flow3 { get; private set; }
+        public byte   Flow4 { get; private set; }
+        public byte   Flow5 { get; private set; }
+        public byte   Rain { get; private set; }
+        public byte   Level { get; private set; }
+        public byte   LevelRaw { get; private set; }
+        public double Pressure { get; private set; }
+        public byte   Ground { get; private set; }
+        public int    MinLevel { get; set; }
+        public int    MaxLevel { get; set; }
 
         public void InitSPI()
         {
@@ -40,7 +40,7 @@ namespace WateringOS_3_0
 
             try
             {
-                this.AtMega_Settings = new SpiConnectionSettings(0, 8); // (Bus_ID, CS_Line)
+                this.AtMega_Settings = new SpiConnectionSettings(0, 0); // (Bus_ID, CS_ID)
                 this.AtMega_Settings.ClockFrequency = 10000;  // 10kHz            
                 this.AtMega_Settings.Mode = SpiMode.Mode3;    // Mode3: CPOL = 1, CPHA = 1
                 this.AtMega32A = SpiDevice.Create(AtMega_Settings);
@@ -69,7 +69,7 @@ namespace WateringOS_3_0
                     this.Flow5 = ReadBuf[6];
                     this.Rain = ReadBuf[7];
                     this.LevelRaw = ReadBuf[8];
-                    this.Pressure = ReadBuf[9];
+                    this.Pressure = ReadBuf[9] * 0.049;
                     this.Ground = ReadBuf[10];
 
                     try   { this.Level = Convert.ToByte(Math.Round(((double)(ReadBuf[8] - this.MinLevel) / (this.MaxLevel - this.MinLevel)) * 100.0)); }
@@ -129,7 +129,7 @@ namespace WateringOS_3_0
                     Parents.Logger_SPIController.LogWarning(vMessage);
                     break;
                 case LogType.Error:
-                    Parents.Logger_SPIController.LogError(vMessage);
+                    Parents.Logger_SPIController.LogError(vMessage + ": " + vDetail);
                     break;
                 case LogType.Fatal:
                     Parents.Logger_SPIController.LogCritical(vMessage);

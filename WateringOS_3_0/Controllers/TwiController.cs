@@ -87,7 +87,7 @@ namespace WateringOS_3_0
                     TwiLog(LogType.Error, "TWI Class Error Initializing", e.Message);
                 }
         }
-        public void ReadTWI()
+        public void TWI_Read()
         {
             AmbientTemp = ReadAmbientTemp();
             using (Task t_wait = Task.Run(async delegate { await Task.Delay(50); }))

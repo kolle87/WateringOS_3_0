@@ -1,1 +1,27 @@
-{"Task_cycle":1000,"FastLog":200,"Log_Enviroment":20,"Log_Power":1000,"Log_Level":20,"DLY_Auto_LogOff":3,"Tank_Min":123,"Tank_Max":198,"Wat_min_tank":3,"Wat_min_vol":50,"Wat_min_time":15,"Wat_max_vol":20,"Wat_max_time":20,"ALM_TankLevel":5,"ALM_MinPress":1200,"ALM_MaxPress":6000,"ALM_NoPumpDelay":1000,"ALM_NoValveDelay":1000,"ALM_PressOffDelay":3000,"ALM_PressOffValue":300,"DLY_ValveOpen":2000,"DLY_PumpStop":5100}
+{
+  "Task_cycle": 1000,
+  "Save_cycle": 20,
+  "FastLog": 200,
+  "Log_Enviroment": 20,
+  "Log_Power": 1,
+  "Log_Level": 20,
+  "DLY_Auto_LogOff": 3,
+  "Tank_Min": 123,
+  "Tank_Max": 198,
+  "Wat_min_tank": 3,
+  "Wat_min_vol": 200,
+  "Wat_min_time": 15,
+  "Wat_max_vol": 1500,
+  "Wat_max_time": 120,
+  "ALM_TankLevel": 5,
+  "ALM_MinPress": 1200,
+  "ALM_MaxPress": 6000,
+  "ALM_NoPumpDelay": 1000,
+  "ALM_NoValveDelay": 1000,
+  "ALM_PressOffDelay": 3000,
+  "ALM_PressOffValue": 300,
+  "ALM_WarnTempCPU": 58,
+  "ALM_MaxTempCPU": 79,
+  "DLY_ValveOpen": 2000,
+  "DLY_PumpStop": 5100
+}

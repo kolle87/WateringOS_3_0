@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Net;
 using System.Text;
 using Microsoft.AspNetCore.Hosting;
@@ -20,7 +21,9 @@ namespace WateringOS_3_0
             IPAddress[] address = ipHostEntry.AddressList;
             foreach (IPAddress element in address) { sb.Append("\tThe Local IP Address: " + element.ToString() + "\n"); }
             Console.WriteLine($">>> Starting MVC Background Service for WateringOS 3.0\n");
+            BackgroundTaskController.AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "Program", LogType.Status, "Starting MVC Background Service for WateringOS 3.0", "The service just have started, initiazing MVC Background Service for WateringOS 3.0");
             Console.WriteLine(sb.ToString());
+            BackgroundTaskController.AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "Program", LogType.Status, "Received IP for service", "Following IPs have been assigned:\n"+sb.ToString());
 
             Parents.Host = CreateHostBuilder(args).Build();
 
@@ -60,7 +63,7 @@ namespace WateringOS_3_0
             })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseUrls("http://*:8001");
+                    webBuilder.UseUrls("http://*:8081");
                     webBuilder.UseStartup<Startup>();
                 });
     }

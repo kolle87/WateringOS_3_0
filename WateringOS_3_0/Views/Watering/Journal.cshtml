@@ -86,6 +86,7 @@
 
                     showalert(v.TimeStamp + " " + v.App + " " + v.Message, v.Details, alertType);
                 });
+                $.post("/DataProvision/ClearJournalBuffer");
             },
             fail: function () { showalert('Failure reading Log', 'alert-danger') }
 			});
@@ -107,6 +108,7 @@
 
                     showalert(v.TimeStamp + " " + v.App + " " + v.Message, v.Details, alertType);
                 });
+                $.post("/DataProvision/ClearJournalBuffer");
             },
             fail: function () { showalert('Failure reading log buffer', 'alert-danger') }
 			});

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace WateringOS_3_0.Models
@@ -35,6 +37,12 @@ namespace WateringOS_3_0.Models
         public bool PowerFail_12V { get; set; }
         public bool PowerFail_24V { get; set; }
         public bool WatchdogPrealarm { get; set; }
+        [OnError]
+        internal void OnError(StreamingContext context, ErrorContext errorContext)
+        {
+            Console.WriteLine(errorContext.Error.ToString());
+            errorContext.Handled = true;
+        }
     }
     public class cEnvLog
     {
@@ -44,6 +52,12 @@ namespace WateringOS_3_0.Models
         public int TempCPU { get; set; }
         public int TempAmb { get; set; }
         public int TempExp { get; set; }
+        [OnError]
+        internal void OnError(StreamingContext context, ErrorContext errorContext)
+        {
+            Console.WriteLine(errorContext.Error.ToString());
+            errorContext.Handled = true;
+        }
     }
     public class cPowerLog
     {
@@ -55,11 +69,23 @@ namespace WateringOS_3_0.Models
         public byte PowerFail_12V { get; set; }
         public byte PowerFail_24V { get; set; }
         public byte WatchdogPrealarm { get; set; }
+        [OnError]
+        internal void OnError(StreamingContext context, ErrorContext errorContext)
+        {
+            Console.WriteLine(errorContext.Error.ToString());
+            errorContext.Handled = true;
+        }
     }
     public class cLevelLog
     {
         public DateTime TimeStamp { get; set; }
         public byte Tank { get; set; }
+        [OnError]
+        internal void OnError(StreamingContext context, ErrorContext errorContext)
+        {
+            Console.WriteLine(errorContext.Error.ToString());
+            errorContext.Handled = true;
+        }
     }
     public class cWaterLog
     {
@@ -85,6 +111,12 @@ namespace WateringOS_3_0.Models
         public byte PowerFail_12V { get; set; }
         public byte PowerFail_24V { get; set; }
         public byte WatchdogPrealarm { get; set; }
+        [OnError]
+        internal void OnError(StreamingContext context, ErrorContext errorContext)
+        {
+            Console.WriteLine(errorContext.Error.ToString());
+            errorContext.Handled = true;
+        }
     }
     public class cRecentEntries
     {
@@ -120,6 +152,12 @@ namespace WateringOS_3_0.Models
         public bool PowerFail_12V { get; set; }
         public bool PowerFail_24V { get; set; }
         public bool WatchdogPrealarm { get; set; }
+        [OnError]
+        internal void OnError(StreamingContext context, ErrorContext errorContext)
+        {
+            Console.WriteLine(errorContext.Error.ToString());
+            errorContext.Handled = true;
+        }
     }
     public class cJournal
     {
@@ -128,16 +166,24 @@ namespace WateringOS_3_0.Models
         public string App { get; set; }
         public string Message { get; set; }
         public string Details { get; set; }
+        [OnError]
+        internal void OnError(StreamingContext context, ErrorContext errorContext)
+        {
+            Console.WriteLine(errorContext.Error.ToString());
+            errorContext.Handled = true;
+        }
     }
     public class LogLists
     {
-        public static List<cDataLog>  DataLog       = new List<cDataLog>(17280);
-        public static List<cEnvLog>   EnvLog        = new List<cEnvLog>(17280);     // LogData for Temperature, Ground and Rain
-        public static List<cPowerLog> PowerLog      = new List<cPowerLog>(17280);   // LogData for Power Supply Status and WatchDog
-        public static List<cLevelLog> LevelLog      = new List<cLevelLog>(17280);   // LogData for TankLevel
-        public static List<cWaterLog> WateringLog   = new List<cWaterLog>(17280);   // LogData when watering is active
-        public static List<cJournal>  JournalLog    = new List<cJournal>(250);      // Log Messages from Watering System
-        public static List<cJournal>  JournalBuffer = new List<cJournal>(250);      // Session Buffer for new Messages
+        public static List<cDataLog>  DataLog       = new List<cDataLog>(65535);
+        public static List<cEnvLog>   EnvLog        = new List<cEnvLog>(65535);     // LogData for Temperature, Ground and Rain
+        public static List<cPowerLog> PowerLog      = new List<cPowerLog>(65535);   // LogData for Power Supply Status and WatchDog
+        public static List<cLevelLog> LevelLog      = new List<cLevelLog>(65535);   // LogData for TankLevel
+        public static List<cWaterLog> WateringLog1  = new List<cWaterLog>(65535);   // LogData when watering is active
+        public static List<cWaterLog> WateringLog2  = new List<cWaterLog>(65535);   // LogData when watering is active
+        public static List<cWaterLog> WateringLog3  = new List<cWaterLog>(65535);   // LogData when watering is active
+        public static List<cJournal>  JournalLog    = new List<cJournal>(65535);    // Log Messages from Watering System
+        public static List<cJournal>  JournalBuffer = new List<cJournal>(255);      // Session Buffer for new Messages
 
         public static cRecentEntries  RecentEntries = new cRecentEntries();
     }

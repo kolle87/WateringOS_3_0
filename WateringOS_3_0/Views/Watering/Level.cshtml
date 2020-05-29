@@ -105,7 +105,7 @@
                 tooltips: {
                     position: 'nearest',
                     mode: 'index',
-                    intersect: true,
+                    intersect: false,
                     callbacks: {
                         title: function (tooltipItem, data) {
                             var vTitle = [];
@@ -175,7 +175,7 @@
 				type: "POST",
 				dataType: "json",
 				contentType: "application/json",
-				url: '@Url.Action("GetLevelData","DataProvision")',
+				url: '@Url.Action("GetLevelData", "DataProvision")',
                 success: function (result) {
                     myChart.data.labels.push(moment().minute(0).subtract(168, 'hour'));
                     // Major Gridlines

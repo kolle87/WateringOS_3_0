@@ -72,6 +72,7 @@
         document.getElementById("btn_write_spinner").style.display = "inline-block";
 
         $.post("/Settings/Get_Task_cycle",        { data: document.getElementById("usr_cycle").value });
+        $.post("/Settings/Get_AutoSaveLog",       { data: document.getElementById("usr_logsave").value });
         $.post("/Settings/Get_FastLog",           { data: document.getElementById("usr_logfast").value }); 
         $.post("/Settings/Get_Log_Enviroment",    { data: document.getElementById("usr_logenv").value });
         $.post("/Settings/Get_Log_Power",         { data: document.getElementById("usr_logpower").value });
@@ -95,6 +96,8 @@
         $.post("/Settings/Get_ALM_NoValveDelay",  { data: document.getElementById("usr_novalvedelay").value });
         $.post("/Settings/Get_ALM_PressOffDelay", { data: document.getElementById("usr_pressoffdelay").value });
         $.post("/Settings/Get_ALM_PressOffValue", { data: document.getElementById("usr_pressoffvalue").value });
+        $.post("/Settings/Get_ALM_WarnTempCPU",   { data: document.getElementById("usr_cpuwarntemp").value });
+        $.post("/Settings/Get_ALM_MaxTempCPU",    { data: document.getElementById("usr_cpumaxtemp").value });
 
         $.post("/Settings/Get_DLY_ValveOpen",     { data: document.getElementById("usr_delayvalveopen").value });
         $.post("/Settings/Get_DLY_PumpStop",      { data: document.getElementById("usr_delaypumpstop").value });
@@ -117,6 +120,8 @@
 
         $.post("/Settings/Task_cycle",        function (result) { document.getElementById("usr_cycle").value = result });
         $.post("/Settings/FastLog",           function (result) { document.getElementById("usr_logfast").value = result });
+        $.post("/Settings/AutoSaveLog",       function (result) { document.getElementById("usr_logsave").value = result });
+
         $.post("/Settings/Log_Enviroment",    function (result) { document.getElementById("usr_logenv").value = result });
         $.post("/Settings/Log_Power",         function (result) { document.getElementById("usr_logpower").value = result });
         $.post("/Settings/Log_Level",         function (result) { document.getElementById("usr_loglevel").value = result });
@@ -139,6 +144,8 @@
         $.post("/Settings/ALM_NoValveDelay",  function (result) { document.getElementById("usr_novalvedelay").value = result });
         $.post("/Settings/ALM_PressOffDelay", function (result) { document.getElementById("usr_pressoffdelay").value = result });
         $.post("/Settings/ALM_PressOffValue", function (result) { document.getElementById("usr_pressoffvalue").value = result });
+        $.post("/Settings/ALM_WarnTempCPU",   function (result) { document.getElementById("usr_cpuwarntemp").value = result });
+        $.post("/Settings/ALM_MaxTempCPU",    function (result) { document.getElementById("usr_cpumaxtemp").value = result });
 
         $.post("/Settings/DLY_ValveOpen",     function (result) { document.getElementById("usr_delayvalveopen").value = result });
         $.post("/Settings/DLY_PumpStop",      function (result) { document.getElementById("usr_delaypumpstop").value = result });
@@ -166,9 +173,9 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td style="text-align: right;padding-right:6px;width:150px">LOG_AutoSave</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_logsave" min="10" max="1380" step="10"></td>
+                    <td style="text-align:left;width:100px">min</td>
                     <td style="text-align: right;padding-right:6px">ALM_MinPress</td>
                     <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_almminpress" min="100" max="5000" step="100"></td>
                     <td style="text-align:left">mbar</td>
@@ -194,8 +201,8 @@
                 </tr>
                 <tr>
                     <td style="text-align:right;padding-right:6px">LOG_power</td>
-                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_logpower" min="1000" max="5000" step="100"></td>
-                    <td style="text-align:left">ms</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_logpower" min="1" max="60" step="1"></td>
+                    <td style="text-align:left">min</td>
                     <td style="text-align: right;padding-right:6px">ALM_NoValveDelay</td>
                     <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_novalvedelay" min="100" max="9000" step="100"></td>
                     <td style="text-align:left">ms</td>
@@ -223,12 +230,21 @@
                     <td style="text-align:right;padding-right:6px">DLY_AutoLogOff</td>
                     <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_autologoff" min="1" max="60" step="1"></td>
                     <td style="text-align:left">min</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td style="text-align: right;padding-right:6px">ALM_WarnTempCPU</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_cpuwarntemp" min="30" max="80" step="1"></td>
+                    <td style="text-align:left">°C</td>
                     <td></td>
                 </tr>
-                <tr style="height:24px"></tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: right;padding-right:6px">ALM_MaxTempCPU</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_cpumaxtemp" min="40" max="100" step="1"></td>
+                    <td style="text-align:left">°C</td>
+                    <td></td>
+                </tr>
+                <tr style="height:0px"></tr>
                 <tr>
                     <td></td>
                     <td></td>
@@ -285,7 +301,7 @@
                 </tr>
                 <tr>
                     <td style="text-align:right;padding-right:6px">WAT_min_time</td>
-                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_watmintime" min="500" max="5000" step="100"></td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_watmintime" min="5" max="60" step="1"></td>
                     <td style="text-align:left">s</td>
                     <td></td>
                     <td></td>
@@ -294,7 +310,7 @@
                 </tr>
                 <tr>
                     <td style="text-align:right;padding-right:6px">WAT_max_vol</td>
-                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_watmaxvol" min="500" max="2500" step="1"></td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_watmaxvol" min="500" max="2550" step="10"></td>
                     <td style="text-align:left">ml</td>
                     <td></td>
                     <td></td>
@@ -303,7 +319,7 @@
                 </tr>
                 <tr>
                     <td style="text-align:right;padding-right:6px">WAT_max_time</td>
-                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_watmaxtime" min="1" max="60" step="1"></td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_watmaxtime" min="10" max="300" step="10"></td>
                     <td style="text-align:left">s</td>
                     <td></td>
                     <td></td>

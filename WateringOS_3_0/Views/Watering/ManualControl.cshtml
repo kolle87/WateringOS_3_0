@@ -234,24 +234,24 @@
         });
 
         $.post("/DataProvision/GetCurrentFlow1", function (result) {
-            document.getElementById('txt_Flow1').textContent = Math.round(result) + "ml";
-            document.getElementById("prog_Flow1").style.width = (Math.round(result) * 100) / 2550 + "%"
+            document.getElementById('txt_Flow1').textContent = Math.round(result) * 10 + "ml";
+            document.getElementById("prog_Flow1").style.width = (Math.round(result) * 1000) / 2550 + "%"
         });
         $.post("/DataProvision/GetCurrentFlow2", function (result) {
-            document.getElementById('txt_Flow2').textContent = Math.round(result) + "ml";
-            document.getElementById("prog_Flow2").style.width = (Math.round(result) * 100) / 2550 + "%"
+            document.getElementById('txt_Flow2').textContent = Math.round(result) * 10 + "ml";
+            document.getElementById("prog_Flow2").style.width = (Math.round(result) * 1000) / 2550 + "%"
         });
         $.post("/DataProvision/GetCurrentFlow3", function (result) {
-            document.getElementById('txt_Flow3').textContent = Math.round(result) + "ml";
-            document.getElementById("prog_Flow3").style.width = (Math.round(result) * 100) / 2550 + "%"
+            document.getElementById('txt_Flow3').textContent = Math.round(result) * 10 + "ml";
+            document.getElementById("prog_Flow3").style.width = (Math.round(result) * 1000) / 2550 + "%"
         });
         $.post("/DataProvision/GetCurrentFlow4", function (result) {
-            document.getElementById('txt_Flow4').textContent = Math.round(result) + "ml";
-            document.getElementById("prog_Flow4").style.width = (Math.round(result) * 100) / 2550 + "%"
+            document.getElementById('txt_Flow4').textContent = Math.round(result) * 10 + "ml";
+            document.getElementById("prog_Flow4").style.width = (Math.round(result) * 1000) / 2550 + "%"
         });
         $.post("/DataProvision/GetCurrentFlow5", function (result) {
-            document.getElementById('txt_Flow5').textContent = Math.round(result) + "ml";
-            document.getElementById("prog_Flow5").style.width = (Math.round(result) * 100) / 2550 + "%"
+            document.getElementById('txt_Flow5').textContent = Math.round(result)*10 + "ml";
+            document.getElementById("prog_Flow5").style.width = (Math.round(result) * 1000) / 2550 + "%"
         });
 
         $.post("/DataProvision/GetCurrentTempCPU", function (result) { document.getElementById('stat_CPU').textContent = result; });

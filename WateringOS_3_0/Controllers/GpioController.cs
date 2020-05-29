@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Device.Gpio;
-using System.Runtime.InteropServices.ComTypes;
 using WateringOS_3_0.Models;
 
 /// GPIO Class for RaspberryPi 3
@@ -63,26 +62,41 @@ namespace WateringOS_3_0
        
         private bool GetPin(byte Pin)
         {
-            if (this.gpio.IsPinOpen(Pin))
+            try
             {
-                return (PinValue.High == this.gpio.Read(Pin));
+                if (this.gpio.IsPinOpen(Pin))
+                {
+                    return (PinValue.High == this.gpio.Read(Pin));
+                }
+                else
+                {
+                    GpioLog(LogType.Error, "GPIO_DO pin not open", "The requested pin action is not available, since the pin is not open. Ensure the controller have been initialized.");
+                    return false;
+                }
             }
-            else
+            catch (Exception e)
             {
-                GpioLog(LogType.Error, "GPIO_DO pin not open", "The requested pin action is not available, since the pin is not open. Ensure the controller have been initialized.");
+                GpioLog(LogType.Error, "Error while reading IO pin status", e.Message);
                 return false;
             }
         }
 
         private void SetPin(byte Pin, bool Active)
         {
-            if (this.gpio.IsPinOpen(Pin))
+            try
             {
-                this.gpio.Write(Pin,(Active==PinValue.High));
+                if (this.gpio.IsPinOpen(Pin))
+                {
+                    this.gpio.Write(Pin, (Active == PinValue.High));
+                }
+                else
+                {
+                    GpioLog(LogType.Error, "GPIO_DI pin not open", "The requested pin action is not available, since the pin is not open. Ensure the controller have been initialized.");
+                }
             }
-            else
+            catch (Exception e)
             {
-                GpioLog(LogType.Error, "GPIO_DI pin not open", "The requested pin action is not available, since the pin is not open. Ensure the controller have been initialized.");
+                GpioLog(LogType.Error, "Error while setting IO pin status", e.Message);
             }
         }
 
