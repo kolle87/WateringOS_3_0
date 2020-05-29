@@ -571,7 +571,7 @@ namespace WateringOS_3_0.Controllers
                 {
                     WatLog(LogType.Status, "Watering Plant 1", "The routine activated watering of plant #1 for " + tmp_Vol1 + "0 ml");
                     Globals.GpioServer.OpenValve1();                                                       // Open Valve #1
-                    var t_wait = Task.Run(async delegate { await Task.Delay(2000); });
+                    var t_wait = Task.Run(async delegate { await Task.Delay(Settings.System.DLY_ValveOpen); });
                     t_wait.Wait();     // wait 2s
                     var t_Water1 = Task.Run(async delegate
                     {
@@ -590,7 +590,7 @@ namespace WateringOS_3_0.Controllers
                     });
                     t_Water1.Wait();                                                                        // Check flow every second and wait for full volume watering
                     WatLog(LogType.Information, "Watering Plant 1 finsihed", "The watering procedure of Plant 1 ended after " + wt1 + "sec and " + Globals.SpiServer.Flow1 + "0 ml");
-                    t_wait = Task.Run(async delegate { await Task.Delay(5000); });
+                    t_wait = Task.Run(async delegate { await Task.Delay(Settings.System.DLY_PumpStop); });
                     t_wait.Wait();                                                                          // wait 5s to depressurize
                     Globals.GpioServer.CloseValve1();                                                      // Close Valve #1
                 }
@@ -598,7 +598,7 @@ namespace WateringOS_3_0.Controllers
                 {
                     WatLog(LogType.Status, "Watering Plant 2", "The routine activated watering of plant #2 for " + tmp_Vol2 + "0 ml");
                     Globals.GpioServer.OpenValve2();                                                       // Open Valve #2
-                    var t_wait = Task.Run(async delegate { await Task.Delay(2000); });
+                    var t_wait = Task.Run(async delegate { await Task.Delay(Settings.System.DLY_ValveOpen); });
                     t_wait.Wait();     // wait 2s
                     var t_Water2 = Task.Run(async delegate
                     {
@@ -617,7 +617,7 @@ namespace WateringOS_3_0.Controllers
                     });
                     t_Water2.Wait();                                             // Check flow every second and wait for full volume watering
                     WatLog(LogType.Information, "Watering Plant 2 finsihed", "The watering procedure of Plant 2 ended after " + wt2 + "sec and " + Globals.SpiServer.Flow2 + "0 ml");
-                    t_wait = Task.Run(async delegate { await Task.Delay(5000); });
+                    t_wait = Task.Run(async delegate { await Task.Delay(Settings.System.DLY_PumpStop); });
                     t_wait.Wait();                                                                  // wait 5s to depressurize
                     Globals.GpioServer.CloseValve2();                                                      // Close Valve #2
                 }
@@ -625,7 +625,7 @@ namespace WateringOS_3_0.Controllers
                 {
                     WatLog(LogType.Status, "Watering Plant 3", "The routine activated watering of plant #3 for " + tmp_Vol3 + "0 ml");
                     Globals.GpioServer.OpenValve3();                                                       // Open Valve #3
-                    var t_wait = Task.Run(async delegate { await Task.Delay(2000); });
+                    var t_wait = Task.Run(async delegate { await Task.Delay(Settings.System.DLY_ValveOpen); });
                     t_wait.Wait();     // wait 2s
                     var t_Water3 = Task.Run(async delegate
                     {
@@ -646,7 +646,7 @@ namespace WateringOS_3_0.Controllers
                     WatLog(LogType.Information, "Watering Plant 3 finsihed", "The watering procedure of Plant 3 ended after " + wt3 + "sec and " + Globals.SpiServer.Flow3 + "0 ml");
                     t_wait = Task.Run(async delegate
                     {
-                        await Task.Delay(5000);
+                        await Task.Delay(Settings.System.DLY_PumpStop);
                     });
                     t_wait.Wait();     // wait 5s to depressurize
                     Globals.GpioServer.CloseValve3();                                                      // Close Valve #3
@@ -655,7 +655,7 @@ namespace WateringOS_3_0.Controllers
                 {
                     WatLog(LogType.Status, "Watering Plant 4", "The routine activated watering of plant #4 " + tmp_Vol4 + "0 ml");
                     Globals.GpioServer.OpenValve4();                                                       // Open Valve #4
-                    var t_wait = Task.Run(async delegate { await Task.Delay(2000); });
+                    var t_wait = Task.Run(async delegate { await Task.Delay(Settings.System.DLY_ValveOpen); });
                     t_wait.Wait();     // wait 2s
                     var t_Water4 = Task.Run(async delegate
                     {
@@ -676,7 +676,7 @@ namespace WateringOS_3_0.Controllers
                     WatLog(LogType.Information, "Watering Plant 4 finsihed", "The watering procedure of Plant 4 ended after " + wt4 + "sec and " + Globals.SpiServer.Flow4 + "0 ml");
                     t_wait = Task.Run(async delegate
                     {
-                        await Task.Delay(5000);
+                        await Task.Delay(Settings.System.DLY_PumpStop);
                     });
                     t_wait.Wait();     // wait 5s to depressurize
                     Globals.GpioServer.CloseValve4();                                                      // Close Valve #4
@@ -685,7 +685,7 @@ namespace WateringOS_3_0.Controllers
                 {
                     WatLog(LogType.Status, "Watering Plant 5", "The routine activated watering of plant #5 " + tmp_Vol5 + "0 ml");
                     Globals.GpioServer.OpenValve5();                                                       // Open Valve #5
-                    var t_wait = Task.Run(async delegate { await Task.Delay(2000); });
+                    var t_wait = Task.Run(async delegate { await Task.Delay(Settings.System.DLY_ValveOpen); });
                     t_wait.Wait();     // wait 2s
                     var t_Water5 = Task.Run(async delegate
                     {
@@ -706,7 +706,7 @@ namespace WateringOS_3_0.Controllers
                     WatLog(LogType.Information, "Watering Plant 5 finsihed", "The watering procedure of Plant 5 ended after" + wt5 + "sec and " + Globals.SpiServer.Flow5 + "0 ml");
                     t_wait = Task.Run(async delegate
                     {
-                        await Task.Delay(5000);
+                        await Task.Delay(Settings.System.DLY_PumpStop);
                     });
                     t_wait.Wait();     // wait 5s to depressurize
                     Globals.GpioServer.CloseValve5();                                                      // Close Valve #5

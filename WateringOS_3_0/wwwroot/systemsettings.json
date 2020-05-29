@@ -23,5 +23,5 @@
   "ALM_WarnTempCPU": 58,
   "ALM_MaxTempCPU": 79,
   "DLY_ValveOpen": 2000,
-  "DLY_PumpStop": 5100
+  "DLY_PumpStop": 5000
 }
