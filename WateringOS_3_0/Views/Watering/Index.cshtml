@@ -188,7 +188,7 @@
             document.getElementById("prog_Tank").style.height = result + "%";
         });
         $.post("/DataProvision/GetCurrentPressure", function (result) {
-            document.getElementById("txt_press").textContent = Math.round(result * 10) / 10 + " bar";
+            document.getElementById("txt_press").textContent = (Math.round(result * 10) / 10).toFixed(1) + " bar";
             document.getElementById("prog_press").style.height = Math.round(result) * 10 + "%";
         });
         $.post("/DataProvision/GetCurrentRain", function (result) {

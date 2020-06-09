@@ -133,6 +133,7 @@ namespace WateringOS_3_0.Controllers
                 {
                     case 1:
                         {
+                            LogLists.WateringLog1.Clear();
                             LogLists.WateringLog1.Add(new cWaterLog
                             {
                                 TimeStamp = DateTime.Now,
@@ -162,7 +163,8 @@ namespace WateringOS_3_0.Controllers
                         }
                     case 2:
                         {
-                            LogLists.WateringLog1.Add(new cWaterLog
+                            LogLists.WateringLog2.Clear();
+                            LogLists.WateringLog2.Add(new cWaterLog
                             {
                                 TimeStamp = DateTime.Now,
                                 Flow1 = LogLists.RecentEntries.Flow1,
@@ -191,7 +193,8 @@ namespace WateringOS_3_0.Controllers
                         }
                     case 3:
                         {
-                            LogLists.WateringLog1.Add(new cWaterLog
+                            LogLists.WateringLog3.Clear();
+                            LogLists.WateringLog3.Add(new cWaterLog
                             {
                                 TimeStamp = DateTime.Now,
                                 Flow1 = LogLists.RecentEntries.Flow1,
