@@ -133,7 +133,6 @@ namespace WateringOS_3_0.Controllers
                 {
                     case 1:
                         {
-                            LogLists.WateringLog1.Clear();
                             LogLists.WateringLog1.Add(new cWaterLog
                             {
                                 TimeStamp = DateTime.Now,
@@ -163,7 +162,6 @@ namespace WateringOS_3_0.Controllers
                         }
                     case 2:
                         {
-                            LogLists.WateringLog2.Clear();
                             LogLists.WateringLog2.Add(new cWaterLog
                             {
                                 TimeStamp = DateTime.Now,
@@ -193,7 +191,6 @@ namespace WateringOS_3_0.Controllers
                         }
                     case 3:
                         {
-                            LogLists.WateringLog3.Clear();
                             LogLists.WateringLog3.Add(new cWaterLog
                             {
                                 TimeStamp = DateTime.Now,
@@ -488,12 +485,21 @@ namespace WateringOS_3_0.Controllers
 
         private static void Watering(bool Out1_active, bool Out2_active, bool Out3_active, bool Out4_active, bool Out5_active)
         {
+            // toggle Watering Record Log
             if (Globals.WateringRecord == 3) { Globals.WateringRecord = 1; } else { Globals.WateringRecord++; }
             Globals.WateringActive = true;
 
+            // clear selected watering log
+            switch (Globals.WateringRecord)
+            {
+                case 1: { LogLists.WateringLog1.Clear(); break; }
+                case 2: { LogLists.WateringLog2.Clear(); break; }
+                case 3: { LogLists.WateringLog3.Clear(); break; }
+                default: Parents.Logger_BackgroundTaskController.LogWarning("Watering Record Log number ou off range (WateringLog" + Globals.WateringRecord + ".Clear();"); break;
+            }
+
             try
             {
-
                 #region Variables
                 byte wt1 = 0;
                 byte wt2 = 0;
