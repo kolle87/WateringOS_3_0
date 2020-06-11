@@ -563,17 +563,17 @@ namespace WateringOS_3_0.Controllers
                 double tmp_Vol4 = Settings.Watering.Volume_4 * (tmp_RAF4 / 100.0) * (tmp_GAF4 / 100.0);
                 double tmp_Vol5 = Settings.Watering.Volume_5 * (tmp_RAF5 / 100.0) * (tmp_GAF5 / 100.0);
 
-                if (tmp_Vol1 > Settings.System.Wat_max_vol) { tmp_Vol1 = Settings.System.Wat_max_vol; WatLog(LogType.Warning, "Max volume reached (1) - " + Settings.System.Wat_max_vol + "0ml applied", "After application of ground and rain factor, the maximum value for the watering volume of output 1 reached. " + Settings.System.Wat_max_vol + "0ml (maximum limit) was set."); }
-                if (tmp_Vol2 > Settings.System.Wat_max_vol) { tmp_Vol2 = Settings.System.Wat_max_vol; WatLog(LogType.Warning, "Max volume reached (2) - " + Settings.System.Wat_max_vol + "0ml applied", "After application of ground and rain factor, the maximum value for the watering volume of output 2 reached. " + Settings.System.Wat_max_vol + "0ml (maximum limit) was set."); }
-                if (tmp_Vol3 > Settings.System.Wat_max_vol) { tmp_Vol3 = Settings.System.Wat_max_vol; WatLog(LogType.Warning, "Max volume reached (3) - " + Settings.System.Wat_max_vol + "0ml applied", "After application of ground and rain factor, the maximum value for the watering volume of output 3 reached. " + Settings.System.Wat_max_vol + "0ml (maximum limit) was set."); }
-                if (tmp_Vol4 > Settings.System.Wat_max_vol) { tmp_Vol4 = Settings.System.Wat_max_vol; WatLog(LogType.Warning, "Max volume reached (4) - " + Settings.System.Wat_max_vol + "0ml applied", "After application of ground and rain factor, the maximum value for the watering volume of output 4 reached. " + Settings.System.Wat_max_vol + "0ml (maximum limit) was set."); }
-                if (tmp_Vol5 > Settings.System.Wat_max_vol) { tmp_Vol5 = Settings.System.Wat_max_vol; WatLog(LogType.Warning, "Max volume reached (5) - " + Settings.System.Wat_max_vol + "0ml applied", "After application of ground and rain factor, the maximum value for the watering volume of output 5 reached. " + Settings.System.Wat_max_vol + "0ml (maximum limit) was set."); }
+                if (tmp_Vol1 > Settings.System.Wat_max_vol) { tmp_Vol1 = Settings.System.Wat_max_vol; WatLog(LogType.Warning, "Max volume reached (1) - " + Settings.System.Wat_max_vol + "ml applied", "After application of ground and rain factor, the maximum value for the watering volume of output 1 reached. " + Settings.System.Wat_max_vol + "ml (maximum limit) was set."); }
+                if (tmp_Vol2 > Settings.System.Wat_max_vol) { tmp_Vol2 = Settings.System.Wat_max_vol; WatLog(LogType.Warning, "Max volume reached (2) - " + Settings.System.Wat_max_vol + "ml applied", "After application of ground and rain factor, the maximum value for the watering volume of output 2 reached. " + Settings.System.Wat_max_vol + "ml (maximum limit) was set."); }
+                if (tmp_Vol3 > Settings.System.Wat_max_vol) { tmp_Vol3 = Settings.System.Wat_max_vol; WatLog(LogType.Warning, "Max volume reached (3) - " + Settings.System.Wat_max_vol + "ml applied", "After application of ground and rain factor, the maximum value for the watering volume of output 3 reached. " + Settings.System.Wat_max_vol + "ml (maximum limit) was set."); }
+                if (tmp_Vol4 > Settings.System.Wat_max_vol) { tmp_Vol4 = Settings.System.Wat_max_vol; WatLog(LogType.Warning, "Max volume reached (4) - " + Settings.System.Wat_max_vol + "ml applied", "After application of ground and rain factor, the maximum value for the watering volume of output 4 reached. " + Settings.System.Wat_max_vol + "ml (maximum limit) was set."); }
+                if (tmp_Vol5 > Settings.System.Wat_max_vol) { tmp_Vol5 = Settings.System.Wat_max_vol; WatLog(LogType.Warning, "Max volume reached (5) - " + Settings.System.Wat_max_vol + "ml applied", "After application of ground and rain factor, the maximum value for the watering volume of output 5 reached. " + Settings.System.Wat_max_vol + "ml (maximum limit) was set."); }
 
-                if (tmp_Vol1 < Settings.System.Wat_min_vol) { tmp_Vol1 = Settings.System.Wat_min_vol; WatLog(LogType.Warning, "Min volume reached (1) - " + Settings.System.Wat_min_vol + "0ml applied", "After application of ground and rain factor, the minimum value for the watering volume of output 1 reached. " + Settings.System.Wat_min_vol + "0ml (minimum limit) was set."); }
-                if (tmp_Vol2 < Settings.System.Wat_min_vol) { tmp_Vol2 = Settings.System.Wat_min_vol; WatLog(LogType.Warning, "Min volume reached (2) - " + Settings.System.Wat_min_vol + "0ml applied", "After application of ground and rain factor, the minimum value for the watering volume of output 2 reached. " + Settings.System.Wat_min_vol + "0ml (minimum limit) was set."); }
-                if (tmp_Vol3 < Settings.System.Wat_min_vol) { tmp_Vol3 = Settings.System.Wat_min_vol; WatLog(LogType.Warning, "Min volume reached (3) - " + Settings.System.Wat_min_vol + "0ml applied", "After application of ground and rain factor, the minimum value for the watering volume of output 3 reached. " + Settings.System.Wat_min_vol + "0ml (minimum limit) was set."); }
-                if (tmp_Vol4 < Settings.System.Wat_min_vol) { tmp_Vol4 = Settings.System.Wat_min_vol; WatLog(LogType.Warning, "Min volume reached (4) - " + Settings.System.Wat_min_vol + "0ml applied", "After application of ground and rain factor, the minimum value for the watering volume of output 4 reached. " + Settings.System.Wat_min_vol + "0ml (minimum limit) was set."); }
-                if (tmp_Vol5 < Settings.System.Wat_min_vol) { tmp_Vol5 = Settings.System.Wat_min_vol; WatLog(LogType.Warning, "Min volume reached (5) - " + Settings.System.Wat_min_vol + "0ml applied", "After application of ground and rain factor, the minimum value for the watering volume of output 5 reached. " + Settings.System.Wat_min_vol + "0ml (minimum limit) was set."); }
+                if (tmp_Vol1 < Settings.System.Wat_min_vol) { tmp_Vol1 = Settings.System.Wat_min_vol; WatLog(LogType.Warning, "Min volume reached (1) - " + Settings.System.Wat_min_vol + "ml applied", "After application of ground and rain factor, the minimum value for the watering volume of output 1 reached. " + Settings.System.Wat_min_vol + "ml (minimum limit) was set."); }
+                if (tmp_Vol2 < Settings.System.Wat_min_vol) { tmp_Vol2 = Settings.System.Wat_min_vol; WatLog(LogType.Warning, "Min volume reached (2) - " + Settings.System.Wat_min_vol + "ml applied", "After application of ground and rain factor, the minimum value for the watering volume of output 2 reached. " + Settings.System.Wat_min_vol + "ml (minimum limit) was set."); }
+                if (tmp_Vol3 < Settings.System.Wat_min_vol) { tmp_Vol3 = Settings.System.Wat_min_vol; WatLog(LogType.Warning, "Min volume reached (3) - " + Settings.System.Wat_min_vol + "ml applied", "After application of ground and rain factor, the minimum value for the watering volume of output 3 reached. " + Settings.System.Wat_min_vol + "ml (minimum limit) was set."); }
+                if (tmp_Vol4 < Settings.System.Wat_min_vol) { tmp_Vol4 = Settings.System.Wat_min_vol; WatLog(LogType.Warning, "Min volume reached (4) - " + Settings.System.Wat_min_vol + "ml applied", "After application of ground and rain factor, the minimum value for the watering volume of output 4 reached. " + Settings.System.Wat_min_vol + "ml (minimum limit) was set."); }
+                if (tmp_Vol5 < Settings.System.Wat_min_vol) { tmp_Vol5 = Settings.System.Wat_min_vol; WatLog(LogType.Warning, "Min volume reached (5) - " + Settings.System.Wat_min_vol + "ml applied", "After application of ground and rain factor, the minimum value for the watering volume of output 5 reached. " + Settings.System.Wat_min_vol + "ml (minimum limit) was set."); }
 
                 #endregion Factors
                 if (Out1_active)
@@ -585,7 +585,7 @@ namespace WateringOS_3_0.Controllers
                     var t_Water1 = Task.Run(async delegate
                     {
                         Globals.GpioServer.StartPump();                                                   // Start Pump
-                        while (Globals.SpiServer.Flow1 < tmp_Vol1)
+                        while ((Globals.SpiServer.Flow1*10) < tmp_Vol1)
                         {
                             await Task.Delay(1000);
                             wt1++;
@@ -612,7 +612,7 @@ namespace WateringOS_3_0.Controllers
                     var t_Water2 = Task.Run(async delegate
                     {
                         Globals.GpioServer.StartPump();                                                   // Start Pump
-                        while (Globals.SpiServer.Flow2 < tmp_Vol2)
+                        while ((Globals.SpiServer.Flow2*10) < tmp_Vol2)
                         {
                             await Task.Delay(1000);
                             wt2++;
@@ -639,7 +639,7 @@ namespace WateringOS_3_0.Controllers
                     var t_Water3 = Task.Run(async delegate
                     {
                         Globals.GpioServer.StartPump();                                                   // Start Pump
-                        while (Globals.SpiServer.Flow3 < tmp_Vol3)
+                        while ((Globals.SpiServer.Flow3*10) < tmp_Vol3)
                         {
                             await Task.Delay(1000);
                             wt3++;
@@ -669,7 +669,7 @@ namespace WateringOS_3_0.Controllers
                     var t_Water4 = Task.Run(async delegate
                     {
                         Globals.GpioServer.StartPump();                                                   // Start Pump
-                        while (Globals.SpiServer.Flow4 < tmp_Vol4)
+                        while ((Globals.SpiServer.Flow4*10) < tmp_Vol4)
                         {
                             await Task.Delay(1000);
                             wt4++;
@@ -699,7 +699,7 @@ namespace WateringOS_3_0.Controllers
                     var t_Water5 = Task.Run(async delegate
                     {
                         Globals.GpioServer.StartPump();                                                   // Start Pump
-                        while (Globals.SpiServer.Flow5 < tmp_Vol5)
+                        while ((Globals.SpiServer.Flow5*10) < tmp_Vol5)
                         {
                             await Task.Delay(1000);
                             wt5++;
