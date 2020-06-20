@@ -15,6 +15,7 @@ namespace WateringOS_3_0
     {
         public static void Main(string[] args)
         {
+            Globals.ServerStart = DateTime.Now;
             StringBuilder sb = new StringBuilder();
             string strHostName = Dns.GetHostName();
             IPHostEntry ipHostEntry = Dns.GetHostEntry(strHostName);

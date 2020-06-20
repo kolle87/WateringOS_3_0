@@ -16,6 +16,14 @@
     <!-- ------------ -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <style type="text/css">
+        .footer {
+            line-height: 0px;
+        }
+        .container{
+            max-width: unset;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -66,14 +74,36 @@
         </main>
     </div>
 
-    <footer class="border-top footer fixed-bottom text-muted">
-        <div class="container">
-            &copy; 2019 - Michael Kollmeyer - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
+    <footer class="footer fixed-bottom text-muted">
+            <div class="container">
+                <table width=100%>
+                    <tbody>
+                        <tr height="32px">
+                            <td height="32px">&copy; 2020 - Michael Kollmeyer - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></td>
+                            <td height="32px" style="text-align: right;">Version:</td>
+                            <td height="32px" width=120px style="padding-left:10px"><span class="text" style="text-align: right;" id="txt_Version">---</span></td>
+                        </tr>
+                        <tr height="24px" style="vertical-align:top">
+                            <td height="24px"></td>
+                            <td height="24px" style="text-align: right;">Uptime:</td>
+                            <td height="24px" width=120px><span class="text" style="padding-left:10px; text-align: right;" id="txt_Uptime">--:--:--</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        $(document).ready(function () {
+            $('#txt_Version').load('/DataProvision/GetSoftwareVersion');
+            $('#txt_Uptime').load('/DataProvision/GetServerUptime');
+        });
+        setInterval(function () {
+            $('#txt_Uptime').load('/DataProvision/GetServerUptime');
+        }, 1000);
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

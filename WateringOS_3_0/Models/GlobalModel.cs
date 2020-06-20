@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Timers;
 
 namespace WateringOS_3_0.Models
@@ -31,6 +32,7 @@ namespace WateringOS_3_0.Models
     public static class Globals
     {
         public static readonly  bool            AppInDebug       = false;
+        public static readonly  string          Version          = "v3.1-beta-0620";
         public static readonly  Timer           FastTask         = new Timer(200);
         public static readonly  Timer           MainTask         = new Timer(1000);
         public static readonly  Timer           SaveTask         = new Timer(1200000);
@@ -42,6 +44,7 @@ namespace WateringOS_3_0.Models
         public static readonly  SQLController   SqlServer        = new SQLController();
         public static readonly  SPIController   SpiServer        = new SPIController();
         public static           bool            IsInitialized    = false;
+        public static           DateTime        ServerStart;
         public static           int             vTest            = 0;
         public static           byte            WateringRecord   = 0;
         public static           bool            WateringActive   = false;

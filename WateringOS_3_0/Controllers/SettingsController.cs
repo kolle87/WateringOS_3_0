@@ -18,13 +18,13 @@ namespace WateringOS_3_0.Controllers
                 Settings.System     = JsonConvert.DeserializeObject<cSystemSettings>(System.IO.File.ReadAllText(@"wwwroot/systemsettings.json"));
                 Settings.Watering   = JsonConvert.DeserializeObject<cWateringSettings>(System.IO.File.ReadAllText(@"wwwroot/wateringsettings.json"));
                 Console.WriteLine($"SettingsController: ReadFromFile() OK");
-                BackgroundTaskController.AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "SettingsController", LogType.Information, "ReadFromFile() OK", "Settings have been loaded from the *.json file");
+                BackgroundTaskController.AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "[APP] SettingsController", LogType.Information, "ReadFromFile() OK", "Settings have been loaded from the *.json file");
                 return true;
             }
             catch (Exception e)
             {
                 Console.WriteLine($"SettingsController: ReadFromFile() " + e.Message);
-                BackgroundTaskController.AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "SettingsController", LogType.Error, "ReadFromFile() Fail", e.Message);
+                BackgroundTaskController.AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "[APP] SettingsController", LogType.Error, "ReadFromFile() Fail", e.Message);
                 return false;
             }
             
@@ -36,13 +36,13 @@ namespace WateringOS_3_0.Controllers
                 System.IO.File.WriteAllText(@"wwwroot/systemsettings.json",   JsonConvert.SerializeObject(Settings.System));
                 System.IO.File.WriteAllText(@"wwwroot/wateringsettings.json", JsonConvert.SerializeObject(Settings.Watering));
                 Console.WriteLine($"SettingsController: WriteToFile() OK");
-                BackgroundTaskController.AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "SettingsController", LogType.Information, "WriteToFile() OK", "Settings have been written to the *.json file");
+                BackgroundTaskController.AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "[APP] SettingsController", LogType.Information, "WriteToFile() OK", "Settings have been written to the *.json file");
                 return true;
             }
             catch (Exception e)
             {
                 Console.WriteLine($"SettingsController: WriteToFile() " + e.Message);
-                BackgroundTaskController.AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "SettingsController", LogType.Error, "WriteToFile() Fail", e.Message);
+                BackgroundTaskController.AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "[APP] SettingsController", LogType.Error, "WriteToFile() Fail", e.Message);
                 return false;
             }
 
@@ -54,13 +54,13 @@ namespace WateringOS_3_0.Controllers
                 Settings.System = JsonConvert.DeserializeObject<cSystemSettings>(System.IO.File.ReadAllText(@"wwwroot/systemsettings.json"));
                 Settings.Watering = JsonConvert.DeserializeObject<cWateringSettings>(System.IO.File.ReadAllText(@"wwwroot/wateringsettings.json"));
                 Console.WriteLine($"SettingsController: ReadFromFileStatic() OK");
-                BackgroundTaskController.AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "SettingsController", LogType.Information, "ReadFromFileStatic() OK", "Settings have been loaded by static read of the *.json file");
+                BackgroundTaskController.AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "[APP] SettingsController", LogType.Information, "ReadFromFileStatic() OK", "Settings have been loaded by static read of the *.json file");
                 return true;
             }
             catch (Exception e)
             {
                 Console.WriteLine($"SettingsController: ReadFromFileStatic() " + e.Message);
-                BackgroundTaskController.AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "SettingsController", LogType.Error, "ReadFromFileStatic() Fail", e.Message);
+                BackgroundTaskController.AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "[APP] SettingsController", LogType.Error, "ReadFromFileStatic() Fail", e.Message);
                 return false;
             }
 

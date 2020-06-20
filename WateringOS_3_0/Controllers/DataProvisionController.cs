@@ -14,6 +14,8 @@ namespace WateringOS_3_0.Controllers
         private bool SIM_MODE = false;
 
         Random rdm = new Random();
+        public string GetServerUptime()    { TimeSpan diffTime = DateTime.Now.Subtract(Globals.ServerStart); return String.Format("{0}d {1:D2}:{2:D2}:{3:D2}", diffTime.Days, diffTime.Hours, diffTime.Minutes, diffTime.Seconds); }
+        public string GetSoftwareVersion() { return Globals.Version; }
         public string GetLastTimestamp()   { if (!SIM_MODE) { return LogLists.RecentEntries.TimeStamp.ToString("dd/MMM/yyyy HH:mm:ss.fff"); } else  { return DateTime.Now.ToString("dd/MMM/yyyy HH:mm:ss.fff"); } }
         public bool   CurrentStatePump()   { if (!SIM_MODE) { return LogLists.RecentEntries.Pump; }           else { return true; } }
         public bool   CurrentStateValve1() { if (!SIM_MODE) { return LogLists.RecentEntries.Valve1; }         else { return false; } }
