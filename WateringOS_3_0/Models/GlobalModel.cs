@@ -32,7 +32,7 @@ namespace WateringOS_3_0.Models
     public static class Globals
     {
         public static readonly  bool            AppInDebug       = false;
-        public static readonly  string          Version          = "v3.1-beta-0620";
+        public static readonly  string          Version          = "v3.1-beta-0624";
         public static readonly  Timer           FastTask         = new Timer(200);
         public static readonly  Timer           MainTask         = new Timer(1000);
         public static readonly  Timer           SaveTask         = new Timer(1200000);
