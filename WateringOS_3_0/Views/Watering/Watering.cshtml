@@ -12,7 +12,7 @@
     <table class="grid" width="100%">
         <tbody>
             <tr>
-                <td style="width:130px"><h5>Watering</h5></td>
+                <td style="width:130px"><h5>Watering on <span class="text" id="txt_Date"></span></h5></td>
                 <td></td>
                 <td style="width:80px"><button style="width:72px" onclick="Show3()" id="btn_24H" class="btn btn-outline-primary btn-sm btn-block" default><<</button></td>
                 <td style="width:80px"><button style="width:72px" onclick="Show2()" id="btn_1WK" class="btn btn-outline-primary btn-sm btn-block" default><</button></td>
@@ -372,6 +372,7 @@
 			url: '@Url.Action("GetWatering1", "DataProvision")',
             success: function (result) {
                 $.each(result, function (i, v) {
+                        if (i == 0) { document.getElementById("txt_Date").textContent = v.TimeStamp; }
                         ValveChart.data.datasets[0].data.push({
                             x: moment(v.TimeStamp),
                             y: v.Pump
@@ -436,6 +437,7 @@
 			url: '@Url.Action("GetWatering2", "DataProvision")',
             success: function (result) {
                 $.each(result, function (i, v) {
+                        if (i == 0) { document.getElementById("txt_Date").textContent = v.TimeStamp; }
                         ValveChart.data.datasets[0].data.push({
                             x: moment(v.TimeStamp),
                             y: v.Pump
@@ -500,6 +502,7 @@
 			url: '@Url.Action("GetWatering3", "DataProvision")',
             success: function (result) {
                 $.each(result, function (i, v) {
+                        if (i == 0) { document.getElementById("txt_Date").textContent = v.TimeStamp; }
                         ValveChart.data.datasets[0].data.push({
                             x: moment(v.TimeStamp),
                             y: v.Pump

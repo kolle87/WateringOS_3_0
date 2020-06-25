@@ -85,7 +85,7 @@ namespace WateringOS_3_0.Controllers
             }
 
             // Log Level if smaller than before or 5% bigger
-            if ((Globals.SpiServer.Level < LogLists.RecentEntries.Tank)||(Globals.SpiServer.Level > LogLists.RecentEntries.Tank+5))
+            if ((Globals.SpiServer.Level < LogLists.RecentEntries.Tank)||(Globals.SpiServer.Level > LogLists.RecentEntries.Tank+12))
             {
                 try
                 {
@@ -231,7 +231,7 @@ namespace WateringOS_3_0.Controllers
             LogLists.RecentEntries.Flow3  = Globals.SpiServer.Flow3 * 10;
             LogLists.RecentEntries.Flow4  = Globals.SpiServer.Flow4 * 10;
             LogLists.RecentEntries.Flow5  = Globals.SpiServer.Flow5 * 10;
-            if ((Globals.SpiServer.Level < LogLists.RecentEntries.Tank) || (Globals.SpiServer.Level > LogLists.RecentEntries.Tank + 5))
+            if ((Globals.SpiServer.Level < LogLists.RecentEntries.Tank) || (Globals.SpiServer.Level > LogLists.RecentEntries.Tank + 12))
                 { LogLists.RecentEntries.Tank = Globals.SpiServer.Level; }
             LogLists.RecentEntries.Rain     = vRain;
             LogLists.RecentEntries.Ground   = vGround;
