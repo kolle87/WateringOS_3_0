@@ -84,8 +84,8 @@ namespace WateringOS_3_0.Controllers
                 } finally { Globals.EnvLogger.Start(); }
             }
 
-            // Log Level if smaller than before
-            if (Globals.SpiServer.Level < LogLists.RecentEntries.Tank)
+            // Log Level if smaller than before or 5% bigger
+            if ((Globals.SpiServer.Level < LogLists.RecentEntries.Tank)||(Globals.SpiServer.Level > LogLists.RecentEntries.Tank+5))
             {
                 try
                 {
@@ -231,7 +231,7 @@ namespace WateringOS_3_0.Controllers
             LogLists.RecentEntries.Flow3  = Globals.SpiServer.Flow3 * 10;
             LogLists.RecentEntries.Flow4  = Globals.SpiServer.Flow4 * 10;
             LogLists.RecentEntries.Flow5  = Globals.SpiServer.Flow5 * 10;
-            if (Globals.SpiServer.Level < LogLists.RecentEntries.Tank)
+            if ((Globals.SpiServer.Level < LogLists.RecentEntries.Tank) || (Globals.SpiServer.Level > LogLists.RecentEntries.Tank + 5))
                 { LogLists.RecentEntries.Tank = Globals.SpiServer.Level; }
             LogLists.RecentEntries.Rain     = vRain;
             LogLists.RecentEntries.Ground   = vGround;
@@ -286,201 +286,204 @@ namespace WateringOS_3_0.Controllers
             }
 
             // Main task for watering
-            #region Morning
-            if ((DateTime.Now.DayOfWeek == DayOfWeek.Monday) && (DateTime.Now.Hour == Settings.Watering.TimeMorning) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
+            if (!Globals.WateringActive)
             {
-                //WatLog(LogType.Status, "Trigger Monday morning", "The routine on Monday morning for watering of plants was triggered.");
-                Watering((Settings.Watering.Plant_1_Mon && Settings.Watering.Morning_1),
-                         (Settings.Watering.Plant_2_Mon && Settings.Watering.Morning_2),
-                         (Settings.Watering.Plant_3_Mon && Settings.Watering.Morning_3),
-                         (Settings.Watering.Plant_4_Mon && Settings.Watering.Morning_4),
-                         (Settings.Watering.Plant_5_Mon && Settings.Watering.Morning_5), String.Format("{0}",DateTime.Now.DayOfWeek), "Morning");
+                #region Morning
+                if ((DateTime.Now.DayOfWeek == DayOfWeek.Monday) && (DateTime.Now.Hour == Settings.Watering.TimeMorning) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
+                {
+                    //WatLog(LogType.Status, "Trigger Monday morning", "The routine on Monday morning for watering of plants was triggered.");
+                    Watering((Settings.Watering.Plant_1_Mon && Settings.Watering.Morning_1),
+                             (Settings.Watering.Plant_2_Mon && Settings.Watering.Morning_2),
+                             (Settings.Watering.Plant_3_Mon && Settings.Watering.Morning_3),
+                             (Settings.Watering.Plant_4_Mon && Settings.Watering.Morning_4),
+                             (Settings.Watering.Plant_5_Mon && Settings.Watering.Morning_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Morning");
+                }
+                if ((DateTime.Now.DayOfWeek == DayOfWeek.Tuesday) && (DateTime.Now.Hour == Settings.Watering.TimeMorning) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
+                {
+                    //WatLog(LogType.Status, "Trigger Tuesday morning", "The routine on Tuesday morning for watering of plants was triggered.");
+                    Watering((Settings.Watering.Plant_1_Tue && Settings.Watering.Morning_1),
+                             (Settings.Watering.Plant_2_Tue && Settings.Watering.Morning_2),
+                             (Settings.Watering.Plant_3_Tue && Settings.Watering.Morning_3),
+                             (Settings.Watering.Plant_4_Tue && Settings.Watering.Morning_4),
+                             (Settings.Watering.Plant_5_Tue && Settings.Watering.Morning_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Morning");
+                }
+                if ((DateTime.Now.DayOfWeek == DayOfWeek.Wednesday) && (DateTime.Now.Hour == Settings.Watering.TimeMorning) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
+                {
+                    //WatLog(LogType.Status, "Trigger Wednesday morning", "The routine on Wednesday morning for watering of plants was triggered.");
+                    Watering((Settings.Watering.Plant_1_Wed && Settings.Watering.Morning_1),
+                             (Settings.Watering.Plant_2_Wed && Settings.Watering.Morning_2),
+                             (Settings.Watering.Plant_3_Wed && Settings.Watering.Morning_3),
+                             (Settings.Watering.Plant_4_Wed && Settings.Watering.Morning_4),
+                             (Settings.Watering.Plant_5_Wed && Settings.Watering.Morning_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Morning");
+                }
+                if ((DateTime.Now.DayOfWeek == DayOfWeek.Thursday) && (DateTime.Now.Hour == Settings.Watering.TimeMorning) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
+                {
+                    //WatLog(LogType.Status, "Trigger Thursday morning", "The routine on Thursday morning for watering of plants was triggered.");
+                    Watering((Settings.Watering.Plant_1_Thu && Settings.Watering.Morning_1),
+                             (Settings.Watering.Plant_2_Thu && Settings.Watering.Morning_2),
+                             (Settings.Watering.Plant_3_Thu && Settings.Watering.Morning_3),
+                             (Settings.Watering.Plant_4_Thu && Settings.Watering.Morning_4),
+                             (Settings.Watering.Plant_5_Thu && Settings.Watering.Morning_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Morning");
+                }
+                if ((DateTime.Now.DayOfWeek == DayOfWeek.Friday) && (DateTime.Now.Hour == Settings.Watering.TimeMorning) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
+                {
+                    //WatLog(LogType.Status, "Trigger Friday morning", "The routine on Friday morning for watering of plants was triggered.");
+                    Watering((Settings.Watering.Plant_1_Fri && Settings.Watering.Morning_1),
+                             (Settings.Watering.Plant_2_Fri && Settings.Watering.Morning_2),
+                             (Settings.Watering.Plant_3_Fri && Settings.Watering.Morning_3),
+                             (Settings.Watering.Plant_4_Fri && Settings.Watering.Morning_4),
+                             (Settings.Watering.Plant_5_Fri && Settings.Watering.Morning_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Morning");
+                }
+                if ((DateTime.Now.DayOfWeek == DayOfWeek.Saturday) && (DateTime.Now.Hour == Settings.Watering.TimeMorning) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
+                {
+                    //WatLog(LogType.Status, "Trigger Saturday morning", "The routine on Saturday morning for watering of plants was triggered.");
+                    Watering((Settings.Watering.Plant_1_Sat && Settings.Watering.Morning_1),
+                             (Settings.Watering.Plant_2_Sat && Settings.Watering.Morning_2),
+                             (Settings.Watering.Plant_3_Sat && Settings.Watering.Morning_3),
+                             (Settings.Watering.Plant_4_Sat && Settings.Watering.Morning_4),
+                             (Settings.Watering.Plant_5_Sat && Settings.Watering.Morning_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Morning");
+                }
+                if ((DateTime.Now.DayOfWeek == DayOfWeek.Sunday) && (DateTime.Now.Hour == Settings.Watering.TimeMorning) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
+                {
+                    //WatLog(LogType.Status, "Trigger Sunday morning", "The routine on Sunday morning for watering of plants was triggered.");
+                    Watering((Settings.Watering.Plant_1_Sun && Settings.Watering.Morning_1),
+                             (Settings.Watering.Plant_2_Sun && Settings.Watering.Morning_2),
+                             (Settings.Watering.Plant_3_Sun && Settings.Watering.Morning_3),
+                             (Settings.Watering.Plant_4_Sun && Settings.Watering.Morning_4),
+                             (Settings.Watering.Plant_5_Sun && Settings.Watering.Morning_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Morning");
+                }
+                #endregion Morning
+                #region Noon
+                if ((DateTime.Now.DayOfWeek == DayOfWeek.Monday) && (DateTime.Now.Hour == Settings.Watering.TimeNoon) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
+                {
+                    //WatLog(LogType.Status, "Trigger Monday noon", "The routine on Monday noon for watering of plants was triggered.");
+                    Watering((Settings.Watering.Plant_1_Mon && Settings.Watering.Noon_1),
+                             (Settings.Watering.Plant_2_Mon && Settings.Watering.Noon_2),
+                             (Settings.Watering.Plant_3_Mon && Settings.Watering.Noon_3),
+                             (Settings.Watering.Plant_4_Mon && Settings.Watering.Noon_4),
+                             (Settings.Watering.Plant_5_Mon && Settings.Watering.Noon_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Noon");
+                }
+                if ((DateTime.Now.DayOfWeek == DayOfWeek.Tuesday) && (DateTime.Now.Hour == Settings.Watering.TimeNoon) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
+                {
+                    //WatLog(LogType.Status, "Trigger Tuesday noon", "The routine on Tuesday noon for watering of plants was triggered.");
+                    Watering((Settings.Watering.Plant_1_Tue && Settings.Watering.Noon_1),
+                             (Settings.Watering.Plant_2_Tue && Settings.Watering.Noon_2),
+                             (Settings.Watering.Plant_3_Tue && Settings.Watering.Noon_3),
+                             (Settings.Watering.Plant_4_Tue && Settings.Watering.Noon_4),
+                             (Settings.Watering.Plant_5_Tue && Settings.Watering.Noon_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Noon");
+                }
+                if ((DateTime.Now.DayOfWeek == DayOfWeek.Wednesday) && (DateTime.Now.Hour == Settings.Watering.TimeNoon) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
+                {
+                    //WatLog(LogType.Status, "Trigger Wednesday noon", "The routine on Wednesday noon for watering of plants was triggered.");
+                    Watering((Settings.Watering.Plant_1_Wed && Settings.Watering.Noon_1),
+                             (Settings.Watering.Plant_2_Wed && Settings.Watering.Noon_2),
+                             (Settings.Watering.Plant_3_Wed && Settings.Watering.Noon_3),
+                             (Settings.Watering.Plant_4_Wed && Settings.Watering.Noon_4),
+                             (Settings.Watering.Plant_5_Wed && Settings.Watering.Noon_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Noon");
+                }
+                if ((DateTime.Now.DayOfWeek == DayOfWeek.Thursday) && (DateTime.Now.Hour == Settings.Watering.TimeNoon) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
+                {
+                    //WatLog(LogType.Status, "Trigger Thursday noon", "The routine on Thursday noon for watering of plants was triggered.");
+                    Watering((Settings.Watering.Plant_1_Thu && Settings.Watering.Noon_1),
+                             (Settings.Watering.Plant_2_Thu && Settings.Watering.Noon_2),
+                             (Settings.Watering.Plant_3_Thu && Settings.Watering.Noon_3),
+                             (Settings.Watering.Plant_4_Thu && Settings.Watering.Noon_4),
+                             (Settings.Watering.Plant_5_Thu && Settings.Watering.Noon_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Noon");
+                }
+                if ((DateTime.Now.DayOfWeek == DayOfWeek.Friday) && (DateTime.Now.Hour == Settings.Watering.TimeNoon) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
+                {
+                    //WatLog(LogType.Status, "Trigger Friday noon", "The routine on Friday noon for watering of plants was triggered.");
+                    Watering((Settings.Watering.Plant_1_Fri && Settings.Watering.Noon_1),
+                             (Settings.Watering.Plant_2_Fri && Settings.Watering.Noon_2),
+                             (Settings.Watering.Plant_3_Fri && Settings.Watering.Noon_3),
+                             (Settings.Watering.Plant_4_Fri && Settings.Watering.Noon_4),
+                             (Settings.Watering.Plant_5_Fri && Settings.Watering.Noon_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Noon");
+                }
+                if ((DateTime.Now.DayOfWeek == DayOfWeek.Saturday) && (DateTime.Now.Hour == Settings.Watering.TimeNoon) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
+                {
+                    //WatLog(LogType.Status, "Trigger Saturday noon", "The routine on Saturday noon for watering of plants was triggered.");
+                    Watering((Settings.Watering.Plant_1_Sat && Settings.Watering.Noon_1),
+                             (Settings.Watering.Plant_2_Sat && Settings.Watering.Noon_2),
+                             (Settings.Watering.Plant_3_Sat && Settings.Watering.Noon_3),
+                             (Settings.Watering.Plant_4_Sat && Settings.Watering.Noon_4),
+                             (Settings.Watering.Plant_5_Sat && Settings.Watering.Noon_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Noon");
+                }
+                if ((DateTime.Now.DayOfWeek == DayOfWeek.Sunday) && (DateTime.Now.Hour == Settings.Watering.TimeNoon) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
+                {
+                    //WatLog(LogType.Status, "Trigger Sunday noon", "The routine on Sunday noon for watering of plants was triggered.");
+                    Watering((Settings.Watering.Plant_1_Sun && Settings.Watering.Noon_1),
+                             (Settings.Watering.Plant_2_Sun && Settings.Watering.Noon_2),
+                             (Settings.Watering.Plant_3_Sun && Settings.Watering.Noon_3),
+                             (Settings.Watering.Plant_4_Sun && Settings.Watering.Noon_4),
+                             (Settings.Watering.Plant_5_Sun && Settings.Watering.Noon_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Noon");
+                }
+                #endregion Noon
+                #region Evening
+                if ((DateTime.Now.DayOfWeek == DayOfWeek.Monday) && (DateTime.Now.Hour == Settings.Watering.TimeEvening) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
+                {
+                    //WatLog(LogType.Status, "Trigger Monday evening", "The routine on Monday evening for watering of plants was triggered.");
+                    Watering((Settings.Watering.Plant_1_Mon && Settings.Watering.Evening_1),
+                             (Settings.Watering.Plant_2_Mon && Settings.Watering.Evening_2),
+                             (Settings.Watering.Plant_3_Mon && Settings.Watering.Evening_3),
+                             (Settings.Watering.Plant_4_Mon && Settings.Watering.Evening_4),
+                             (Settings.Watering.Plant_5_Mon && Settings.Watering.Evening_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Evening");
+                }
+                if ((DateTime.Now.DayOfWeek == DayOfWeek.Tuesday) && (DateTime.Now.Hour == Settings.Watering.TimeEvening) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
+                {
+                    //WatLog(LogType.Status, "Trigger Tuesday evening", "The routine on Tuesday evening for watering of plants was triggered.");
+                    Watering((Settings.Watering.Plant_1_Tue && Settings.Watering.Evening_1),
+                             (Settings.Watering.Plant_2_Tue && Settings.Watering.Evening_2),
+                             (Settings.Watering.Plant_3_Tue && Settings.Watering.Evening_3),
+                             (Settings.Watering.Plant_4_Tue && Settings.Watering.Evening_4),
+                             (Settings.Watering.Plant_5_Tue && Settings.Watering.Evening_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Evening");
+                }
+                if ((DateTime.Now.DayOfWeek == DayOfWeek.Wednesday) && (DateTime.Now.Hour == Settings.Watering.TimeEvening) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
+                {
+                    //WatLog(LogType.Status, "Trigger Wednesday evening", "The routine on Wednesday evening for watering of plants was triggered.");
+                    Watering((Settings.Watering.Plant_1_Wed && Settings.Watering.Evening_1),
+                             (Settings.Watering.Plant_2_Wed && Settings.Watering.Evening_2),
+                             (Settings.Watering.Plant_3_Wed && Settings.Watering.Evening_3),
+                             (Settings.Watering.Plant_4_Wed && Settings.Watering.Evening_4),
+                             (Settings.Watering.Plant_5_Wed && Settings.Watering.Evening_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Evening");
+                }
+                if ((DateTime.Now.DayOfWeek == DayOfWeek.Thursday) && (DateTime.Now.Hour == Settings.Watering.TimeEvening) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
+                {
+                    //WatLog(LogType.Status, "Trigger Thursday evening", "The routine on Thursday evening for watering of plants was triggered.");
+                    Watering((Settings.Watering.Plant_1_Thu && Settings.Watering.Evening_1),
+                             (Settings.Watering.Plant_2_Thu && Settings.Watering.Evening_2),
+                             (Settings.Watering.Plant_3_Thu && Settings.Watering.Evening_3),
+                             (Settings.Watering.Plant_4_Thu && Settings.Watering.Evening_4),
+                             (Settings.Watering.Plant_5_Thu && Settings.Watering.Evening_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Evening");
+                }
+                if ((DateTime.Now.DayOfWeek == DayOfWeek.Friday) && (DateTime.Now.Hour == Settings.Watering.TimeEvening) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
+                {
+                    //WatLog(LogType.Status, "Trigger Friday evening", "The routine on Friday evening for watering of plants was triggered.");
+                    Watering((Settings.Watering.Plant_1_Fri && Settings.Watering.Evening_1),
+                             (Settings.Watering.Plant_2_Fri && Settings.Watering.Evening_2),
+                             (Settings.Watering.Plant_3_Fri && Settings.Watering.Evening_3),
+                             (Settings.Watering.Plant_4_Fri && Settings.Watering.Evening_4),
+                             (Settings.Watering.Plant_5_Fri && Settings.Watering.Evening_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Evening");
+                }
+                if ((DateTime.Now.DayOfWeek == DayOfWeek.Saturday) && (DateTime.Now.Hour == Settings.Watering.TimeEvening) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
+                {
+                    //WatLog(LogType.Status, "Trigger Saturday evening", "The routine on Saturday evening for watering of plants was triggered.");
+                    Watering((Settings.Watering.Plant_1_Sat && Settings.Watering.Evening_1),
+                             (Settings.Watering.Plant_2_Sat && Settings.Watering.Evening_2),
+                             (Settings.Watering.Plant_3_Sat && Settings.Watering.Evening_3),
+                             (Settings.Watering.Plant_4_Sat && Settings.Watering.Evening_4),
+                             (Settings.Watering.Plant_5_Sat && Settings.Watering.Evening_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Evening");
+                }
+                if ((DateTime.Now.DayOfWeek == DayOfWeek.Sunday) && (DateTime.Now.Hour == Settings.Watering.TimeEvening) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
+                {
+                    //WatLog(LogType.Status, "Trigger Sunday evening", "The routine on Sunday evening for watering of plants was triggered.");
+                    Watering((Settings.Watering.Plant_1_Sun && Settings.Watering.Evening_1),
+                             (Settings.Watering.Plant_2_Sun && Settings.Watering.Evening_2),
+                             (Settings.Watering.Plant_3_Sun && Settings.Watering.Evening_3),
+                             (Settings.Watering.Plant_4_Sun && Settings.Watering.Evening_4),
+                             (Settings.Watering.Plant_5_Sun && Settings.Watering.Evening_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Evening");
+                }
+                #endregion Evening
             }
-            if ((DateTime.Now.DayOfWeek == DayOfWeek.Tuesday) && (DateTime.Now.Hour == Settings.Watering.TimeMorning) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
-            {
-                //WatLog(LogType.Status, "Trigger Tuesday morning", "The routine on Tuesday morning for watering of plants was triggered.");
-                Watering((Settings.Watering.Plant_1_Tue && Settings.Watering.Morning_1),
-                         (Settings.Watering.Plant_2_Tue && Settings.Watering.Morning_2),
-                         (Settings.Watering.Plant_3_Tue && Settings.Watering.Morning_3),
-                         (Settings.Watering.Plant_4_Tue && Settings.Watering.Morning_4),
-                         (Settings.Watering.Plant_5_Tue && Settings.Watering.Morning_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Morning");
-            }
-            if ((DateTime.Now.DayOfWeek == DayOfWeek.Wednesday) && (DateTime.Now.Hour == Settings.Watering.TimeMorning) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
-            {
-                //WatLog(LogType.Status, "Trigger Wednesday morning", "The routine on Wednesday morning for watering of plants was triggered.");
-                Watering((Settings.Watering.Plant_1_Wed && Settings.Watering.Morning_1),
-                         (Settings.Watering.Plant_2_Wed && Settings.Watering.Morning_2),
-                         (Settings.Watering.Plant_3_Wed && Settings.Watering.Morning_3),
-                         (Settings.Watering.Plant_4_Wed && Settings.Watering.Morning_4),
-                         (Settings.Watering.Plant_5_Wed && Settings.Watering.Morning_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Morning");
-            }
-            if ((DateTime.Now.DayOfWeek == DayOfWeek.Thursday) && (DateTime.Now.Hour == Settings.Watering.TimeMorning) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
-            {
-                //WatLog(LogType.Status, "Trigger Thursday morning", "The routine on Thursday morning for watering of plants was triggered.");
-                Watering((Settings.Watering.Plant_1_Thu && Settings.Watering.Morning_1),
-                         (Settings.Watering.Plant_2_Thu && Settings.Watering.Morning_2),
-                         (Settings.Watering.Plant_3_Thu && Settings.Watering.Morning_3),
-                         (Settings.Watering.Plant_4_Thu && Settings.Watering.Morning_4),
-                         (Settings.Watering.Plant_5_Thu && Settings.Watering.Morning_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Morning");
-            }
-            if ((DateTime.Now.DayOfWeek == DayOfWeek.Friday) && (DateTime.Now.Hour == Settings.Watering.TimeMorning) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
-            {
-                //WatLog(LogType.Status, "Trigger Friday morning", "The routine on Friday morning for watering of plants was triggered.");
-                Watering((Settings.Watering.Plant_1_Fri && Settings.Watering.Morning_1),
-                         (Settings.Watering.Plant_2_Fri && Settings.Watering.Morning_2),
-                         (Settings.Watering.Plant_3_Fri && Settings.Watering.Morning_3),
-                         (Settings.Watering.Plant_4_Fri && Settings.Watering.Morning_4),
-                         (Settings.Watering.Plant_5_Fri && Settings.Watering.Morning_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Morning");
-            }
-            if ((DateTime.Now.DayOfWeek == DayOfWeek.Saturday) && (DateTime.Now.Hour == Settings.Watering.TimeMorning) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
-            {
-                //WatLog(LogType.Status, "Trigger Saturday morning", "The routine on Saturday morning for watering of plants was triggered.");
-                Watering((Settings.Watering.Plant_1_Sat && Settings.Watering.Morning_1),
-                         (Settings.Watering.Plant_2_Sat && Settings.Watering.Morning_2),
-                         (Settings.Watering.Plant_3_Sat && Settings.Watering.Morning_3),
-                         (Settings.Watering.Plant_4_Sat && Settings.Watering.Morning_4),
-                         (Settings.Watering.Plant_5_Sat && Settings.Watering.Morning_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Morning");
-            }
-            if ((DateTime.Now.DayOfWeek == DayOfWeek.Sunday) && (DateTime.Now.Hour == Settings.Watering.TimeMorning) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
-            {
-                //WatLog(LogType.Status, "Trigger Sunday morning", "The routine on Sunday morning for watering of plants was triggered.");
-                Watering((Settings.Watering.Plant_1_Sun && Settings.Watering.Morning_1),
-                         (Settings.Watering.Plant_2_Sun && Settings.Watering.Morning_2),
-                         (Settings.Watering.Plant_3_Sun && Settings.Watering.Morning_3),
-                         (Settings.Watering.Plant_4_Sun && Settings.Watering.Morning_4),
-                         (Settings.Watering.Plant_5_Sun && Settings.Watering.Morning_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Morning");
-            }
-            #endregion Morning
-            #region Noon
-            if ((DateTime.Now.DayOfWeek == DayOfWeek.Monday) && (DateTime.Now.Hour == Settings.Watering.TimeNoon) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
-            {
-                //WatLog(LogType.Status, "Trigger Monday noon", "The routine on Monday noon for watering of plants was triggered.");
-                Watering((Settings.Watering.Plant_1_Mon && Settings.Watering.Noon_1),
-                         (Settings.Watering.Plant_2_Mon && Settings.Watering.Noon_2),
-                         (Settings.Watering.Plant_3_Mon && Settings.Watering.Noon_3),
-                         (Settings.Watering.Plant_4_Mon && Settings.Watering.Noon_4),
-                         (Settings.Watering.Plant_5_Mon && Settings.Watering.Noon_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Noon");
-            }
-            if ((DateTime.Now.DayOfWeek == DayOfWeek.Tuesday) && (DateTime.Now.Hour == Settings.Watering.TimeNoon) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
-            {
-                //WatLog(LogType.Status, "Trigger Tuesday noon", "The routine on Tuesday noon for watering of plants was triggered.");
-                Watering((Settings.Watering.Plant_1_Tue && Settings.Watering.Noon_1),
-                         (Settings.Watering.Plant_2_Tue && Settings.Watering.Noon_2),
-                         (Settings.Watering.Plant_3_Tue && Settings.Watering.Noon_3),
-                         (Settings.Watering.Plant_4_Tue && Settings.Watering.Noon_4),
-                         (Settings.Watering.Plant_5_Tue && Settings.Watering.Noon_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Noon");
-            }
-            if ((DateTime.Now.DayOfWeek == DayOfWeek.Wednesday) && (DateTime.Now.Hour == Settings.Watering.TimeNoon) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
-            {
-                //WatLog(LogType.Status, "Trigger Wednesday noon", "The routine on Wednesday noon for watering of plants was triggered.");
-                Watering((Settings.Watering.Plant_1_Wed && Settings.Watering.Noon_1),
-                         (Settings.Watering.Plant_2_Wed && Settings.Watering.Noon_2),
-                         (Settings.Watering.Plant_3_Wed && Settings.Watering.Noon_3),
-                         (Settings.Watering.Plant_4_Wed && Settings.Watering.Noon_4),
-                         (Settings.Watering.Plant_5_Wed && Settings.Watering.Noon_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Noon");
-            }
-            if ((DateTime.Now.DayOfWeek == DayOfWeek.Thursday) && (DateTime.Now.Hour == Settings.Watering.TimeNoon) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
-            {
-                //WatLog(LogType.Status, "Trigger Thursday noon", "The routine on Thursday noon for watering of plants was triggered.");
-                Watering((Settings.Watering.Plant_1_Thu && Settings.Watering.Noon_1),
-                         (Settings.Watering.Plant_2_Thu && Settings.Watering.Noon_2),
-                         (Settings.Watering.Plant_3_Thu && Settings.Watering.Noon_3),
-                         (Settings.Watering.Plant_4_Thu && Settings.Watering.Noon_4),
-                         (Settings.Watering.Plant_5_Thu && Settings.Watering.Noon_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Noon");
-            }
-            if ((DateTime.Now.DayOfWeek == DayOfWeek.Friday) && (DateTime.Now.Hour == Settings.Watering.TimeNoon) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
-            {
-                //WatLog(LogType.Status, "Trigger Friday noon", "The routine on Friday noon for watering of plants was triggered.");
-                Watering((Settings.Watering.Plant_1_Fri && Settings.Watering.Noon_1),
-                         (Settings.Watering.Plant_2_Fri && Settings.Watering.Noon_2),
-                         (Settings.Watering.Plant_3_Fri && Settings.Watering.Noon_3),
-                         (Settings.Watering.Plant_4_Fri && Settings.Watering.Noon_4),
-                         (Settings.Watering.Plant_5_Fri && Settings.Watering.Noon_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Noon");
-            }
-            if ((DateTime.Now.DayOfWeek == DayOfWeek.Saturday) && (DateTime.Now.Hour == Settings.Watering.TimeNoon) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
-            {
-                //WatLog(LogType.Status, "Trigger Saturday noon", "The routine on Saturday noon for watering of plants was triggered.");
-                Watering((Settings.Watering.Plant_1_Sat && Settings.Watering.Noon_1),
-                         (Settings.Watering.Plant_2_Sat && Settings.Watering.Noon_2),
-                         (Settings.Watering.Plant_3_Sat && Settings.Watering.Noon_3),
-                         (Settings.Watering.Plant_4_Sat && Settings.Watering.Noon_4),
-                         (Settings.Watering.Plant_5_Sat && Settings.Watering.Noon_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Noon");
-            }
-            if ((DateTime.Now.DayOfWeek == DayOfWeek.Sunday) && (DateTime.Now.Hour == Settings.Watering.TimeNoon) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
-            {
-                //WatLog(LogType.Status, "Trigger Sunday noon", "The routine on Sunday noon for watering of plants was triggered.");
-                Watering((Settings.Watering.Plant_1_Sun && Settings.Watering.Noon_1),
-                         (Settings.Watering.Plant_2_Sun && Settings.Watering.Noon_2),
-                         (Settings.Watering.Plant_3_Sun && Settings.Watering.Noon_3),
-                         (Settings.Watering.Plant_4_Sun && Settings.Watering.Noon_4),
-                         (Settings.Watering.Plant_5_Sun && Settings.Watering.Noon_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Noon");
-            }
-            #endregion Noon
-            #region Evening
-            if ((DateTime.Now.DayOfWeek == DayOfWeek.Monday) && (DateTime.Now.Hour == Settings.Watering.TimeEvening) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
-            {
-                //WatLog(LogType.Status, "Trigger Monday evening", "The routine on Monday evening for watering of plants was triggered.");
-                Watering((Settings.Watering.Plant_1_Mon && Settings.Watering.Evening_1),
-                         (Settings.Watering.Plant_2_Mon && Settings.Watering.Evening_2),
-                         (Settings.Watering.Plant_3_Mon && Settings.Watering.Evening_3),
-                         (Settings.Watering.Plant_4_Mon && Settings.Watering.Evening_4),
-                         (Settings.Watering.Plant_5_Mon && Settings.Watering.Evening_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Evening");
-            }
-            if ((DateTime.Now.DayOfWeek == DayOfWeek.Tuesday) && (DateTime.Now.Hour == Settings.Watering.TimeEvening) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
-            {
-                //WatLog(LogType.Status, "Trigger Tuesday evening", "The routine on Tuesday evening for watering of plants was triggered.");
-                Watering((Settings.Watering.Plant_1_Tue && Settings.Watering.Evening_1),
-                         (Settings.Watering.Plant_2_Tue && Settings.Watering.Evening_2),
-                         (Settings.Watering.Plant_3_Tue && Settings.Watering.Evening_3),
-                         (Settings.Watering.Plant_4_Tue && Settings.Watering.Evening_4),
-                         (Settings.Watering.Plant_5_Tue && Settings.Watering.Evening_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Evening");
-            }
-            if ((DateTime.Now.DayOfWeek == DayOfWeek.Wednesday) && (DateTime.Now.Hour == Settings.Watering.TimeEvening) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
-            {
-                //WatLog(LogType.Status, "Trigger Wednesday evening", "The routine on Wednesday evening for watering of plants was triggered.");
-                Watering((Settings.Watering.Plant_1_Wed && Settings.Watering.Evening_1),
-                         (Settings.Watering.Plant_2_Wed && Settings.Watering.Evening_2),
-                         (Settings.Watering.Plant_3_Wed && Settings.Watering.Evening_3),
-                         (Settings.Watering.Plant_4_Wed && Settings.Watering.Evening_4),
-                         (Settings.Watering.Plant_5_Wed && Settings.Watering.Evening_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Evening");
-            }
-            if ((DateTime.Now.DayOfWeek == DayOfWeek.Thursday) && (DateTime.Now.Hour == Settings.Watering.TimeEvening) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
-            {
-                //WatLog(LogType.Status, "Trigger Thursday evening", "The routine on Thursday evening for watering of plants was triggered.");
-                Watering((Settings.Watering.Plant_1_Thu && Settings.Watering.Evening_1),
-                         (Settings.Watering.Plant_2_Thu && Settings.Watering.Evening_2),
-                         (Settings.Watering.Plant_3_Thu && Settings.Watering.Evening_3),
-                         (Settings.Watering.Plant_4_Thu && Settings.Watering.Evening_4),
-                         (Settings.Watering.Plant_5_Thu && Settings.Watering.Evening_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Evening");
-            }
-            if ((DateTime.Now.DayOfWeek == DayOfWeek.Friday) && (DateTime.Now.Hour == Settings.Watering.TimeEvening) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
-            {
-                //WatLog(LogType.Status, "Trigger Friday evening", "The routine on Friday evening for watering of plants was triggered.");
-                Watering((Settings.Watering.Plant_1_Fri && Settings.Watering.Evening_1),
-                         (Settings.Watering.Plant_2_Fri && Settings.Watering.Evening_2),
-                         (Settings.Watering.Plant_3_Fri && Settings.Watering.Evening_3),
-                         (Settings.Watering.Plant_4_Fri && Settings.Watering.Evening_4),
-                         (Settings.Watering.Plant_5_Fri && Settings.Watering.Evening_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Evening");
-            }
-            if ((DateTime.Now.DayOfWeek == DayOfWeek.Saturday) && (DateTime.Now.Hour == Settings.Watering.TimeEvening) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
-            {
-                //WatLog(LogType.Status, "Trigger Saturday evening", "The routine on Saturday evening for watering of plants was triggered.");
-                Watering((Settings.Watering.Plant_1_Sat && Settings.Watering.Evening_1),
-                         (Settings.Watering.Plant_2_Sat && Settings.Watering.Evening_2),
-                         (Settings.Watering.Plant_3_Sat && Settings.Watering.Evening_3),
-                         (Settings.Watering.Plant_4_Sat && Settings.Watering.Evening_4),
-                         (Settings.Watering.Plant_5_Sat && Settings.Watering.Evening_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Evening");
-            }
-            if ((DateTime.Now.DayOfWeek == DayOfWeek.Sunday) && (DateTime.Now.Hour == Settings.Watering.TimeEvening) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second == 0))
-            {
-                //WatLog(LogType.Status, "Trigger Sunday evening", "The routine on Sunday evening for watering of plants was triggered.");
-                Watering((Settings.Watering.Plant_1_Sun && Settings.Watering.Evening_1),
-                         (Settings.Watering.Plant_2_Sun && Settings.Watering.Evening_2),
-                         (Settings.Watering.Plant_3_Sun && Settings.Watering.Evening_3),
-                         (Settings.Watering.Plant_4_Sun && Settings.Watering.Evening_4),
-                         (Settings.Watering.Plant_5_Sun && Settings.Watering.Evening_5), String.Format("{0}", DateTime.Now.DayOfWeek), "Evening");
-            }
-            #endregion Evening
         }
 
         private static void Watering(bool Out1_active, bool Out2_active, bool Out3_active, bool Out4_active, bool Out5_active, string vDay, string vTime)
@@ -488,6 +491,12 @@ namespace WateringOS_3_0.Controllers
             if (Out1_active || Out2_active || Out3_active || Out4_active || Out5_active)
             {
                 WatLog(LogType.Status, String.Format("Trigger {0} {1}",vDay,vTime), String.Format("The routine on {0} {1} for watering of plants was triggered.",vDay,vTime));
+
+                if (LogLists.RecentEntries.Tank < Settings.System.Wat_min_tank)
+                {
+                    SysLog(LogType.Warning, "Tank Level to low for Watering", "The Tank Level reached the minimum threshold of " + Settings.System.Wat_min_tank + "%. Watering has been suspended!");
+                    return;
+                }
 
                 // toggle Watering Record Log
                 if (Globals.WateringRecord == 3) { Globals.WateringRecord = 1; } else { Globals.WateringRecord++; }
@@ -791,13 +800,13 @@ namespace WateringOS_3_0.Controllers
         private static void SaveTask_Routine(object sender, ElapsedEventArgs e)
         {
             // Frequent log to file
-            System.IO.File.WriteAllText(@"wwwroot/SavedLogs/JournalLog.json",     JsonConvert.SerializeObject(LogLists.JournalLog.ToList()));
-            System.IO.File.WriteAllText(@"wwwroot/SavedLogs/LevelLog.json",       JsonConvert.SerializeObject(LogLists.LevelLog.ToList()));
-            System.IO.File.WriteAllText(@"wwwroot/SavedLogs/EnvironmentLog.json", JsonConvert.SerializeObject(LogLists.EnvLog.ToList()));
-            System.IO.File.WriteAllText(@"wwwroot/SavedLogs/PowerLog.json",       JsonConvert.SerializeObject(LogLists.PowerLog.ToList()));
-            System.IO.File.WriteAllText(@"wwwroot/SavedLogs/Watering1Log.json",   JsonConvert.SerializeObject(LogLists.WateringLog1.ToList()));
-            System.IO.File.WriteAllText(@"wwwroot/SavedLogs/Watering2Log.json",   JsonConvert.SerializeObject(LogLists.WateringLog2.ToList()));
-            System.IO.File.WriteAllText(@"wwwroot/SavedLogs/Watering3Log.json",   JsonConvert.SerializeObject(LogLists.WateringLog3.ToList()));
+            System.IO.File.WriteAllText(@"usrdata/SavedLogs/JournalLog.json",     JsonConvert.SerializeObject(LogLists.JournalLog.ToList()));
+            System.IO.File.WriteAllText(@"usrdata/SavedLogs/LevelLog.json",       JsonConvert.SerializeObject(LogLists.LevelLog.ToList()));
+            System.IO.File.WriteAllText(@"usrdata/SavedLogs/EnvironmentLog.json", JsonConvert.SerializeObject(LogLists.EnvLog.ToList()));
+            System.IO.File.WriteAllText(@"usrdata/SavedLogs/PowerLog.json",       JsonConvert.SerializeObject(LogLists.PowerLog.ToList()));
+            System.IO.File.WriteAllText(@"usrdata/SavedLogs/Watering1Log.json",   JsonConvert.SerializeObject(LogLists.WateringLog1.ToList()));
+            System.IO.File.WriteAllText(@"usrdata/SavedLogs/Watering2Log.json",   JsonConvert.SerializeObject(LogLists.WateringLog2.ToList()));
+            System.IO.File.WriteAllText(@"usrdata/SavedLogs/Watering3Log.json",   JsonConvert.SerializeObject(LogLists.WateringLog3.ToList()));
         }
 
         public static bool Initialize()
@@ -817,13 +826,13 @@ namespace WateringOS_3_0.Controllers
 
                 // Load saved Logs
                 
-                LogLists.JournalLog   = JsonConvert.DeserializeObject<List<cJournal>>(System.IO.File.ReadAllText(@"wwwroot/SavedLogs/JournalLog.json"));
-                LogLists.LevelLog     = JsonConvert.DeserializeObject<List<cLevelLog>>(System.IO.File.ReadAllText(@"wwwroot/SavedLogs/LevelLog.json"));
-                LogLists.EnvLog       = JsonConvert.DeserializeObject<List<cEnvLog>>(System.IO.File.ReadAllText(@"wwwroot/SavedLogs/EnvironmentLog.json"));
-                LogLists.PowerLog     = JsonConvert.DeserializeObject<List<cPowerLog>>(System.IO.File.ReadAllText(@"wwwroot/SavedLogs/PowerLog.json"));
-                LogLists.WateringLog1 = JsonConvert.DeserializeObject<List<cWaterLog>>(System.IO.File.ReadAllText(@"wwwroot/SavedLogs/Watering1Log.json"));
-                LogLists.WateringLog2 = JsonConvert.DeserializeObject<List<cWaterLog>>(System.IO.File.ReadAllText(@"wwwroot/SavedLogs/Watering2Log.json"));
-                LogLists.WateringLog3 = JsonConvert.DeserializeObject<List<cWaterLog>>(System.IO.File.ReadAllText(@"wwwroot/SavedLogs/Watering3Log.json"));
+                LogLists.JournalLog   = JsonConvert.DeserializeObject<List<cJournal>>(System.IO.File.ReadAllText(@"usrdata/SavedLogs/JournalLog.json"));
+                LogLists.LevelLog     = JsonConvert.DeserializeObject<List<cLevelLog>>(System.IO.File.ReadAllText(@"usrdata/SavedLogs/LevelLog.json"));
+                LogLists.EnvLog       = JsonConvert.DeserializeObject<List<cEnvLog>>(System.IO.File.ReadAllText(@"usrdata/SavedLogs/EnvironmentLog.json"));
+                LogLists.PowerLog     = JsonConvert.DeserializeObject<List<cPowerLog>>(System.IO.File.ReadAllText(@"usrdata/SavedLogs/PowerLog.json"));
+                LogLists.WateringLog1 = JsonConvert.DeserializeObject<List<cWaterLog>>(System.IO.File.ReadAllText(@"usrdata/SavedLogs/Watering1Log.json"));
+                LogLists.WateringLog2 = JsonConvert.DeserializeObject<List<cWaterLog>>(System.IO.File.ReadAllText(@"usrdata/SavedLogs/Watering2Log.json"));
+                LogLists.WateringLog3 = JsonConvert.DeserializeObject<List<cWaterLog>>(System.IO.File.ReadAllText(@"usrdata/SavedLogs/Watering3Log.json"));
 
                 LogLists.RecentEntries.Tank = 255;
 

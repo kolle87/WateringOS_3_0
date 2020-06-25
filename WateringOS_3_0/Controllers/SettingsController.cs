@@ -15,8 +15,8 @@ namespace WateringOS_3_0.Controllers
         {
             try
             {
-                Settings.System     = JsonConvert.DeserializeObject<cSystemSettings>(System.IO.File.ReadAllText(@"wwwroot/systemsettings.json"));
-                Settings.Watering   = JsonConvert.DeserializeObject<cWateringSettings>(System.IO.File.ReadAllText(@"wwwroot/wateringsettings.json"));
+                Settings.System     = JsonConvert.DeserializeObject<cSystemSettings>(System.IO.File.ReadAllText(@"usrdata/systemsettings.json"));
+                Settings.Watering   = JsonConvert.DeserializeObject<cWateringSettings>(System.IO.File.ReadAllText(@"usrdata/wateringsettings.json"));
                 Console.WriteLine($"SettingsController: ReadFromFile() OK");
                 BackgroundTaskController.AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "[APP] SettingsController", LogType.Information, "ReadFromFile() OK", "Settings have been loaded from the *.json file");
                 return true;
