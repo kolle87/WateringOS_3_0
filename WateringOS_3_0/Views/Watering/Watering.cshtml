@@ -372,7 +372,7 @@
 			url: '@Url.Action("GetWatering1", "DataProvision")',
             success: function (result) {
                 $.each(result, function (i, v) {
-                        if (i == 0) { document.getElementById("txt_Date").textContent = v.TimeStamp; }
+                        if (i == 0) { document.getElementById("txt_Date").textContent = moment(v.TimeStamp).format('MMM Do, H:mm'); }
                         ValveChart.data.datasets[0].data.push({
                             x: moment(v.TimeStamp),
                             y: v.Pump
@@ -437,7 +437,7 @@
 			url: '@Url.Action("GetWatering2", "DataProvision")',
             success: function (result) {
                 $.each(result, function (i, v) {
-                        if (i == 0) { document.getElementById("txt_Date").textContent = v.TimeStamp; }
+                        if (i == 0) { document.getElementById("txt_Date").textContent = moment(v.TimeStamp).format('MMM Do, H:mm'); }
                         ValveChart.data.datasets[0].data.push({
                             x: moment(v.TimeStamp),
                             y: v.Pump
@@ -502,7 +502,7 @@
 			url: '@Url.Action("GetWatering3", "DataProvision")',
             success: function (result) {
                 $.each(result, function (i, v) {
-                        if (i == 0) { document.getElementById("txt_Date").textContent = v.TimeStamp; }
+                        if (i == 0) { document.getElementById("txt_Date").textContent = moment(v.TimeStamp).format('MMM Do, H:mm'); }
                         ValveChart.data.datasets[0].data.push({
                             x: moment(v.TimeStamp),
                             y: v.Pump

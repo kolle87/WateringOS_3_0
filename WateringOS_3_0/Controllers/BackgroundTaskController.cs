@@ -814,6 +814,8 @@ namespace WateringOS_3_0.Controllers
             if (!Globals.IsInitialized)
             {
                 // Load Settings
+                SettingsController.ReadFromFileStatic();
+
                 Globals.FastTask.Interval = Settings.System.FastLog;
                 Globals.MainTask.Interval = Settings.System.Task_cycle;
                 Globals.SaveTask.Interval = Settings.System.Save_cycle * 60000;
