@@ -488,6 +488,7 @@ namespace WateringOS_3_0.Controllers
 
         private static void Watering(bool Out1_active, bool Out2_active, bool Out3_active, bool Out4_active, bool Out5_active, string vDay, string vTime)
         {
+            WatLog(LogType.Information, String.Format("Check to trigger {0} {1}", vDay, vTime), String.Format("If selected, the routine on {0} {1} for watering of plants will be triggered.", vDay, vTime));
             if (Out1_active || Out2_active || Out3_active || Out4_active || Out5_active)
             {
                 WatLog(LogType.Status, String.Format("Trigger {0} {1}",vDay,vTime), String.Format("The routine on {0} {1} for watering of plants was triggered.",vDay,vTime));
@@ -497,7 +498,7 @@ namespace WateringOS_3_0.Controllers
                     SysLog(LogType.Warning, "Tank Level to low for Watering", "The Tank Level reached the minimum threshold of " + Settings.System.Wat_min_tank + "%. Watering has been suspended!");
                     return;
                 }
-
+                /*
                 // toggle Watering Record Log
                 if (Globals.WateringRecord == 3) { Globals.WateringRecord = 1; } else { Globals.WateringRecord++; }
                 Globals.WateringActive = true;
@@ -510,7 +511,15 @@ namespace WateringOS_3_0.Controllers
                     case 3: { LogLists.WateringLog3.Clear(); break; }
                     default: Parents.Logger_BackgroundTaskController.LogWarning("Watering Record Log number ou off range (WateringLog" + Globals.WateringRecord + ".Clear();"); break;
                 }
+                */
 
+                // test ring buffer for watering log newest first
+                LogLists.WateringLog3 = LogLists.WateringLog2;
+                LogLists.WateringLog2 = LogLists.WateringLog1;
+                LogLists.WateringLog1.Clear();
+
+                Globals.WateringActive = true;
+                Globals.WateringRecord = 1;
 
                 // watering procedures
                 try
