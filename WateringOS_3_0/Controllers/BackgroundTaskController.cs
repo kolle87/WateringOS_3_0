@@ -195,7 +195,7 @@ namespace WateringOS_3_0.Controllers
             LogLists.RecentEntries.Flow3  = Globals.SpiServer.Flow3 * 10;
             LogLists.RecentEntries.Flow4  = Globals.SpiServer.Flow4 * 10;
             LogLists.RecentEntries.Flow5  = Globals.SpiServer.Flow5 * 10;
-            if ((Globals.SpiServer.Level < LogLists.RecentEntries.Tank) || (Globals.SpiServer.Level > LogLists.RecentEntries.Tank + 12))
+            if ((Globals.SpiServer.Level < LogLists.RecentEntries.Tank) || (Globals.SpiServer.Level > LogLists.RecentEntries.Tank + Settings.System.Tank_RefillHyst))
                 { LogLists.RecentEntries.Tank = Globals.SpiServer.Level; }
             LogLists.RecentEntries.Rain     = vRain;
             LogLists.RecentEntries.Ground   = vGround;
@@ -577,7 +577,7 @@ namespace WateringOS_3_0.Controllers
                             Globals.GpioServer.StopPump();                                                  // Stop Pump
                     });
                         t_Water1.Wait();                                                                        // Check flow every second and wait for full volume watering
-                        WatLog(LogType.Information, "Watering Plant 1 finsihed ("+ Globals.SpiServer.Flow1 + "0 ml/"+ wt1 + "s)", "The watering procedure of Plant 1 ended after " + wt1 + "sec and " + Globals.SpiServer.Flow1 + "0 ml");
+                        WatLog(LogType.Information, "Watering Plant 1 finished ("+ Globals.SpiServer.Flow1 + "0 ml/"+ wt1 + "s)", "The watering procedure of Plant 1 ended after " + wt1 + "sec and " + Globals.SpiServer.Flow1 + "0 ml");
                         t_wait = Task.Run(async delegate { await Task.Delay(Settings.System.DLY_PumpStop); });
                         t_wait.Wait();                                                                          // wait 5s to depressurize
                         Globals.GpioServer.CloseValve1();                                                      // Close Valve #1
@@ -604,7 +604,7 @@ namespace WateringOS_3_0.Controllers
                             Globals.GpioServer.StopPump();                                                  // Stop Pump
                     });
                         t_Water2.Wait();                                             // Check flow every second and wait for full volume watering
-                        WatLog(LogType.Information, "Watering Plant 2 finsihed ("+ Globals.SpiServer.Flow2 + "0 ml/"+ wt2 + "s)", "The watering procedure of Plant 2 ended after " + wt2 + "sec and " + Globals.SpiServer.Flow2 + "0 ml");
+                        WatLog(LogType.Information, "Watering Plant 2 finished ("+ Globals.SpiServer.Flow2 + "0 ml/"+ wt2 + "s)", "The watering procedure of Plant 2 ended after " + wt2 + "sec and " + Globals.SpiServer.Flow2 + "0 ml");
                         t_wait = Task.Run(async delegate { await Task.Delay(Settings.System.DLY_PumpStop); });
                         t_wait.Wait();                                                                  // wait 5s to depressurize
                         Globals.GpioServer.CloseValve2();                                                      // Close Valve #2
@@ -631,7 +631,7 @@ namespace WateringOS_3_0.Controllers
                             Globals.GpioServer.StopPump();                                                  // Stop Pump
                     });
                         t_Water3.Wait();                                             // Check flow every second and wait for full volume watering
-                        WatLog(LogType.Information, "Watering Plant 3 finsihed ("+ Globals.SpiServer.Flow3 + "0 ml/"+ wt3 + "s)", "The watering procedure of Plant 3 ended after " + wt3 + "sec and " + Globals.SpiServer.Flow3 + "0 ml");
+                        WatLog(LogType.Information, "Watering Plant 3 finished ("+ Globals.SpiServer.Flow3 + "0 ml/"+ wt3 + "s)", "The watering procedure of Plant 3 ended after " + wt3 + "sec and " + Globals.SpiServer.Flow3 + "0 ml");
                         t_wait = Task.Run(async delegate
                         {
                             await Task.Delay(Settings.System.DLY_PumpStop);
@@ -661,7 +661,7 @@ namespace WateringOS_3_0.Controllers
                             Globals.GpioServer.StopPump();                                                  // Stop Pump
                     });
                         t_Water4.Wait();                                             // Check flow every second and wait for full volume watering
-                        WatLog(LogType.Information, "Watering Plant 4 finsihed ("+ Globals.SpiServer.Flow4 + "0 ml/"+ wt4 + "s)", "The watering procedure of Plant 4 ended after " + wt4 + "sec and " + Globals.SpiServer.Flow4 + "0 ml");
+                        WatLog(LogType.Information, "Watering Plant 4 finished ("+ Globals.SpiServer.Flow4 + "0 ml/"+ wt4 + "s)", "The watering procedure of Plant 4 ended after " + wt4 + "sec and " + Globals.SpiServer.Flow4 + "0 ml");
                         t_wait = Task.Run(async delegate
                         {
                             await Task.Delay(Settings.System.DLY_PumpStop);
@@ -691,7 +691,7 @@ namespace WateringOS_3_0.Controllers
                             Globals.GpioServer.StopPump();                                                  // Stop Pump
                     });
                         t_Water5.Wait();                                             // Check flow every second and wait for full volume watering
-                        WatLog(LogType.Information, "Watering Plant 5 finsihed ("+ Globals.SpiServer.Flow5 + "0 ml/"+ wt5 + "s)", "The watering procedure of Plant 5 ended after" + wt5 + "sec and " + Globals.SpiServer.Flow5 + "0 ml");
+                        WatLog(LogType.Information, "Watering Plant 5 finished ("+ Globals.SpiServer.Flow5 + "0 ml/"+ wt5 + "s)", "The watering procedure of Plant 5 ended after" + wt5 + "sec and " + Globals.SpiServer.Flow5 + "0 ml");
                         t_wait = Task.Run(async delegate
                         {
                             await Task.Delay(Settings.System.DLY_PumpStop);

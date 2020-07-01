@@ -47,6 +47,7 @@ namespace WateringOS_3_0.Controllers
             else { Parents.Logger_ManualController.LogInformation("Action triggered: CloseAll()"); } 
         }
         public void ResetAll()    { if (!SIM_MODE) { Globals.SpiServer.SPI_Reset(); } else { Parents.Logger_ManualController.LogInformation("Action triggered: ResetAll()"); } }
+        public void ResetTank()   { if (!SIM_MODE) { LogLists.RecentEntries.Tank = Globals.SpiServer.Level; } else { Parents.Logger_ManualController.LogInformation("Action triggered: ResetTank()"); } }
 
         public void StartPump()   { if (!SIM_MODE) { Globals.GpioServer.StartPump(); } else { Parents.Logger_ManualController.LogInformation("Action triggered: StartPump()");  } }
         public void OpenValve1()  { if (!SIM_MODE) { Globals.GpioServer.OpenValve1(); } else { Parents.Logger_ManualController.LogInformation("Action triggered: OpenValve1()"); } }
