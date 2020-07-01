@@ -1,4 +1,25 @@
-﻿@{
+﻿<!--    DISCLAIMER -->
+<!-->
+        Watering OS - (C) Michael Kollmeyer 2020
+
+        This file is part of WateringOS.
+
+            WateringOS is free software: you can redistribute it and/or modify
+            it under the terms of the GNU General Public License as published by
+            the Free Software Foundation, either version 3 of the License, or
+            (at your option) any later version.
+
+            WateringOS is distributed in the hope that it will be useful,
+            but WITHOUT ANY WARRANTY; without even the implied warranty of
+            MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+            GNU General Public License for more details.
+
+            You should have received a copy of the GNU General Public License
+            along with WateringOS.  If not, see <https: //www.gnu.org/licenses />.
+<-->
+<!------------------->
+
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -13,6 +34,7 @@
             background-color: white;
             position: fixed;
         }
+
         .progress {
             background-color: #f5f5f5;
             border-radius: 3px;
@@ -230,7 +252,7 @@
                 default: document.getElementById("stat_Rain").textContent = "---"; document.getElementById("stat_Rain").style.color = "red"; break;
             }
         });
-        $.post("/DataProvision/GetCurrentGround", function (result)  {
+        $.post("/DataProvision/GetCurrentGround", function (result) {
             switch (result) {
                 case 1: document.getElementById("stat_Ground").textContent = "DRY"; break;
                 case 2: document.getElementById("stat_Ground").textContent = "DAMP"; break;
@@ -265,12 +287,12 @@
     }, 200);
 
     function StartPump() { $.post("/Manual/StartPump"); }
-    function StopPump()  { $.post("/Manual/StopPump"); }
-    function vv1_open()  { $.post("/Manual/OpenValve1"); };
-    function vv2_open()  { $.post("/Manual/OpenValve2"); };
-    function vv3_open()  { $.post("/Manual/OpenValve3"); };
-    function vv4_open()  { $.post("/Manual/OpenValve4"); };
-    function vv5_open()  { $.post("/Manual/OpenValve5"); };
+    function StopPump() { $.post("/Manual/StopPump"); }
+    function vv1_open() { $.post("/Manual/OpenValve1"); };
+    function vv2_open() { $.post("/Manual/OpenValve2"); };
+    function vv3_open() { $.post("/Manual/OpenValve3"); };
+    function vv4_open() { $.post("/Manual/OpenValve4"); };
+    function vv5_open() { $.post("/Manual/OpenValve5"); };
     function vv1_close() { $.post("/Manual/CloseValve1"); };
     function vv2_close() { $.post("/Manual/CloseValve2"); };
     function vv3_close() { $.post("/Manual/CloseValve3"); };

@@ -1,50 +1,73 @@
-﻿@{
+﻿<!--    DISCLAIMER -->
+<!-->
+        Watering OS - (C) Michael Kollmeyer 2020
+
+        This file is part of WateringOS.
+
+            WateringOS is free software: you can redistribute it and/or modify
+            it under the terms of the GNU General Public License as published by
+            the Free Software Foundation, either version 3 of the License, or
+            (at your option) any later version.
+
+            WateringOS is distributed in the hope that it will be useful,
+            but WITHOUT ANY WARRANTY; without even the implied warranty of
+            MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+            GNU General Public License for more details.
+
+            You should have received a copy of the GNU General Public License
+            along with WateringOS.  If not, see <https: //www.gnu.org/licenses />.
+<-->
+<!------------------->
+
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        @*<link href="https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap" rel="stylesheet">*@
-        <link rel="stylesheet" href="~/css/site.css" />
-        <style type="text/css">
-            .footer {
-                line-height: 0px;
-                background-color: white;
-                position: fixed;
-            }
-            .btn-block {
-                display: block;
-                width: 100%;
-                margin-top: .5rem;
-            }
-            input[type="text"] {
-                height: 24px;
-                /*font-family: 'Roboto', sans-serif;*/
-                font-size: 14px;
-            }
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @*<link href="https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap" rel="stylesheet">*@
+    <link rel="stylesheet" href="~/css/site.css" />
+    <style type="text/css">
+        .footer {
+            line-height: 0px;
+            background-color: white;
+            position: fixed;
+        }
 
-            input[type="checkbox"] {
-                height: 20px;
-                width: 20px;
-            }
+        .btn-block {
+            display: block;
+            width: 100%;
+            margin-top: .5rem;
+        }
 
-            .alert {
-                display: block;
-                margin: 2px 0px 0px 0px;
-                padding: 0px 0px 0px 20px; /* top right bottom left */
-            }
+        input[type="text"] {
+            height: 24px;
+            /*font-family: 'Roboto', sans-serif;*/
+            font-size: 14px;
+        }
 
-            html {
-                overflow: scroll;
-            }
+        input[type="checkbox"] {
+            height: 20px;
+            width: 20px;
+        }
 
-            ::-webkit-scrollbar {
-                width: 0px;
-                background: transparent; /* make scrollbar transparent */
-            }
-        </style>
-    </head>
+        .alert {
+            display: block;
+            margin: 2px 0px 0px 0px;
+            padding: 0px 0px 0px 20px; /* top right bottom left */
+        }
+
+        html {
+            overflow: scroll;
+        }
+
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent; /* make scrollbar transparent */
+        }
+    </style>
+</head>
 
 <system.webServer>
     <httpProtocol>
@@ -67,13 +90,13 @@
             $("#alertdiv").remove();
         }, 2000);
     }
-    
+
     function Write() {
         showalert('Writing settings...', 'alert-info');
 
         document.getElementById("btn_write").disabled = true;
         document.getElementById("btn_read").disabled = true;
-        document.getElementById("btn_write_spinner").style.display = "inline-block";        
+        document.getElementById("btn_write_spinner").style.display = "inline-block";
 
         if (document.getElementById("check_mor1").checked) { $.post("/Settings/Get_Morning_1", { data: true }); } else { $.post("/Settings/Get_Morning_1", { data: false }); };
         if (document.getElementById("check_mor2").checked) { $.post("/Settings/Get_Morning_2", { data: true }); } else { $.post("/Settings/Get_Morning_2", { data: false }); };
@@ -140,22 +163,22 @@
         $.post("/Settings/Get_Volume_3", { data: document.getElementById("usr_vol3").value });
         $.post("/Settings/Get_Volume_4", { data: document.getElementById("usr_vol4").value });
         $.post("/Settings/Get_Volume_5", { data: document.getElementById("usr_vol5").value });
-        $.post("/Settings/Get_RAF_1",    { data: document.getElementById("usr_raf1").value });
-        $.post("/Settings/Get_RAF_2",    { data: document.getElementById("usr_raf2").value });
-        $.post("/Settings/Get_RAF_3",    { data: document.getElementById("usr_raf3").value });
-        $.post("/Settings/Get_RAF_4",    { data: document.getElementById("usr_raf4").value });
-        $.post("/Settings/Get_RAF_5",    { data: document.getElementById("usr_raf5").value });
-        $.post("/Settings/Get_GAF_1",    { data: document.getElementById("usr_gaf1").value });
-        $.post("/Settings/Get_GAF_2",    { data: document.getElementById("usr_gaf2").value });
-        $.post("/Settings/Get_GAF_3",    { data: document.getElementById("usr_gaf3").value });
-        $.post("/Settings/Get_GAF_4",    { data: document.getElementById("usr_gaf4").value });
-        $.post("/Settings/Get_GAF_5",    { data: document.getElementById("usr_gaf5").value });
+        $.post("/Settings/Get_RAF_1", { data: document.getElementById("usr_raf1").value });
+        $.post("/Settings/Get_RAF_2", { data: document.getElementById("usr_raf2").value });
+        $.post("/Settings/Get_RAF_3", { data: document.getElementById("usr_raf3").value });
+        $.post("/Settings/Get_RAF_4", { data: document.getElementById("usr_raf4").value });
+        $.post("/Settings/Get_RAF_5", { data: document.getElementById("usr_raf5").value });
+        $.post("/Settings/Get_GAF_1", { data: document.getElementById("usr_gaf1").value });
+        $.post("/Settings/Get_GAF_2", { data: document.getElementById("usr_gaf2").value });
+        $.post("/Settings/Get_GAF_3", { data: document.getElementById("usr_gaf3").value });
+        $.post("/Settings/Get_GAF_4", { data: document.getElementById("usr_gaf4").value });
+        $.post("/Settings/Get_GAF_5", { data: document.getElementById("usr_gaf5").value });
 
         $.post("/Settings/WriteToFile", function (result) { if (!result) { showalert('Could not write to file.', 'alert-danger'); } });
 
         document.getElementById("btn_write").disabled = false;
         document.getElementById("btn_read").disabled = false;
-        document.getElementById("btn_write_spinner").style.display = "none";       
+        document.getElementById("btn_write_spinner").style.display = "none";
     }
     function Read() {
         showalert('Reading settings...', 'alert-info');
@@ -384,7 +407,7 @@
             <tbody>
                 <tr>
                     <td style="width:200px">
-                        <button style="width: 72px; display: inline" type="button" onclick="Read()"  id="btn_read"  class="btn btn-outline-danger btn-sm btn-block"><span id="btn_read_spinner"  class="spinner-border spinner-border-sm" style="display:none"></span>   Read </button>
+                        <button style="width: 72px; display: inline" type="button" onclick="Read()" id="btn_read" class="btn btn-outline-danger btn-sm btn-block"><span id="btn_read_spinner" class="spinner-border spinner-border-sm" style="display:none"></span>   Read </button>
                         <button style="width: 72px; display: inline" type="button" onclick="Write()" id="btn_write" class="btn btn-danger btn-sm btn-block">        <span id="btn_write_spinner" class="spinner-border spinner-border-sm" style="display:none"></span>   Write</button>
                     </td>
                     <td style="width:auto"></td>

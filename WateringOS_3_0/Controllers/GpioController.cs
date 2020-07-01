@@ -32,7 +32,17 @@ namespace WateringOS_3_0
         readonly byte PIN_DO_WD_Enable = 27; 
 
         // Public Declarations
-        public void StartPump()      { this.SetPin(PIN_DO_Pump,   true ); }
+        public void StartPump()      
+        {
+            if (Valve1Open || Valve2Open || Valve3Open || Valve4Open || Valve5Open)
+            {
+                this.SetPin(PIN_DO_Pump, true);
+            }
+            else
+            {
+                GpioLog(LogType.Error, "Pump interlock - activation suppressed", "The activation of pump was suppressed, because no open valve detected.");
+            }
+        }
         public void StopPump()       { this.SetPin(PIN_DO_Pump,   false); }
         public void OpenValve1()     { this.SetPin(PIN_DO_Valve1, true ); }
         public void CloseValve1()    { this.SetPin(PIN_DO_Valve1, false); }

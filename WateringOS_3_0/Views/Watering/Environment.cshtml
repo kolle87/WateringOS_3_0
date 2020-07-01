@@ -1,12 +1,33 @@
-﻿@{
+﻿<!--    DISCLAIMER -->
+<!-->
+        Watering OS - (C) Michael Kollmeyer 2020
+
+        This file is part of WateringOS.
+
+            WateringOS is free software: you can redistribute it and/or modify
+            it under the terms of the GNU General Public License as published by
+            the Free Software Foundation, either version 3 of the License, or
+            (at your option) any later version.
+
+            WateringOS is distributed in the hope that it will be useful,
+            but WITHOUT ANY WARRANTY; without even the implied warranty of
+            MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+            GNU General Public License for more details.
+
+            You should have received a copy of the GNU General Public License
+            along with WateringOS.  If not, see <https: //www.gnu.org/licenses />.
+<-->
+<!------------------->
+
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <head>
-        <script src="~/js/jquery.min.js"></script>
-        <script src="~/js/Chart.bundle.js"></script>
-        <script src="~/js/moment.js"></script>
-    </head>
+<head>
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/Chart.bundle.js"></script>
+    <script src="~/js/moment.js"></script>
+</head>
 
 <div class="container-fluid" style="width:100%;padding:90px 0px 0px 60px">
     <table class="grid" width="100%">
@@ -16,7 +37,7 @@
                 <td></td>
                 <td style="width:80px"><button style="width:72px" onclick="Show24h()" id="btn_24H" class="btn btn-outline-primary btn-sm btn-block" default>24 hrs</button></td>
                 <td style="width:80px"><button style="width:72px" onclick="Show1wk()" id="btn_1WK" class="btn btn-outline-primary btn-sm btn-block" default>1 week</button></td>
-                
+
             </tr>
         </tbody>
     </table>

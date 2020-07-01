@@ -1,4 +1,25 @@
-﻿@{
+﻿<!--    DISCLAIMER -->
+<!-->
+        Watering OS - (C) Michael Kollmeyer 2020
+
+        This file is part of WateringOS.
+
+            WateringOS is free software: you can redistribute it and/or modify
+            it under the terms of the GNU General Public License as published by
+            the Free Software Foundation, either version 3 of the License, or
+            (at your option) any later version.
+
+            WateringOS is distributed in the hope that it will be useful,
+            but WITHOUT ANY WARRANTY; without even the implied warranty of
+            MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+            GNU General Public License for more details.
+
+            You should have received a copy of the GNU General Public License
+            along with WateringOS.  If not, see <https: //www.gnu.org/licenses />.
+<-->
+<!------------------->
+
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -16,6 +37,7 @@
         .container {
             max-width: unset;
         }
+
         .btn-block {
             display: block;
             width: 100%;
@@ -79,36 +101,38 @@
         document.getElementById("btn_read").disabled = true;
         document.getElementById("btn_write_spinner").style.display = "inline-block";
 
-        $.post("/Settings/Get_Task_cycle",        { data: document.getElementById("usr_cycle").value });
-        $.post("/Settings/Get_AutoSaveLog",       { data: document.getElementById("usr_logsave").value });
-        $.post("/Settings/Get_FastLog",           { data: document.getElementById("usr_logfast").value }); 
-        $.post("/Settings/Get_Log_Enviroment",    { data: document.getElementById("usr_logenv").value });
-        $.post("/Settings/Get_Log_Power",         { data: document.getElementById("usr_logpower").value });
-        $.post("/Settings/Get_Log_Level",         { data: document.getElementById("usr_loglevel").value });
+        $.post("/Settings/Get_Task_cycle", { data: document.getElementById("usr_cycle").value });
+        $.post("/Settings/Get_AutoSaveLog", { data: document.getElementById("usr_logsave").value });
+        $.post("/Settings/Get_FastLog", { data: document.getElementById("usr_logfast").value });
+        $.post("/Settings/Get_Log_Enviroment", { data: document.getElementById("usr_logenv").value });
+        $.post("/Settings/Get_Log_Power", { data: document.getElementById("usr_logpower").value });
+        $.post("/Settings/Get_Log_Level", { data: document.getElementById("usr_loglevel").value });
 
-        $.post("/Settings/Get_DLY_Auto_LogOff",   { data: document.getElementById("usr_autologoff").value });
+        $.post("/Settings/Get_DLY_Auto_LogOff", { data: document.getElementById("usr_autologoff").value });
+        $.post("/Settings/Get_LOG_Buffer_Expiry", { data: document.getElementById("usr_bufferexpiry").value });
 
-        $.post("/Settings/Get_Tank_Min",          { data: document.getElementById("usr_tankmin").value });
-        $.post("/Settings/Get_Tank_Max",          { data: document.getElementById("usr_tankmax").value });
+        $.post("/Settings/Get_Tank_Min", { data: document.getElementById("usr_tankmin").value });
+        $.post("/Settings/Get_Tank_Max", { data: document.getElementById("usr_tankmax").value });
+        $.post("/Settings/Get_Tank_RefillHyst", { data: document.getElementById("usr_refillhyst").value });
 
-        $.post("/Settings/Get_Wat_min_tank",      { data: document.getElementById("usr_watmintank").value });
-        $.post("/Settings/Get_Wat_min_vol",       { data: document.getElementById("usr_watminvol").value });
-        $.post("/Settings/Get_Wat_min_time",      { data: document.getElementById("usr_watmintime").value });
-        $.post("/Settings/Get_Wat_max_vol",       { data: document.getElementById("usr_watmaxvol").value });
-        $.post("/Settings/Get_Wat_max_time",      { data: document.getElementById("usr_watmaxtime").value });
+        $.post("/Settings/Get_Wat_min_tank", { data: document.getElementById("usr_watmintank").value });
+        $.post("/Settings/Get_Wat_min_vol", { data: document.getElementById("usr_watminvol").value });
+        $.post("/Settings/Get_Wat_min_time", { data: document.getElementById("usr_watmintime").value });
+        $.post("/Settings/Get_Wat_max_vol", { data: document.getElementById("usr_watmaxvol").value });
+        $.post("/Settings/Get_Wat_max_time", { data: document.getElementById("usr_watmaxtime").value });
 
-        $.post("/Settings/Get_ALM_TankLevel",     { data: document.getElementById("usr_almtank").value });
-        $.post("/Settings/Get_ALM_MinPress",      { data: document.getElementById("usr_almminpress").value });
-        $.post("/Settings/Get_ALM_MaxPress",      { data: document.getElementById("usr_almmaxpress").value });
-        $.post("/Settings/Get_ALM_NoPumpDelay",   { data: document.getElementById("usr_nopumpdelay").value });
-        $.post("/Settings/Get_ALM_NoValveDelay",  { data: document.getElementById("usr_novalvedelay").value });
+        $.post("/Settings/Get_ALM_TankLevel", { data: document.getElementById("usr_almtank").value });
+        $.post("/Settings/Get_ALM_MinPress", { data: document.getElementById("usr_almminpress").value });
+        $.post("/Settings/Get_ALM_MaxPress", { data: document.getElementById("usr_almmaxpress").value });
+        $.post("/Settings/Get_ALM_NoPumpDelay", { data: document.getElementById("usr_nopumpdelay").value });
+        $.post("/Settings/Get_ALM_NoValveDelay", { data: document.getElementById("usr_novalvedelay").value });
         $.post("/Settings/Get_ALM_PressOffDelay", { data: document.getElementById("usr_pressoffdelay").value });
         $.post("/Settings/Get_ALM_PressOffValue", { data: document.getElementById("usr_pressoffvalue").value });
-        $.post("/Settings/Get_ALM_WarnTempCPU",   { data: document.getElementById("usr_cpuwarntemp").value });
-        $.post("/Settings/Get_ALM_MaxTempCPU",    { data: document.getElementById("usr_cpumaxtemp").value });
+        $.post("/Settings/Get_ALM_WarnTempCPU", { data: document.getElementById("usr_cpuwarntemp").value });
+        $.post("/Settings/Get_ALM_MaxTempCPU", { data: document.getElementById("usr_cpumaxtemp").value });
 
-        $.post("/Settings/Get_DLY_ValveOpen",     { data: document.getElementById("usr_delayvalveopen").value });
-        $.post("/Settings/Get_DLY_PumpStop",      { data: document.getElementById("usr_delaypumpstop").value });
+        $.post("/Settings/Get_DLY_ValveOpen", { data: document.getElementById("usr_delayvalveopen").value });
+        $.post("/Settings/Get_DLY_PumpStop", { data: document.getElementById("usr_delaypumpstop").value });
 
         $.post("/Settings/WriteToFile", function (result) { if (!result) { showalert('Could not write to file.', 'alert-danger'); } });
 
@@ -124,39 +148,41 @@
         document.getElementById("btn_read_spinner").style.display = "inline-block";
 
 
-        $.post("/Settings/ReadFromFile",      function (result) { if (!result) { showalert('Could not read from file.', 'alert-danger'); } });
+        $.post("/Settings/ReadFromFile", function (result) { if (!result) { showalert('Could not read from file.', 'alert-danger'); } });
 
-        $.post("/Settings/Task_cycle",        function (result) { document.getElementById("usr_cycle").value = result });
-        $.post("/Settings/FastLog",           function (result) { document.getElementById("usr_logfast").value = result });
-        $.post("/Settings/AutoSaveLog",       function (result) { document.getElementById("usr_logsave").value = result });
+        $.post("/Settings/Task_cycle", function (result) { document.getElementById("usr_cycle").value = result });
+        $.post("/Settings/FastLog", function (result) { document.getElementById("usr_logfast").value = result });
+        $.post("/Settings/AutoSaveLog", function (result) { document.getElementById("usr_logsave").value = result });
 
-        $.post("/Settings/Log_Enviroment",    function (result) { document.getElementById("usr_logenv").value = result });
-        $.post("/Settings/Log_Power",         function (result) { document.getElementById("usr_logpower").value = result });
-        $.post("/Settings/Log_Level",         function (result) { document.getElementById("usr_loglevel").value = result });
+        $.post("/Settings/Log_Enviroment", function (result) { document.getElementById("usr_logenv").value = result });
+        $.post("/Settings/Log_Power", function (result) { document.getElementById("usr_logpower").value = result });
+        $.post("/Settings/Log_Level", function (result) { document.getElementById("usr_loglevel").value = result });
 
-        $.post("/Settings/DLY_Auto_LogOff",   function (result) { document.getElementById("usr_autologoff").value = result });
+        $.post("/Settings/DLY_Auto_LogOff", function (result) { document.getElementById("usr_autologoff").value = result });
+        $.post("/Settings/LOG_Buffer_Expiry", function (result) { document.getElementById("usr_bufferexpiry").value = result })
 
-        $.post("/Settings/Tank_Min",          function (result) { document.getElementById("usr_tankmin").value = result });
-        $.post("/Settings/Tank_Max",          function (result) { document.getElementById("usr_tankmax").value = result });
+        $.post("/Settings/Tank_Min", function (result) { document.getElementById("usr_tankmin").value = result });
+        $.post("/Settings/Tank_Max", function (result) { document.getElementById("usr_tankmax").value = result });
+        $.post("/Settings/Tank_RefillHyst", function (result) { document.getElementById("usr_refillhyst").value = result });
 
-        $.post("/Settings/Wat_min_tank",      function (result) { document.getElementById("usr_watmintank").value = result });
-        $.post("/Settings/Wat_min_vol",       function (result) { document.getElementById("usr_watminvol").value = result });
-        $.post("/Settings/Wat_min_time",      function (result) { document.getElementById("usr_watmintime").value = result });
-        $.post("/Settings/Wat_max_vol",       function (result) { document.getElementById("usr_watmaxvol").value = result });
-        $.post("/Settings/Wat_max_time",      function (result) { document.getElementById("usr_watmaxtime").value = result });
+        $.post("/Settings/Wat_min_tank", function (result) { document.getElementById("usr_watmintank").value = result });
+        $.post("/Settings/Wat_min_vol", function (result) { document.getElementById("usr_watminvol").value = result });
+        $.post("/Settings/Wat_min_time", function (result) { document.getElementById("usr_watmintime").value = result });
+        $.post("/Settings/Wat_max_vol", function (result) { document.getElementById("usr_watmaxvol").value = result });
+        $.post("/Settings/Wat_max_time", function (result) { document.getElementById("usr_watmaxtime").value = result });
 
-        $.post("/Settings/ALM_TankLevel",     function (result) { document.getElementById("usr_almtank").value = result });
-        $.post("/Settings/ALM_MinPress",      function (result) { document.getElementById("usr_almminpress").value = result });
-        $.post("/Settings/ALM_MaxPress",      function (result) { document.getElementById("usr_almmaxpress").value = result });
-        $.post("/Settings/ALM_NoPumpDelay",   function (result) { document.getElementById("usr_nopumpdelay").value = result });
-        $.post("/Settings/ALM_NoValveDelay",  function (result) { document.getElementById("usr_novalvedelay").value = result });
+        $.post("/Settings/ALM_TankLevel", function (result) { document.getElementById("usr_almtank").value = result });
+        $.post("/Settings/ALM_MinPress", function (result) { document.getElementById("usr_almminpress").value = result });
+        $.post("/Settings/ALM_MaxPress", function (result) { document.getElementById("usr_almmaxpress").value = result });
+        $.post("/Settings/ALM_NoPumpDelay", function (result) { document.getElementById("usr_nopumpdelay").value = result });
+        $.post("/Settings/ALM_NoValveDelay", function (result) { document.getElementById("usr_novalvedelay").value = result });
         $.post("/Settings/ALM_PressOffDelay", function (result) { document.getElementById("usr_pressoffdelay").value = result });
         $.post("/Settings/ALM_PressOffValue", function (result) { document.getElementById("usr_pressoffvalue").value = result });
-        $.post("/Settings/ALM_WarnTempCPU",   function (result) { document.getElementById("usr_cpuwarntemp").value = result });
-        $.post("/Settings/ALM_MaxTempCPU",    function (result) { document.getElementById("usr_cpumaxtemp").value = result });
+        $.post("/Settings/ALM_WarnTempCPU", function (result) { document.getElementById("usr_cpuwarntemp").value = result });
+        $.post("/Settings/ALM_MaxTempCPU", function (result) { document.getElementById("usr_cpumaxtemp").value = result });
 
-        $.post("/Settings/DLY_ValveOpen",     function (result) { document.getElementById("usr_delayvalveopen").value = result });
-        $.post("/Settings/DLY_PumpStop",      function (result) { document.getElementById("usr_delaypumpstop").value = result });
+        $.post("/Settings/DLY_ValveOpen", function (result) { document.getElementById("usr_delayvalveopen").value = result });
+        $.post("/Settings/DLY_PumpStop", function (result) { document.getElementById("usr_delaypumpstop").value = result });
 
         document.getElementById("btn_write").disabled = false;
         document.getElementById("btn_read").disabled = false;
@@ -244,9 +270,9 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td style="text-align:right;padding-right:6px">LOG_BufferExpiry</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_bufferexpiry" min="10" max="300" step="1"></td>
+                    <td style="text-align:left">days</td>
                     <td style="text-align: right;padding-right:6px">ALM_MaxTempCPU</td>
                     <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_cpumaxtemp" min="40" max="100" step="1"></td>
                     <td style="text-align:left">°C</td>
@@ -281,9 +307,9 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td style="text-align:right;padding-right:6px">TNK_RefillHyst</td>
+                    <td style="width:65px;"><input type="number" style="width:60px;text-align: right" id="usr_refillhyst" min="0" max="100" step="1"></td>
+                    <td style="text-align:left">%</td>
                     <td></td>
                     <td></td>
                     <td></td>

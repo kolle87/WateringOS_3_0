@@ -1,4 +1,26 @@
-﻿namespace WateringOS_3_0.Models
+﻿
+/* DISCLAIMER
+
+Watering OS - (C) Michael Kollmeyer 2020  
+  
+This file is part of WateringOS.
+
+    WateringOS is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WateringOS is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WateringOS.  If not, see<https://www.gnu.org/licenses/>.
+
+*/
+
+namespace WateringOS_3_0.Models
 {
     public class cSystemSettings
     {
@@ -11,9 +33,11 @@
         public int Log_Level { get; set; } = 20;            // [ min] Logging interval of tank level          >>> also to be logged at change <<<
 
         public int DLY_Auto_LogOff { get; set; } = 1;       // [ min] time for automatic log off >>> Requires Server Restart <<<
+        public int LOG_Buffer_Expiry { get; set; } = 30;    // [days] time after which entries inside the buffer log will be deleted 
 
         public int Tank_Min { get; set; } = 123;            // [ int] calibration tank 0%
         public int Tank_Max { get; set; } = 198;            // [ int] calibration tank 100%
+        public int Tank_RefillHyst { get; set; } = 12;      // [  % ] hysteresis for tank level reset (tank refill)
 
         public int Wat_min_tank { get; set; } = 3;          // [  % ] minimum tank level for activating watering
         public int Wat_min_vol { get; set; } = 50;          // [ ml ] minimum volume to water

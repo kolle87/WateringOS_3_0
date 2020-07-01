@@ -1,60 +1,85 @@
-﻿@{
+﻿<!--    DISCLAIMER -->
+<!-->
+        Watering OS - (C) Michael Kollmeyer 2020
+
+        This file is part of WateringOS.
+
+            WateringOS is free software: you can redistribute it and/or modify
+            it under the terms of the GNU General Public License as published by
+            the Free Software Foundation, either version 3 of the License, or
+            (at your option) any later version.
+
+            WateringOS is distributed in the hope that it will be useful,
+            but WITHOUT ANY WARRANTY; without even the implied warranty of
+            MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+            GNU General Public License for more details.
+
+            You should have received a copy of the GNU General Public License
+            along with WateringOS.  If not, see <https: //www.gnu.org/licenses />.
+<-->
+<!------------------->
+
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>@ViewData["Title"]</title>
-        <link rel="stylesheet" href="~/css/site.css" />
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />" />
-        <style type="text/css">
-            .footer {
-                line-height: 0px;
-                background-color: white;
-                position: fixed;
-            }
-            .container {
-                max-width: unset;
-            }
-            .tooltip-inner {
-                min-width: 60px;
-                max-width: 800px;
-                color: #000000;
-                background: #ffffff;
-            }
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />" />
+    <style type="text/css">
+        .footer {
+            line-height: 0px;
+            background-color: white;
+            position: fixed;
+        }
 
-            .tooltip.show {
-                opacity: 0.9;
-            }
+        .container {
+            max-width: unset;
+        }
 
-            .bs-tooltip-bottom .arrow::before {
-                border-bottom-color: #ffffff;
-            }
-            .bs-tooltip-top .arrow::before {
-                border-top-color: #ffffff;
-            }
-            .alert {
-                display: block;
-                margin: 2px 2px 0px 2px;
-                padding: 0px 0px 0px 20px; /* top right bottom left */
-            }
+        .tooltip-inner {
+            min-width: 60px;
+            max-width: 800px;
+            color: #000000;
+            background: #ffffff;
+        }
 
-            html {
-                overflow: scroll;
-            }
+        .tooltip.show {
+            opacity: 0.9;
+        }
 
-            ::-webkit-scrollbar {
-                width: 0px;
-                background: transparent; /* make scrollbar transparent */
-            }
-        </style>
-    </head>
+        .bs-tooltip-bottom .arrow::before {
+            border-bottom-color: #ffffff;
+        }
+
+        .bs-tooltip-top .arrow::before {
+            border-top-color: #ffffff;
+        }
+
+        .alert {
+            display: block;
+            margin: 2px 2px 0px 2px;
+            padding: 0px 0px 0px 20px; /* top right bottom left */
+        }
+
+        html {
+            overflow: scroll;
+        }
+
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent; /* make scrollbar transparent */
+        }
+    </style>
+</head>
 
 <system.webServer>
     <httpProtocol>
         <customHeaders>
-            <add name="Access-Control-Allow-Origin"  value="*" />
+            <add name="Access-Control-Allow-Origin" value="*" />
             <add name="Access-Control-Allow-Methods" value="GET, POST, PUT, DELETE, OPTIONS" />
             <add name="Access-Control-Allow-Headers" value="Origin, X-Requested-With, Content-Type, Accept" />
         </customHeaders>

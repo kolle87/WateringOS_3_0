@@ -6,6 +6,27 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using WateringOS_3_0.Models;
 
+/* DISCLAIMER
+
+Watering OS - (C) Michael Kollmeyer 2020  
+  
+This file is part of WateringOS.
+
+    WateringOS is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WateringOS is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WateringOS.  If not, see<https://www.gnu.org/licenses/>.
+
+*/
+
 namespace WateringOS_3_0.Controllers
 {
     public class SettingsController : Controller
@@ -33,8 +54,8 @@ namespace WateringOS_3_0.Controllers
         {
             try
             {
-                System.IO.File.WriteAllText(@"wwwroot/systemsettings.json",   JsonConvert.SerializeObject(Settings.System));
-                System.IO.File.WriteAllText(@"wwwroot/wateringsettings.json", JsonConvert.SerializeObject(Settings.Watering));
+                System.IO.File.WriteAllText(@"usrdata/systemsettings.json",   JsonConvert.SerializeObject(Settings.System));
+                System.IO.File.WriteAllText(@"usrdata/wateringsettings.json", JsonConvert.SerializeObject(Settings.Watering));
                 Console.WriteLine($"SettingsController: WriteToFile() OK");
                 BackgroundTaskController.AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "[APP] SettingsController", LogType.Information, "WriteToFile() OK", "Settings have been written to the *.json file");
                 return true;
@@ -51,8 +72,8 @@ namespace WateringOS_3_0.Controllers
         {
             try
             {
-                Settings.System = JsonConvert.DeserializeObject<cSystemSettings>(System.IO.File.ReadAllText(@"wwwroot/systemsettings.json"));
-                Settings.Watering = JsonConvert.DeserializeObject<cWateringSettings>(System.IO.File.ReadAllText(@"wwwroot/wateringsettings.json"));
+                Settings.System = JsonConvert.DeserializeObject<cSystemSettings>(System.IO.File.ReadAllText(@"usrdata/systemsettings.json"));
+                Settings.Watering = JsonConvert.DeserializeObject<cWateringSettings>(System.IO.File.ReadAllText(@"usrdata/wateringsettings.json"));
                 Console.WriteLine($"SettingsController: ReadFromFileStatic() OK");
                 BackgroundTaskController.AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "[APP] SettingsController", LogType.Information, "ReadFromFileStatic() OK", "Settings have been loaded by static read of the *.json file");
                 return true;
@@ -74,9 +95,11 @@ namespace WateringOS_3_0.Controllers
         public int Log_Level()          { return Settings.System.Log_Level; }
 
         public int DLY_Auto_LogOff()    { return Settings.System.DLY_Auto_LogOff; }
+        public int LOG_Buffer_Expiry()  { return Settings.System.LOG_Buffer_Expiry; }
 
         public int Tank_Min()           { return Settings.System.Tank_Min; }
         public int Tank_Max()           { return Settings.System.Tank_Max; }
+        public int Tank_RefillHyst()    { return Settings.System.Tank_RefillHyst; }
 
         public int Wat_min_tank()       { return Settings.System.Wat_min_tank; }
         public int Wat_min_vol()        { return Settings.System.Wat_min_vol; }
@@ -191,9 +214,11 @@ namespace WateringOS_3_0.Controllers
         public void Get_Log_Level(int data) { Settings.System.Log_Level = data; }
 
         public void Get_DLY_Auto_LogOff(int data) { Settings.System.DLY_Auto_LogOff = data; }
+        public void Get_LOG_Buffer_Expiry(int data) { Settings.System.LOG_Buffer_Expiry = data; }
 
         public void Get_Tank_Min(int data) { Settings.System.Tank_Min = data; }
         public void Get_Tank_Max(int data) { Settings.System.Tank_Max = data; }
+        public void Get_Tank_RefillHyst(int data) { Settings.System.Tank_RefillHyst = data; }
 
         public void Get_Wat_min_tank(int data) { Settings.System.Wat_min_tank = data; }
         public void Get_Wat_min_vol(int data) { Settings.System.Wat_min_vol = data; }
