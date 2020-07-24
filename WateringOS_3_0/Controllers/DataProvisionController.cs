@@ -37,6 +37,7 @@ namespace WateringOS_3_0.Controllers
         public int    GetCurrentFlow4()    { if (!SIM_MODE) { return LogLists.RecentEntries.Flow4; }          else { return rdm.Next(181)*10 + 200; } }
         public int    GetCurrentFlow5()    { if (!SIM_MODE) { return LogLists.RecentEntries.Flow5; }          else { return rdm.Next(181)*10 + 200; } }
         public int    GetCurrentLevel()    { if (!SIM_MODE) { return LogLists.RecentEntries.Tank; }           else { return rdm.Next(90) + 10; } }
+        public int    GetCurrentTankForce(){ if (!SIM_MODE) { return LogLists.RecentEntries.TankForce; }      else { return rdm.Next(14000) + 1000; } }
         public double GetCurrentPressure() { if (!SIM_MODE) { return LogLists.RecentEntries.Pressure; }       else { return rdm.NextDouble() * 10; } }
         public int    GetCurrentTempCPU()  { if (!SIM_MODE) { return LogLists.RecentEntries.TempCPU; }        else { return rdm.Next(20) + 30; } }
         public int    GetCurrentTempAmb()  { if (!SIM_MODE) { return LogLists.RecentEntries.TempAmb; }        else { return rdm.Next(20) + 7; } }

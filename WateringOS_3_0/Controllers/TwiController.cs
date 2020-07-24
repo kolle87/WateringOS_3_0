@@ -33,12 +33,15 @@ namespace WateringOS_3_0
         private I2cDevice TWI_TempCPU;      // 0x48
         private I2cDevice TWI_TempAmbient;  // 0x4F
         private I2cDevice TWI_TempExposed;  // 0x4B
+        private I2cDevice TWI_TankWeight;   // 0x28
         private I2cConnectionSettings settings1;
         private I2cConnectionSettings settings2;
         private I2cConnectionSettings settings3;
+        private I2cConnectionSettings settings4;
         public short AmbientTemp { get; private set; }
         public short ExposedTemp { get; private set; }
-        public short CPUTemp { get; private set; }
+        public short CPUTemp     { get; private set; }
+        public int TankWeight  { get; private set; }
 
         public async void InitTWIAsync()
         {
@@ -96,6 +99,19 @@ namespace WateringOS_3_0
                     {
                         TwiLog(LogType.Error, "0x4B: Error initializing exposed temperature sensor", e.Message);
                     }
+
+                    // Initialize Tank Force Sensor (FX29)
+                    try
+                    {
+                        TwiLog(LogType.Information, "0x28: Loading slave", "Loading slave settings for 0x28 (tank force sensor) and starting interface");
+                        this.settings4 = new I2cConnectionSettings(1, 0x28);   // Force sensor
+                        this.TWI_TankWeight = I2cDevice.Create(settings4);
+                        await Task.Delay(100);
+                    }
+                    catch (Exception e)
+                    {
+                        TwiLog(LogType.Error, "0x28: Error initializing tank force sensor", e.Message);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -110,6 +126,11 @@ namespace WateringOS_3_0
                 t_wait.Wait();
             }
             ExposedTemp = ReadExposedTemp();
+            using (Task t_wait = Task.Run(async delegate { await Task.Delay(50); }))
+            {
+                t_wait.Wait();
+            }
+            TankWeight = ReadTankWeight();
             using (Task t_wait = Task.Run(async delegate { await Task.Delay(50); }))
             {
                 t_wait.Wait();
@@ -177,6 +198,26 @@ namespace WateringOS_3_0
                 return -50;
             }
         }
+
+        private int ReadTankWeight()
+        {
+
+            try
+            {
+                //var vASr = new byte[] { };    
+                var vASa = new byte[2];
+                //this.TWI_TankWeight.Write(vASr);
+                this.TWI_TankWeight.Read(vASa);
+                int tForce = (int)(((vASa[0] & 63)*256)+(vASa[1]));
+                return tForce;
+            }
+            catch (Exception e)
+            {
+                TwiLog(LogType.Error, "Error reading Tank force sensor", e.Message);
+                return -50;
+            }
+        }
+
         private void TwiLog(string vType, string vMessage, string vDetail)
         {
             switch (vType)

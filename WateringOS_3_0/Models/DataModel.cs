@@ -155,6 +155,7 @@ namespace WateringOS_3_0.Models
         public bool Valve5 { get; set; }
 
         public byte Tank { get; set; }
+        public int  TankForce { get; set; }
         public byte Rain { get; set; }
         public byte Ground { get; set; }
         public double Pressure { get; set; }

@@ -214,6 +214,9 @@
             document.getElementById("txt_Tank").textContent = result + "%";
             document.getElementById("prog_Tank").style.height = result + "%";
         });
+        $.post("/DataProvision/GetCurrentTankForce", function (result) {
+            document.getElementById("txt_TankForce").textContent = result;
+        });
         $.post("/DataProvision/GetCurrentPressure", function (result) {
             document.getElementById("txt_press").textContent = (Math.round(result * 10) / 10).toFixed(1) + " bar";
             document.getElementById("prog_press").style.height = Math.round(result) * 10 + "%";
@@ -273,7 +276,7 @@
                             <td><h6>Tank Level</h6></td>
                             <td style="text-align:right"><h6>Pressure</h6></td>
                         </tr>
-                        <tr height="80%">
+                        <tr height="75%">
                             <td>
                                 <div class="progress vertical" style="height:100%;width:93%">
                                     <div role="progressbar" class="progress-bar" id="prog_Tank" style="height: 10%">
@@ -295,6 +298,11 @@
                                         </td>
                                     </tr>
                                 </table>
+                            </td>
+                        </tr>
+                        <tr height="5%">
+                            <td>
+                                <span class="text" id="txt_TankForce">---</span>
                             </td>
                         </tr>
                     </tbody>

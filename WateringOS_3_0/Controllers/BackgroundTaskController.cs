@@ -203,8 +203,9 @@ namespace WateringOS_3_0.Controllers
             LogLists.RecentEntries.LevelRaw = Globals.SpiServer.LevelRaw;
 
             //Console.WriteLine($">>> Get TWI data");
-            LogLists.RecentEntries.TempAmb = Globals.TwiServer.AmbientTemp;
-            LogLists.RecentEntries.TempExp = Globals.TwiServer.ExposedTemp;
+            LogLists.RecentEntries.TempAmb   = Globals.TwiServer.AmbientTemp;
+            LogLists.RecentEntries.TempExp   = Globals.TwiServer.ExposedTemp;
+            LogLists.RecentEntries.TankForce = Globals.TwiServer.TankWeight;
 
             LogLists.RecentEntries.TempAmbFiltered = 0; // not used
             LogLists.RecentEntries.TempCPUFiltered = 0; // not used
@@ -469,9 +470,9 @@ namespace WateringOS_3_0.Controllers
                 }
                 // ring buffer for watering log newest first
                 LogLists.WateringLog3.Clear();
-                LogLists.WateringLog3 = LogLists.WateringLog2;
+                //LogLists.WateringLog3 = LogLists.WateringLog2;
                 LogLists.WateringLog2.Clear();
-                LogLists.WateringLog2 = LogLists.WateringLog1;
+                //LogLists.WateringLog2 = LogLists.WateringLog1;
                 LogLists.WateringLog1.Clear();
 
                 Globals.WateringActive = true;
