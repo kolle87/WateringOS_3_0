@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections;
 using System.Timers;
 
 /* DISCLAIMER
@@ -52,29 +53,30 @@ namespace WateringOS_3_0.Models
     }
     public static class Globals
     {
-        public static readonly  bool            AppInDebug       = false;
-        public static readonly  string          Version          = "v3.2-dev-0724";
-        public static readonly  Timer           FastTask         = new Timer(200);      // 200 ms
-        public static readonly  Timer           MainTask         = new Timer(1000);     //   1 s
-        public static readonly  Timer           SaveTask         = new Timer(1200000);  //  20 min
-        public static readonly  Timer           LevelLogger      = new Timer(1200000);  //  20 min
-        public static readonly  Timer           EnvLogger        = new Timer(1200000);  //  20 min
-        public static readonly  Timer           PowerLogger      = new Timer(60000);    //   1 min
-        public static readonly  Timer           BufferCleanTask  = new Timer(86400000); //   1 day
-        public static readonly  GPIOController  GpioServer       = new GPIOController();
-        public static readonly  TWIController   TwiServer        = new TWIController();
-        public static readonly  SQLController   SqlServer        = new SQLController();
-        public static readonly  SPIController   SpiServer        = new SPIController();
-        public static           bool            IsInitialized    = false;
-        public static           DateTime        ServerStart;
-        public static           int             vTest            = 0;
-        public static           byte            WateringRecord   = 0;
+        public static readonly bool AppInDebug = false;
+        public static readonly string Version = "v3.2-dev-0804";
+        public static readonly Timer FastTask = new Timer(200);      // 200 ms
+        public static readonly Timer MainTask = new Timer(1000);     //   1 s
+        public static readonly Timer SaveTask = new Timer(1200000);  //  20 min
+        public static readonly Timer LevelLogger = new Timer(1200000);  //  20 min
+        public static readonly Timer EnvLogger = new Timer(1200000);  //  20 min
+        public static readonly Timer PowerLogger = new Timer(60000);    //   1 min
+        public static readonly Timer BufferCleanTask = new Timer(86400000); //   1 day
+        public static readonly GPIOController GpioServer = new GPIOController();
+        public static readonly TWIController TwiServer = new TWIController();
+        public static readonly SQLController SqlServer = new SQLController();
+        public static readonly SPIController SpiServer = new SPIController();
+        public static Queue TankLevel = new Queue(1200, 1);
+        public static bool IsInitialized = false;
+        public static DateTime ServerStart;
+        public static int vTest = 0;
+        public static byte WateringRecord = 0;
 
-        public static           bool            SqlIsBusy        = false;
-        public static           string          SqlDat_Prefix    = "INSERT INTO Signals(DateTime, Flow1, Flow2, Flow3, Flow4, Flow5, Rain, Ground, TankLevel, Pressure, TempCPU, TempAmb, TempExp, Pump, Valve1, Valve2, Valve3, Valve4, Valve5, PG5, PG12, PG24, PF5, PF12, PF24, Watchdog, TEST) VALUES ";
-        public static           string          SqlDat_Data      = "";
-        public static           string          SqlLog_Prefix    = "INSERT INTO Log(TimeStamp, Instance, Type, Name, Details, TEST) VALUES ";
-        public static           string          SqlLog_Data      = "";
+        public static bool SqlIsBusy = false;
+        public static string SqlDat_Prefix = "INSERT INTO Signals(DateTime, Flow1, Flow2, Flow3, Flow4, Flow5, Rain, Ground, TankLevel, Pressure, TempCPU, TempAmb, TempExp, Pump, Valve1, Valve2, Valve3, Valve4, Valve5, PG5, PG12, PG24, PF5, PF12, PF24, Watchdog, TEST) VALUES ";
+        public static string SqlDat_Data = "";
+        public static string SqlLog_Prefix = "INSERT INTO Log(TimeStamp, Instance, Type, Name, Details, TEST) VALUES ";
+        public static string SqlLog_Data = "";
 
 
         public static bool WateringActive = false;
@@ -84,7 +86,7 @@ namespace WateringOS_3_0.Models
         public static bool ALM_MinPressactive = false;
         public static bool ALM_MaxPressactive = false;
 
-        public static readonly char[]           IllegalCharacters= { (char)0x27, (char)0x3B };
-        public static readonly char[]           ReplaceCharacters= { (char)0x5E, (char)0x5E };
+        public static readonly char[] IllegalCharacters = { (char)0x27, (char)0x3B };
+        public static readonly char[] ReplaceCharacters = { (char)0x5E, (char)0x5E };
     }
 }

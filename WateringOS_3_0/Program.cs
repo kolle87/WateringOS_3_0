@@ -45,22 +45,22 @@ namespace WateringOS_3_0
             Console.WriteLine($">>> Starting MVC Background Service for WateringOS 3.0\n");
             BackgroundTaskController.AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "Program", LogType.Status, "Starting MVC Background Service for WateringOS 3.0", "The service just have started, initiazing MVC Background Service for WateringOS 3.0");
             Console.WriteLine(sb.ToString());
-            BackgroundTaskController.AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "Program", LogType.Status, "Received IP for service", "Following IPs have been assigned:\n"+sb.ToString());
+            BackgroundTaskController.AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "Program", LogType.Status, "Received IP for service", "Following IPs have been assigned:\n" + sb.ToString());
 
             Parents.Host = CreateHostBuilder(args).Build();
 
-            Parents.Logger_Program                   = Parents.Host.Services.GetRequiredService<ILogger<Program>>();
-            Parents.Logger_Startup                   = Parents.Host.Services.GetRequiredService<ILogger<Startup>>();
-            Parents.Logger_BackgroundTaskController  = Parents.Host.Services.GetRequiredService<ILogger<BackgroundTaskController>>();
-            Parents.Logger_DataProvisionController   = Parents.Host.Services.GetRequiredService<ILogger<DataProvisionController>>();
-            Parents.Logger_ManualController          = Parents.Host.Services.GetRequiredService<ILogger<ManualController>>();
-            Parents.Logger_SettingsController        = Parents.Host.Services.GetRequiredService<ILogger<SettingsController>>();
-            Parents.Logger_WateringController        = Parents.Host.Services.GetRequiredService<ILogger<WateringController>>();
+            Parents.Logger_Program = Parents.Host.Services.GetRequiredService<ILogger<Program>>();
+            Parents.Logger_Startup = Parents.Host.Services.GetRequiredService<ILogger<Startup>>();
+            Parents.Logger_BackgroundTaskController = Parents.Host.Services.GetRequiredService<ILogger<BackgroundTaskController>>();
+            Parents.Logger_DataProvisionController = Parents.Host.Services.GetRequiredService<ILogger<DataProvisionController>>();
+            Parents.Logger_ManualController = Parents.Host.Services.GetRequiredService<ILogger<ManualController>>();
+            Parents.Logger_SettingsController = Parents.Host.Services.GetRequiredService<ILogger<SettingsController>>();
+            Parents.Logger_WateringController = Parents.Host.Services.GetRequiredService<ILogger<WateringController>>();
             Parents.Logger_SimpleMembershipAttribute = Parents.Host.Services.GetRequiredService<ILogger<SimpleMembershipAttribute>>();
-            Parents.Logger_GPIOController            = Parents.Host.Services.GetRequiredService<ILogger<GPIOController>>();
-            Parents.Logger_SPIController             = Parents.Host.Services.GetRequiredService<ILogger<SPIController>>();
-            Parents.Logger_SQLController             = Parents.Host.Services.GetRequiredService<ILogger<SQLController>>();
-            Parents.Logger_TWIController             = Parents.Host.Services.GetRequiredService<ILogger<TWIController>>();
+            Parents.Logger_GPIOController = Parents.Host.Services.GetRequiredService<ILogger<GPIOController>>();
+            Parents.Logger_SPIController = Parents.Host.Services.GetRequiredService<ILogger<SPIController>>();
+            Parents.Logger_SQLController = Parents.Host.Services.GetRequiredService<ILogger<SQLController>>();
+            Parents.Logger_TWIController = Parents.Host.Services.GetRequiredService<ILogger<TWIController>>();
 
             if (BackgroundTaskController.Initialize())
             {
@@ -78,15 +78,16 @@ namespace WateringOS_3_0
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+            .UseSystemd()
             .ConfigureLogging(logging =>
             {
                 logging.ClearProviders();
                 logging.AddConsole();
             })
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseUrls("http://*:8081");
-                    webBuilder.UseStartup<Startup>();
-                });
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseUrls("http://*:8081");
+                webBuilder.UseStartup<Startup>();
+            });
     }
 }

@@ -155,7 +155,7 @@ namespace WateringOS_3_0.Models
         public bool Valve5 { get; set; }
 
         public byte Tank { get; set; }
-        public int  TankForce { get; set; }
+        public int TankForce { get; set; }
         public byte Rain { get; set; }
         public byte Ground { get; set; }
         public double Pressure { get; set; }
@@ -197,16 +197,16 @@ namespace WateringOS_3_0.Models
     }
     public class LogLists
     {
-        public static List<cDataLog>  DataLog       = new List<cDataLog>(65535);
-        public static List<cEnvLog>   EnvLog        = new List<cEnvLog>(65535);     // LogData for Temperature, Ground and Rain
-        public static List<cPowerLog> PowerLog      = new List<cPowerLog>(65535);   // LogData for Power Supply Status and WatchDog
-        public static List<cLevelLog> LevelLog      = new List<cLevelLog>(65535);   // LogData for TankLevel
-        public static List<cWaterLog> WateringLog1  = new List<cWaterLog>(65535);   // LogData when watering is active
-        public static List<cWaterLog> WateringLog2  = new List<cWaterLog>(65535);   // LogData when watering is active
-        public static List<cWaterLog> WateringLog3  = new List<cWaterLog>(65535);   // LogData when watering is active
-        public static List<cJournal>  JournalLog    = new List<cJournal>(65535);    // Log Messages from Watering System
-        public static List<cJournal>  JournalBuffer = new List<cJournal>(255);      // Session Buffer for new Messages
+        public static List<cDataLog> DataLog = new List<cDataLog>(65535);
+        public static List<cEnvLog> EnvLog = new List<cEnvLog>(65535);     // LogData for Temperature, Ground and Rain
+        public static List<cPowerLog> PowerLog = new List<cPowerLog>(65535);   // LogData for Power Supply Status and WatchDog
+        public static List<cLevelLog> LevelLog = new List<cLevelLog>(65535);   // LogData for TankLevel
+        public static List<cWaterLog> WateringLog1 = new List<cWaterLog>(65535);   // LogData when watering is active
+        public static List<cWaterLog> WateringLog2 = new List<cWaterLog>(65535);   // LogData when watering is active
+        public static List<cWaterLog> WateringLog3 = new List<cWaterLog>(65535);   // LogData when watering is active
+        public static List<cJournal> JournalLog = new List<cJournal>(10000);    // Log Messages from Watering System
+        public static List<cJournal> JournalBuffer = new List<cJournal>(255);      // Session Buffer for new Messages
 
-        public static cRecentEntries  RecentEntries = new cRecentEntries();
+        public static cRecentEntries RecentEntries = new cRecentEntries();
     }
 }

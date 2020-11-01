@@ -359,6 +359,9 @@
     $(document).ready(function () { Show1(); });
 
     function ClearData() {
+        // Header date
+        document.getElementById("txt_Date").textContent = "---";
+
         // Pressure
         PressChart.data.labels = [];
         PressChart.data.datasets[0].data = [];

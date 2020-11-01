@@ -40,83 +40,83 @@ namespace WateringOS_3_0
         private I2cConnectionSettings settings4;
         public short AmbientTemp { get; private set; }
         public short ExposedTemp { get; private set; }
-        public short CPUTemp     { get; private set; }
-        public int TankWeight  { get; private set; }
+        public short CPUTemp { get; private set; }
+        public int TankWeight { get; private set; }
 
         public async void InitTWIAsync()
         {
             TwiLog(LogType.Information, "Start initialisation", "The intialization of the TWI communication class has started.");
+            try
+            {
+
+                // Initialize CPU Temperature Sensor (DS1621)
                 try
                 {
+                    TwiLog(LogType.Information, "0x48: Loading slave", "Loading slave settings for 0x48 (CPU temperature sensor) and starting interface");
+                    this.settings1 = new I2cConnectionSettings(1, 0x48); // CPU Temperature
+                    this.TWI_TempCPU = I2cDevice.Create(this.settings1);
+                    await Task.Delay(100);
 
-                    // Initialize CPU Temperature Sensor (DS1621)
-                    try
-                    {
-                        TwiLog(LogType.Information, "0x48: Loading slave", "Loading slave settings for 0x48 (CPU temperature sensor) and starting interface");
-                        this.settings1 = new I2cConnectionSettings(1, 0x48); // CPU Temperature
-                        this.TWI_TempCPU = I2cDevice.Create(this.settings1);
-                        await Task.Delay(100);
+                    TwiLog(LogType.Information, "0x48: Setting configuration register", "Setting the configuration register to continues measuring");
+                    var vACh = new byte[] { 0xAC, 0x00 };    // Access config set 0x00 (continues meas)
+                    this.TWI_TempCPU.Write(vACh);
+                    await Task.Delay(100);
 
-                        TwiLog(LogType.Information, "0x48: Setting configuration register", "Setting the configuration register to continues measuring");
-                        var vACh = new byte[] { 0xAC, 0x00 };    // Access config set 0x00 (continues meas)
-                        this.TWI_TempCPU.Write(vACh);
-                        await Task.Delay(100);
+                    TwiLog(LogType.Information, "0x48: Start temperature conversion", "Sending command to start continues temperature conversion");
+                    var vEEh = new byte[] { 0xEE };    // Send 0xEE for start conversion
+                    this.TWI_TempCPU.Write(vEEh);
+                    await Task.Delay(100);
 
-                        TwiLog(LogType.Information, "0x48: Start temperature conversion", "Sending command to start continues temperature conversion");
-                        var vEEh = new byte[] { 0xEE };    // Send 0xEE for start conversion
-                        this.TWI_TempCPU.Write(vEEh);
-                        await Task.Delay(100);
-
-                    }
-                    catch (Exception e)
-                    {
-                        TwiLog(LogType.Error, "0x48: Error initializing CPU temperature sensor", e.Message);
-                    }
-
-                    // Initialize Ambient Temperature Sensor (LM75)
-                    try
-                    {
-                        TwiLog(LogType.Information, "0x4F: Loading slave", "Loading slave settings for 0x4F (ambient temperature sensor) and starting interface");
-                        this.settings2 = new I2cConnectionSettings(1, 0x4F);   // Ambient Temperature
-                        this.TWI_TempAmbient = I2cDevice.Create(settings2);
-                        await Task.Delay(100);
-                        
-                    }
-                    catch (Exception e)
-                    {
-                        TwiLog(LogType.Error, "0x4F: Error initializing ambient temperature sensor", e.Message);
-                    }
-
-                    // Initialize Exposed Temperature Sensor (LM75)
-                    try
-                    {
-                        TwiLog(LogType.Information, "0x4B: Loading slave", "Loading slave settings for 0x4B (exposed temperature sensor) and starting interface");
-                        this.settings3 = new I2cConnectionSettings(1, 0x4B);   // Ambient Temperature
-                        this.TWI_TempExposed = I2cDevice.Create(settings3);
-                        await Task.Delay(100);
-                    }
-                    catch (Exception e)
-                    {
-                        TwiLog(LogType.Error, "0x4B: Error initializing exposed temperature sensor", e.Message);
-                    }
-
-                    // Initialize Tank Force Sensor (FX29)
-                    try
-                    {
-                        TwiLog(LogType.Information, "0x28: Loading slave", "Loading slave settings for 0x28 (tank force sensor) and starting interface");
-                        this.settings4 = new I2cConnectionSettings(1, 0x28);   // Force sensor
-                        this.TWI_TankWeight = I2cDevice.Create(settings4);
-                        await Task.Delay(100);
-                    }
-                    catch (Exception e)
-                    {
-                        TwiLog(LogType.Error, "0x28: Error initializing tank force sensor", e.Message);
-                    }
                 }
                 catch (Exception e)
                 {
-                    TwiLog(LogType.Error, "TWI Class Error Initializing", e.Message);
+                    TwiLog(LogType.Error, "0x48: Error initializing CPU temperature sensor", e.Message);
                 }
+
+                // Initialize Ambient Temperature Sensor (LM75)
+                try
+                {
+                    TwiLog(LogType.Information, "0x4F: Loading slave", "Loading slave settings for 0x4F (ambient temperature sensor) and starting interface");
+                    this.settings2 = new I2cConnectionSettings(1, 0x4F);   // Ambient Temperature
+                    this.TWI_TempAmbient = I2cDevice.Create(settings2);
+                    await Task.Delay(100);
+
+                }
+                catch (Exception e)
+                {
+                    TwiLog(LogType.Error, "0x4F: Error initializing ambient temperature sensor", e.Message);
+                }
+
+                // Initialize Exposed Temperature Sensor (LM75)
+                try
+                {
+                    TwiLog(LogType.Information, "0x4B: Loading slave", "Loading slave settings for 0x4B (exposed temperature sensor) and starting interface");
+                    this.settings3 = new I2cConnectionSettings(1, 0x4B);   // Ambient Temperature
+                    this.TWI_TempExposed = I2cDevice.Create(settings3);
+                    await Task.Delay(100);
+                }
+                catch (Exception e)
+                {
+                    TwiLog(LogType.Error, "0x4B: Error initializing exposed temperature sensor", e.Message);
+                }
+
+                // Initialize Tank Force Sensor (FX29)
+                try
+                {
+                    TwiLog(LogType.Information, "0x28: Loading slave", "Loading slave settings for 0x28 (tank force sensor) and starting interface");
+                    this.settings4 = new I2cConnectionSettings(1, 0x28);   // Force sensor
+                    this.TWI_TankWeight = I2cDevice.Create(settings4);
+                    await Task.Delay(100);
+                }
+                catch (Exception e)
+                {
+                    TwiLog(LogType.Error, "0x28: Error initializing tank force sensor", e.Message);
+                }
+            }
+            catch (Exception e)
+            {
+                TwiLog(LogType.Error, "TWI Class Error Initializing", e.Message);
+            }
         }
         public void TWI_Read()
         {
@@ -135,22 +135,25 @@ namespace WateringOS_3_0
             {
                 t_wait.Wait();
             }
-            CPUTemp     = ReadCPUTemp();
+            CPUTemp = ReadCPUTemp();
         }
         private short ReadCPUTemp()
         {
 
             try
             {
-                var vASr = new byte[] { 0xAA };    // 0xAA = DS1621 read temp
-                var vASa = new byte[2];
-                this.TWI_TempCPU.Write(vASr);
-                this.TWI_TempCPU.Read(vASa);
-                //var vNeg = 1;
-                //if ((vASa[0] & 128) == 1) { vNeg = -1; }
-                //int tTcpu = (vASa[0] & 127) * vNeg;
-                sbyte tTcpu = (sbyte)vASa[0];
-                return tTcpu;
+                /*
+                    var vASr = new byte[] { 0xAA };    // 0xAA = DS1621 read temp
+                    var vASa = new byte[2];
+                    this.TWI_TempCPU.Write(vASr);
+                    this.TWI_TempCPU.Read(vASa);
+                    //var vNeg = 1;
+                    //if ((vASa[0] & 128) == 1) { vNeg = -1; }
+                    //int tTcpu = (vASa[0] & 127) * vNeg;
+                    sbyte tTcpu = (sbyte)vASa[0];
+                    return tTcpu;
+                */
+                return 50;
             }
             catch (Exception e)
             {
@@ -169,7 +172,7 @@ namespace WateringOS_3_0
                 // var vNeg = 1;
                 // if ((vASa[0] & 128) == 1) { vNeg = -1; }
                 // int tTamb = (vASa[0] & 127) * vNeg;
-                sbyte tTair= (sbyte)vASa[0];
+                sbyte tTair = (sbyte)vASa[0];
                 return tTair;
             }
             catch (Exception e)
@@ -208,7 +211,7 @@ namespace WateringOS_3_0
                 var vASa = new byte[2];
                 //this.TWI_TankWeight.Write(vASr);
                 this.TWI_TankWeight.Read(vASa);
-                int tForce = (int)(((vASa[0] & 63)*256)+(vASa[1]));
+                int tForce = (int)(((vASa[0] & 63) * 256) + (vASa[1]));
                 return tForce;
             }
             catch (Exception e)

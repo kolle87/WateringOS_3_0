@@ -11,6 +11,9 @@ using Microsoft.VisualBasic.CompilerServices;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks.Dataflow;
 using Newtonsoft.Json;
+using System.IO;
+using System.Text;
+using Microsoft.AspNetCore.Components.Forms;
 
 /* DISCLAIMER
 
@@ -37,20 +40,23 @@ namespace WateringOS_3_0.Controllers
 {
     public class BackgroundTaskController : Controller
     {
+        static int LogNumber = 0;
+        static int LogCount = 0;
+
         private static void FastTask_Routine(object sender, ElapsedEventArgs e)
         {
             Globals.SpiServer.SPI_Read();
             Globals.TwiServer.TWI_Read();
 
-            byte vRain   = 0;
+            byte vRain = 0;
             byte vGround = 0;
 
             // Alarm handling --> jitter supression in main task
-            int    vCurrentTemp  = DataProvisionController.GetTemperature();
+            int vCurrentTemp = DataProvisionController.GetTemperature();
             double vCurrentPress = Globals.SpiServer.Pressure;
-            if ((vCurrentTemp>=Settings.System.ALM_WarnTempCPU)&&(vCurrentTemp<Settings.System.ALM_MaxTempCPU)&&(!Globals.ALM_WarnTempCPUactive))
+            if ((vCurrentTemp >= Settings.System.ALM_WarnTempCPU) && (vCurrentTemp < Settings.System.ALM_MaxTempCPU) && (!Globals.ALM_WarnTempCPUactive))
             {
-                SysLog(LogType.Warning, "High CPU Temperature", "The Temperature of the CPU reached the warning threshold of "+Settings.System.ALM_WarnTempCPU+"°C");
+                SysLog(LogType.Warning, "High CPU Temperature", "The Temperature of the CPU reached the warning threshold of " + Settings.System.ALM_WarnTempCPU + "°C");
                 Globals.ALM_WarnTempCPUactive = true;
             }
 
@@ -66,9 +72,9 @@ namespace WateringOS_3_0.Controllers
                 Globals.ALM_WarnTankLevelactive = true;
             }
 
-            if ((vCurrentPress >= Settings.System.ALM_MaxPress/1000) && (!Globals.ALM_MaxPressactive))
+            if ((vCurrentPress >= Settings.System.ALM_MaxPress / 1000) && (!Globals.ALM_MaxPressactive))
             {
-                SysLog(LogType.Error, "Pressure HIGH", "The pressure exceeded " + Settings.System.ALM_MaxPress/1000 + "bar! The pump was stopped for safety reasons.");
+                SysLog(LogType.Error, "Pressure HIGH", "The pressure exceeded " + Settings.System.ALM_MaxPress / 1000 + "bar! The pump was stopped for safety reasons.");
                 Globals.GpioServer.StopPump();
                 Globals.ALM_MaxPressactive = true;
             }
@@ -76,32 +82,32 @@ namespace WateringOS_3_0.Controllers
             // enviromental variable translation
             switch (Math.Floor((double)(Globals.SpiServer.Rain / 100)))
             {
-                case 1: vRain=1; break;
-                case 2: vRain=2; break;
-                default: vRain=0; break;
+                case 1: vRain = 1; break;
+                case 2: vRain = 2; break;
+                default: vRain = 0; break;
             }
 
             switch (Math.Floor((double)(Globals.SpiServer.Ground / 100)))
             {
-                case 1: vGround=1; break;
-                case 2: vGround=2; break;
-                default: vGround=0; break;
+                case 1: vGround = 1; break;
+                case 2: vGround = 2; break;
+                default: vGround = 0; break;
             }
 
             // Pump protection
             if ((Globals.GpioServer.PumpActive) && (!Globals.GpioServer.Valve1Open) && (!Globals.GpioServer.Valve2Open) && (!Globals.GpioServer.Valve3Open) && (!Globals.GpioServer.Valve4Open) && (!Globals.GpioServer.Valve5Open))
             {
                 Globals.GpioServer.StopPump();
-                SysLog(LogType.Error,"Pump Interlock - valve closed","The pump was stopped since all valves are closed!");
+                SysLog(LogType.Error, "Pump Interlock - valve closed", "The pump was stopped since all valves are closed!");
             }
 
             // Log Environment if different Rain or Ground value than before
-            if ( ((LogLists.RecentEntries.Rain != vRain)||(LogLists.RecentEntries.Ground != vGround)) && (vRain != 0) && (vGround !=0) )
+            if (((LogLists.RecentEntries.Rain != vRain) || (LogLists.RecentEntries.Ground != vGround)) && (vRain != 0) && (vGround != 0))
             {
                 try
                 {
                     Globals.EnvLogger.Stop();
-                    if (LogLists.EnvLog.Count == 65500) { LogLists.EnvLog.RemoveAt(0); }
+                    while (LogLists.EnvLog.Count > 65500) { LogLists.EnvLog.RemoveAt(0); }
                     LogLists.EnvLog.Add(new cEnvLog
                     {
                         TimeStamp = DateTime.Now,
@@ -111,26 +117,27 @@ namespace WateringOS_3_0.Controllers
                         TempCPU = LogLists.RecentEntries.TempCPU,
                         TempExp = LogLists.RecentEntries.TempExp
                     });
-                } finally { Globals.EnvLogger.Start(); }
+                }
+                finally { Globals.EnvLogger.Start(); }
             }
 
             // Log Level if smaller than before or 5% bigger
-            if ((Globals.SpiServer.Level < LogLists.RecentEntries.Tank)||(Globals.SpiServer.Level > LogLists.RecentEntries.Tank+Settings.System.Tank_RefillHyst))
-            {
-                try
-                {
-                    Globals.LevelLogger.Stop();
-                    if (LogLists.LevelLog.Count == 65500) { LogLists.LevelLog.RemoveAt(0); }
-                    LogLists.LevelLog.Add(new cLevelLog
-                    {
-                        TimeStamp = DateTime.Now,
-                        Tank = Globals.SpiServer.Level
-                    });
-                } finally { Globals.LevelLogger.Start(); }
-            }
+            //if ((Globals.SpiServer.Level < LogLists.RecentEntries.Tank)||(Globals.SpiServer.Level > LogLists.RecentEntries.Tank+Settings.System.Tank_RefillHyst))
+            //{
+            //    try
+            //    {
+            //        Globals.LevelLogger.Stop();
+            //        if (LogLists.LevelLog.Count == 65500) { LogLists.LevelLog.RemoveAt(0); }
+            //        LogLists.LevelLog.Add(new cLevelLog
+            //        {
+            //            TimeStamp = DateTime.Now,
+            //            Tank = Globals.SpiServer.Level
+            //        });
+            //    } finally { Globals.LevelLogger.Start(); }
+            //}
 
             // Log Power if change detected
-            if ((LogLists.RecentEntries.PowerGood_5V != Globals.GpioServer.PowerGood_5V) || 
+            if ((LogLists.RecentEntries.PowerGood_5V != Globals.GpioServer.PowerGood_5V) ||
                 (LogLists.RecentEntries.PowerGood_12V != Globals.GpioServer.PowerGood_12V) ||
                 (LogLists.RecentEntries.PowerGood_24V != Globals.GpioServer.PowerGood_24V) ||
                 (LogLists.RecentEntries.PowerFail_5V != Globals.GpioServer.PowerFail_5V) ||
@@ -141,7 +148,7 @@ namespace WateringOS_3_0.Controllers
                 try
                 {
                     Globals.PowerLogger.Stop();
-                    if (LogLists.PowerLog.Count == 65500) { LogLists.PowerLog.RemoveAt(0); }
+                    while (LogLists.PowerLog.Count > 65500) { LogLists.PowerLog.RemoveAt(0); }
                     LogLists.PowerLog.Add(new cPowerLog
                     {
                         TimeStamp = DateTime.Now,
@@ -153,11 +160,12 @@ namespace WateringOS_3_0.Controllers
                         PowerFail_24V = (byte)(Globals.GpioServer.PowerFail_24V ? 0 : 3),
                         WatchdogPrealarm = (byte)(Globals.GpioServer.WatchDog_Prewarn ? 1 : 0)
                     });
-                } finally { Globals.PowerLogger.Start(); }
+                }
+                finally { Globals.PowerLogger.Start(); }
             }
 
             // Log Watering Data with FastLog
-            if (Globals.WateringActive) 
+            if (Globals.WateringActive)
             {
                 LogLists.WateringLog1.Add(new cWaterLog
                 {
@@ -184,77 +192,117 @@ namespace WateringOS_3_0.Controllers
                     PowerFail_24V = (byte)(LogLists.RecentEntries.PowerFail_24V ? 3 : 0),
                     WatchdogPrealarm = (byte)(LogLists.RecentEntries.WatchdogPrealarm ? 1 : 0)
                 });
+
             }
 
             // Update recents
             LogLists.RecentEntries.TimeStamp = DateTime.Now;
 
-            //Console.WriteLine($">>> Get SPI data");
-            LogLists.RecentEntries.Flow1  = Globals.SpiServer.Flow1 * 10;
-            LogLists.RecentEntries.Flow2  = Globals.SpiServer.Flow2 * 10;
-            LogLists.RecentEntries.Flow3  = Globals.SpiServer.Flow3 * 10;
-            LogLists.RecentEntries.Flow4  = Globals.SpiServer.Flow4 * 10;
-            LogLists.RecentEntries.Flow5  = Globals.SpiServer.Flow5 * 10;
-            if ((Globals.SpiServer.Level < LogLists.RecentEntries.Tank) || (Globals.SpiServer.Level > LogLists.RecentEntries.Tank + Settings.System.Tank_RefillHyst))
-                { LogLists.RecentEntries.Tank = Globals.SpiServer.Level; }
-            LogLists.RecentEntries.Rain     = vRain;
-            LogLists.RecentEntries.Ground   = vGround;
-            LogLists.RecentEntries.Pressure = Globals.SpiServer.Pressure;
-            LogLists.RecentEntries.LevelRaw = Globals.SpiServer.LevelRaw;
-
             //Console.WriteLine($">>> Get TWI data");
-            LogLists.RecentEntries.TempAmb   = Globals.TwiServer.AmbientTemp;
-            LogLists.RecentEntries.TempExp   = Globals.TwiServer.ExposedTemp;
+            LogLists.RecentEntries.TempAmb = Globals.TwiServer.AmbientTemp;
+            LogLists.RecentEntries.TempExp = Globals.TwiServer.ExposedTemp;
             LogLists.RecentEntries.TankForce = Globals.TwiServer.TankWeight;
 
             LogLists.RecentEntries.TempAmbFiltered = 0; // not used
             LogLists.RecentEntries.TempCPUFiltered = 0; // not used
             LogLists.RecentEntries.TempExpFiltered = 0; // not used
 
+            //Console.WriteLine($">>> Get SPI data");
+            LogLists.RecentEntries.Flow1 = Globals.SpiServer.Flow1 * 10;
+            LogLists.RecentEntries.Flow2 = Globals.SpiServer.Flow2 * 10;
+            LogLists.RecentEntries.Flow3 = Globals.SpiServer.Flow3 * 10;
+            LogLists.RecentEntries.Flow4 = Globals.SpiServer.Flow4 * 10;
+            LogLists.RecentEntries.Flow5 = Globals.SpiServer.Flow5 * 10;
+            //if ((Globals.SpiServer.Level < LogLists.RecentEntries.Tank) || (Globals.SpiServer.Level > LogLists.RecentEntries.Tank + Settings.System.Tank_RefillHyst))
+            //    { LogLists.RecentEntries.Tank = Globals.SpiServer.Level; }
+            double TankLevel_L = (Globals.TwiServer.TankWeight * 0.0081) - 18;                      // Force to volume in liter
+            LogLists.RecentEntries.Tank = (byte)Math.Floor(((TankLevel_L / 75) - 0.063) * 100);     // Liter to Percent
+            LogLists.RecentEntries.Rain = vRain;
+            LogLists.RecentEntries.Ground = vGround;
+            LogLists.RecentEntries.Pressure = Globals.SpiServer.Pressure;
+            LogLists.RecentEntries.LevelRaw = Globals.SpiServer.LevelRaw;
+
+
+
             LogLists.RecentEntries.TempCPU = DataProvisionController.GetTemperature();
 
             //Console.WriteLine($">>> Get GPIO data");
-            LogLists.RecentEntries.Pump   = Globals.GpioServer.PumpActive;
+            LogLists.RecentEntries.Pump = Globals.GpioServer.PumpActive;
             LogLists.RecentEntries.Valve1 = Globals.GpioServer.Valve1Open;
             LogLists.RecentEntries.Valve2 = Globals.GpioServer.Valve2Open;
             LogLists.RecentEntries.Valve3 = Globals.GpioServer.Valve3Open;
             LogLists.RecentEntries.Valve4 = Globals.GpioServer.Valve4Open;
             LogLists.RecentEntries.Valve5 = Globals.GpioServer.Valve5Open;
-            LogLists.RecentEntries.PowerGood_5V  = Globals.GpioServer.PowerGood_5V;
+            LogLists.RecentEntries.PowerGood_5V = Globals.GpioServer.PowerGood_5V;
             LogLists.RecentEntries.PowerGood_12V = Globals.GpioServer.PowerGood_12V;
             LogLists.RecentEntries.PowerGood_24V = Globals.GpioServer.PowerGood_24V;
-            LogLists.RecentEntries.PowerFail_5V  = Globals.GpioServer.PowerFail_5V;
+            LogLists.RecentEntries.PowerFail_5V = Globals.GpioServer.PowerFail_5V;
             LogLists.RecentEntries.PowerFail_12V = Globals.GpioServer.PowerFail_12V;
             LogLists.RecentEntries.PowerFail_24V = Globals.GpioServer.PowerFail_24V;
             LogLists.RecentEntries.WatchdogPrealarm = Globals.GpioServer.WatchDog_Prewarn;
-            
+
         }
 
         private static void MainTask_Routine(object sender, ElapsedEventArgs e)
         {
             // reset alarm jitter suppression
             int vCurrentTemp = DataProvisionController.GetTemperature();
-            if ((Globals.ALM_WarnTempCPUactive) && (vCurrentTemp < Settings.System.ALM_WarnTempCPU-5))
+            if ((Globals.ALM_WarnTempCPUactive) && (vCurrentTemp < Settings.System.ALM_WarnTempCPU - 5))
             {
                 SysLog(LogType.Information, "RESET - High CPU Temperature", "The Temperature of the CPU dropped below the warning release threshold of " + Settings.System.ALM_WarnTempCPU + " -5°C");
                 Globals.ALM_WarnTempCPUactive = false;
             }
-            if ((Globals.ALM_MaxTempCPUactive) && (vCurrentTemp < Settings.System.ALM_MaxTempCPU-3))
+            if ((Globals.ALM_MaxTempCPUactive) && (vCurrentTemp < Settings.System.ALM_MaxTempCPU - 3))
             {
                 SysLog(LogType.Information, "RESET - Maximum CPU Operation Temperature", "The Temperature of the CPU dropped below the critical temperature release threshold of " + Settings.System.ALM_WarnTempCPU + " -3°C");
                 Globals.ALM_MaxTempCPUactive = false;
             }
-            if ((Globals.ALM_WarnTankLevelactive) && (LogLists.RecentEntries.Tank > Settings.System.ALM_TankLevel+3))
+            if ((Globals.ALM_WarnTankLevelactive) && (LogLists.RecentEntries.Tank > Settings.System.ALM_TankLevel + 3))
             {
                 SysLog(LogType.Information, "RESET - Tank Level LOW", "The water level of the tank reached the warning realease threshold of " + Settings.System.ALM_TankLevel + " +3%");
                 Globals.ALM_WarnTankLevelactive = false;
             }
-            if ((Globals.ALM_MaxPressactive) && (LogLists.RecentEntries.Pressure < ((Settings.System.ALM_MaxPress-500)/1000)))
+            if ((Globals.ALM_MaxPressactive) && (LogLists.RecentEntries.Pressure < ((Settings.System.ALM_MaxPress - 500) / 1000)))
             {
-                SysLog(LogType.Information, "RESET - Pressure HIGH", "The pressure dropped below " + Settings.System.ALM_MaxPress/1000 + " -0.5 bar");
+                SysLog(LogType.Information, "RESET - Pressure HIGH", "The pressure dropped below " + Settings.System.ALM_MaxPress / 1000 + " -0.5 bar");
                 Globals.ALM_MaxPressactive = false;
             }
-            
+
+            // NEW: Tank Level Stack for avarage calculation
+            if (!Globals.WateringActive)
+            {
+                Globals.TankLevel.Enqueue(LogLists.RecentEntries.TankForce);
+            }
+            else
+            {
+                if (LogLists.LevelLog.Count == 65500) { LogLists.LevelLog.RemoveAt(0); }
+                LogLists.LevelLog.Add(new cLevelLog
+                {
+                    TimeStamp = DateTime.Now,
+                    Tank = LogLists.RecentEntries.Tank
+                });
+            }
+
+            if (Globals.TankLevel.Count > 1200) { Globals.TankLevel.Dequeue(); } // avoid exceptional growing
+
+            // DEBUG : Log Tank Force
+            /*
+            if (LogCount < 86400)
+            {
+                LogCount++; 
+                string filename = "usrdata/TankLog" + LogNumber.ToString() + ".csv";
+                System.IO.File.AppendAllText(filename, DateTime.Now.ToString() + ";" + LogLists.RecentEntries.TankForce.ToString()+"\n");
+            }
+            else
+            {
+                LogCount = 0;
+                LogNumber++;
+                string filename = "usrdata/TankLog" + LogNumber.ToString() + ".csv";
+                System.IO.File.WriteAllText(filename, "");
+            }
+            */
+
+
             // Main task for watering
             if (!Globals.WateringActive)
             {
@@ -461,7 +509,7 @@ namespace WateringOS_3_0.Controllers
             WatLog(LogType.Information, String.Format("Check to trigger {0} {1}", vDay, vTime), String.Format("If selected, the routine on {0} {1} for watering of plants will be triggered.", vDay, vTime));
             if (Out1_active || Out2_active || Out3_active || Out4_active || Out5_active)
             {
-                WatLog(LogType.Status, String.Format("Trigger {0} {1}",vDay,vTime), String.Format("The routine on {0} {1} for watering of plants was triggered.",vDay,vTime));
+                WatLog(LogType.Status, String.Format("Trigger {0} {1}", vDay, vTime), String.Format("The routine on {0} {1} for watering of plants was triggered.", vDay, vTime));
 
                 if (LogLists.RecentEntries.Tank < Settings.System.Wat_min_tank)
                 {
@@ -470,9 +518,9 @@ namespace WateringOS_3_0.Controllers
                 }
                 // ring buffer for watering log newest first
                 LogLists.WateringLog3.Clear();
-                //LogLists.WateringLog3 = LogLists.WateringLog2;
+                LogLists.WateringLog3.AddRange(LogLists.WateringLog2.ToList());
                 LogLists.WateringLog2.Clear();
-                //LogLists.WateringLog2 = LogLists.WateringLog1;
+                LogLists.WateringLog2.AddRange(LogLists.WateringLog1.ToList());
                 LogLists.WateringLog1.Clear();
 
                 Globals.WateringActive = true;
@@ -566,19 +614,19 @@ namespace WateringOS_3_0.Controllers
                         {
                             Globals.GpioServer.StartPump();                                                   // Start Pump
                             while ((Globals.SpiServer.Flow1 * 10) < tmp_Vol1)
+                            {
+                                await Task.Delay(1000);
+                                wt1++;
+                                if (wt1 >= Settings.System.Wat_max_time)
                                 {
-                                    await Task.Delay(1000);
-                                    wt1++;
-                                    if (wt1 >= Settings.System.Wat_max_time)
-                                    {
-                                        WatLog(LogType.Warning, "Watering 1 reached max time", "The watering procedure on line #1 reached the maximum time for watering and was aborted after " + wt1 + "sec");
-                                        break;
-                                    }
+                                    WatLog(LogType.Warning, "Watering 1 reached max time", "The watering procedure on line #1 reached the maximum time for watering and was aborted after " + wt1 + "sec");
+                                    break;
                                 }
+                            }
                             Globals.GpioServer.StopPump();                                                  // Stop Pump
-                    });
+                        });
                         t_Water1.Wait();                                                                        // Check flow every second and wait for full volume watering
-                        WatLog(LogType.Information, "Watering Plant 1 finished ("+ Globals.SpiServer.Flow1 + "0 ml/"+ wt1 + "s)", "The watering procedure of Plant 1 ended after " + wt1 + "sec and " + Globals.SpiServer.Flow1 + "0 ml");
+                        WatLog(LogType.Information, "Watering Plant 1 finished (" + Globals.SpiServer.Flow1 + "0 ml/" + wt1 + "s)", "The watering procedure of Plant 1 ended after " + wt1 + "sec and " + Globals.SpiServer.Flow1 + "0 ml");
                         t_wait = Task.Run(async delegate { await Task.Delay(Settings.System.DLY_PumpStop); });
                         t_wait.Wait();                                                                          // wait 5s to depressurize
                         Globals.GpioServer.CloseValve1();                                                      // Close Valve #1
@@ -593,19 +641,19 @@ namespace WateringOS_3_0.Controllers
                         {
                             Globals.GpioServer.StartPump();                                                   // Start Pump
                             while ((Globals.SpiServer.Flow2 * 10) < tmp_Vol2)
+                            {
+                                await Task.Delay(1000);
+                                wt2++;
+                                if (wt2 >= Settings.System.Wat_max_time)
                                 {
-                                    await Task.Delay(1000);
-                                    wt2++;
-                                    if (wt2 >= Settings.System.Wat_max_time)
-                                    {
-                                        WatLog(LogType.Warning, "Watering 2 reached max time", "The watering procedure on line #2 reached the maximum time for watering and was aborted " + wt2 + "sec");
-                                        break;
-                                    }
+                                    WatLog(LogType.Warning, "Watering 2 reached max time", "The watering procedure on line #2 reached the maximum time for watering and was aborted " + wt2 + "sec");
+                                    break;
                                 }
+                            }
                             Globals.GpioServer.StopPump();                                                  // Stop Pump
-                    });
+                        });
                         t_Water2.Wait();                                             // Check flow every second and wait for full volume watering
-                        WatLog(LogType.Information, "Watering Plant 2 finished ("+ Globals.SpiServer.Flow2 + "0 ml/"+ wt2 + "s)", "The watering procedure of Plant 2 ended after " + wt2 + "sec and " + Globals.SpiServer.Flow2 + "0 ml");
+                        WatLog(LogType.Information, "Watering Plant 2 finished (" + Globals.SpiServer.Flow2 + "0 ml/" + wt2 + "s)", "The watering procedure of Plant 2 ended after " + wt2 + "sec and " + Globals.SpiServer.Flow2 + "0 ml");
                         t_wait = Task.Run(async delegate { await Task.Delay(Settings.System.DLY_PumpStop); });
                         t_wait.Wait();                                                                  // wait 5s to depressurize
                         Globals.GpioServer.CloseValve2();                                                      // Close Valve #2
@@ -620,19 +668,19 @@ namespace WateringOS_3_0.Controllers
                         {
                             Globals.GpioServer.StartPump();                                                   // Start Pump
                             while ((Globals.SpiServer.Flow3 * 10) < tmp_Vol3)
+                            {
+                                await Task.Delay(1000);
+                                wt3++;
+                                if (wt3 >= Settings.System.Wat_max_time)
                                 {
-                                    await Task.Delay(1000);
-                                    wt3++;
-                                    if (wt3 >= Settings.System.Wat_max_time)
-                                    {
-                                        WatLog(LogType.Warning, "Watering 3 reached max time", "The watering procedure on line #3 reached the maximum time for watering and was aborted " + wt3 + "sec");
-                                        break;
-                                    }
+                                    WatLog(LogType.Warning, "Watering 3 reached max time", "The watering procedure on line #3 reached the maximum time for watering and was aborted " + wt3 + "sec");
+                                    break;
                                 }
+                            }
                             Globals.GpioServer.StopPump();                                                  // Stop Pump
-                    });
+                        });
                         t_Water3.Wait();                                             // Check flow every second and wait for full volume watering
-                        WatLog(LogType.Information, "Watering Plant 3 finished ("+ Globals.SpiServer.Flow3 + "0 ml/"+ wt3 + "s)", "The watering procedure of Plant 3 ended after " + wt3 + "sec and " + Globals.SpiServer.Flow3 + "0 ml");
+                        WatLog(LogType.Information, "Watering Plant 3 finished (" + Globals.SpiServer.Flow3 + "0 ml/" + wt3 + "s)", "The watering procedure of Plant 3 ended after " + wt3 + "sec and " + Globals.SpiServer.Flow3 + "0 ml");
                         t_wait = Task.Run(async delegate
                         {
                             await Task.Delay(Settings.System.DLY_PumpStop);
@@ -650,19 +698,19 @@ namespace WateringOS_3_0.Controllers
                         {
                             Globals.GpioServer.StartPump();                                                   // Start Pump
                             while ((Globals.SpiServer.Flow4 * 10) < tmp_Vol4)
+                            {
+                                await Task.Delay(1000);
+                                wt4++;
+                                if (wt4 >= Settings.System.Wat_max_time)
                                 {
-                                    await Task.Delay(1000);
-                                    wt4++;
-                                    if (wt4 >= Settings.System.Wat_max_time)
-                                    {
-                                        WatLog(LogType.Warning, "Watering 4 reached max time", "The watering procedure on line #4 reached the maximum time for watering and was aborted " + wt4 + "sec");
-                                        break;
-                                    }
+                                    WatLog(LogType.Warning, "Watering 4 reached max time", "The watering procedure on line #4 reached the maximum time for watering and was aborted " + wt4 + "sec");
+                                    break;
                                 }
+                            }
                             Globals.GpioServer.StopPump();                                                  // Stop Pump
-                    });
+                        });
                         t_Water4.Wait();                                             // Check flow every second and wait for full volume watering
-                        WatLog(LogType.Information, "Watering Plant 4 finished ("+ Globals.SpiServer.Flow4 + "0 ml/"+ wt4 + "s)", "The watering procedure of Plant 4 ended after " + wt4 + "sec and " + Globals.SpiServer.Flow4 + "0 ml");
+                        WatLog(LogType.Information, "Watering Plant 4 finished (" + Globals.SpiServer.Flow4 + "0 ml/" + wt4 + "s)", "The watering procedure of Plant 4 ended after " + wt4 + "sec and " + Globals.SpiServer.Flow4 + "0 ml");
                         t_wait = Task.Run(async delegate
                         {
                             await Task.Delay(Settings.System.DLY_PumpStop);
@@ -680,19 +728,19 @@ namespace WateringOS_3_0.Controllers
                         {
                             Globals.GpioServer.StartPump();                                                   // Start Pump
                             while ((Globals.SpiServer.Flow5 * 10) < tmp_Vol5)
+                            {
+                                await Task.Delay(1000);
+                                wt5++;
+                                if (wt5 >= Settings.System.Wat_max_time)
                                 {
-                                    await Task.Delay(1000);
-                                    wt5++;
-                                    if (wt5 >= Settings.System.Wat_max_time)
-                                    {
-                                        WatLog(LogType.Warning, "Watering 5 reached max time", "The watering procedure on line #5 reached the maximum time for watering and was aborted " + wt5 + "sec");
-                                        break;
-                                    }
+                                    WatLog(LogType.Warning, "Watering 5 reached max time", "The watering procedure on line #5 reached the maximum time for watering and was aborted " + wt5 + "sec");
+                                    break;
                                 }
+                            }
                             Globals.GpioServer.StopPump();                                                  // Stop Pump
-                    });
+                        });
                         t_Water5.Wait();                                             // Check flow every second and wait for full volume watering
-                        WatLog(LogType.Information, "Watering Plant 5 finished ("+ Globals.SpiServer.Flow5 + "0 ml/"+ wt5 + "s)", "The watering procedure of Plant 5 ended after" + wt5 + "sec and " + Globals.SpiServer.Flow5 + "0 ml");
+                        WatLog(LogType.Information, "Watering Plant 5 finished (" + Globals.SpiServer.Flow5 + "0 ml/" + wt5 + "s)", "The watering procedure of Plant 5 ended after" + wt5 + "sec and " + Globals.SpiServer.Flow5 + "0 ml");
                         t_wait = Task.Run(async delegate
                         {
                             await Task.Delay(Settings.System.DLY_PumpStop);
@@ -708,11 +756,21 @@ namespace WateringOS_3_0.Controllers
 
         private static void LevelLogger_Routine(object sender, ElapsedEventArgs e)
         {
-            if (LogLists.LevelLog.Count == 65500) { LogLists.LevelLog.RemoveAt(0); }
+            int sum = 0;
+            int num = Globals.TankLevel.Count;
+            foreach (Object obj in Globals.TankLevel)
+            {
+                sum += (int)obj;
+            }
+            double avg = sum / num;
+            avg = (avg * 0.0081) - 18;          // Force to volume in liter
+            avg = ((avg / 75) - 0.063) * 100;   // Liter to Percent
+
+            while (LogLists.LevelLog.Count > 65500) { LogLists.LevelLog.RemoveAt(0); }
             LogLists.LevelLog.Add(new cLevelLog
             {
                 TimeStamp = DateTime.Now,
-                Tank = LogLists.RecentEntries.Tank
+                Tank = (byte)Math.Floor(avg)
             });
         }
 
@@ -734,7 +792,7 @@ namespace WateringOS_3_0.Controllers
                 default: vGround = 0; break;
             }
 
-            if (LogLists.EnvLog.Count == 65500) { LogLists.EnvLog.RemoveAt(0); }
+            while (LogLists.EnvLog.Count > 65500) { LogLists.EnvLog.RemoveAt(0); }
             LogLists.EnvLog.Add(new cEnvLog
             {
                 TimeStamp = DateTime.Now,
@@ -748,7 +806,7 @@ namespace WateringOS_3_0.Controllers
 
         private static void PowerLogger_Routine(object sender, ElapsedEventArgs e)
         {
-            if (LogLists.PowerLog.Count == 65500) { LogLists.PowerLog.RemoveAt(0); }
+            while (LogLists.PowerLog.Count > 65500) { LogLists.PowerLog.RemoveAt(0); }
             LogLists.PowerLog.Add(new cPowerLog
             {
                 TimeStamp = DateTime.Now,
@@ -765,20 +823,20 @@ namespace WateringOS_3_0.Controllers
         private static void SaveTask_Routine(object sender, ElapsedEventArgs e)
         {
             // Frequent log to file
-            System.IO.File.WriteAllText(@"usrdata/SavedLogs/JournalLog.json",     JsonConvert.SerializeObject(LogLists.JournalLog.ToList()));
-            System.IO.File.WriteAllText(@"usrdata/SavedLogs/LevelLog.json",       JsonConvert.SerializeObject(LogLists.LevelLog.ToList()));
+            System.IO.File.WriteAllText(@"usrdata/SavedLogs/JournalLog.json", JsonConvert.SerializeObject(LogLists.JournalLog.ToList()));
+            System.IO.File.WriteAllText(@"usrdata/SavedLogs/LevelLog.json", JsonConvert.SerializeObject(LogLists.LevelLog.ToList()));
             System.IO.File.WriteAllText(@"usrdata/SavedLogs/EnvironmentLog.json", JsonConvert.SerializeObject(LogLists.EnvLog.ToList()));
-            System.IO.File.WriteAllText(@"usrdata/SavedLogs/PowerLog.json",       JsonConvert.SerializeObject(LogLists.PowerLog.ToList()));
-            System.IO.File.WriteAllText(@"usrdata/SavedLogs/Watering1Log.json",   JsonConvert.SerializeObject(LogLists.WateringLog1.ToList()));
-            System.IO.File.WriteAllText(@"usrdata/SavedLogs/Watering2Log.json",   JsonConvert.SerializeObject(LogLists.WateringLog2.ToList()));
-            System.IO.File.WriteAllText(@"usrdata/SavedLogs/Watering3Log.json",   JsonConvert.SerializeObject(LogLists.WateringLog3.ToList()));
+            System.IO.File.WriteAllText(@"usrdata/SavedLogs/PowerLog.json", JsonConvert.SerializeObject(LogLists.PowerLog.ToList()));
+            System.IO.File.WriteAllText(@"usrdata/SavedLogs/Watering1Log.json", JsonConvert.SerializeObject(LogLists.WateringLog1.ToList()));
+            System.IO.File.WriteAllText(@"usrdata/SavedLogs/Watering2Log.json", JsonConvert.SerializeObject(LogLists.WateringLog2.ToList()));
+            System.IO.File.WriteAllText(@"usrdata/SavedLogs/Watering3Log.json", JsonConvert.SerializeObject(LogLists.WateringLog3.ToList()));
         }
 
         private static void BufferClean_Task(object sender, ElapsedEventArgs e)
         {
             for (var i = 0; i < LogLists.JournalLog.Count; i++)
             {
-                if (DateTime.Parse(LogLists.JournalLog[i].TimeStamp) < DateTime.Today.AddDays(-Settings.System.LOG_Buffer_Expiry)) 
+                if (DateTime.Parse(LogLists.JournalLog[i].TimeStamp) < DateTime.Today.AddDays(-Settings.System.LOG_Buffer_Expiry))
                 {
                     LogLists.JournalLog.RemoveAt(i);
                 }
@@ -802,19 +860,25 @@ namespace WateringOS_3_0.Controllers
                 Globals.FastTask.Interval = Settings.System.FastLog;
                 Globals.MainTask.Interval = Settings.System.Task_cycle;
                 Globals.SaveTask.Interval = Settings.System.Save_cycle * 60000;
-                Globals.LevelLogger.Interval = Settings.System.Log_Level*60000;
-                Globals.EnvLogger.Interval = Settings.System.Log_Enviroment*60000;
-                Globals.PowerLogger.Interval = Settings.System.Log_Power*60000;
+                Globals.LevelLogger.Interval = Settings.System.Log_Level * 60000;
+                Globals.EnvLogger.Interval = Settings.System.Log_Enviroment * 60000;
+                Globals.PowerLogger.Interval = Settings.System.Log_Power * 60000;
 
                 Globals.SpiServer.MinLevel = Settings.System.Tank_Min;
                 Globals.SpiServer.MaxLevel = Settings.System.Tank_Max;
 
+                // DEBUG : Log Tank Force
+                string filename1 = "usrdata/TankLog0.csv";
+                System.IO.File.WriteAllText(filename1, "Timestamp;Value\n");
+                string filename2 = "usrdata/IPaccess.csv";
+                System.IO.File.WriteAllText(filename2, "TimeStamp;IP address;Target;Country;Region;City;Timezone\n");
+
                 // Load saved Logs
-                
-                LogLists.JournalLog   = JsonConvert.DeserializeObject<List<cJournal>>(System.IO.File.ReadAllText(@"usrdata/SavedLogs/JournalLog.json"));
-                LogLists.LevelLog     = JsonConvert.DeserializeObject<List<cLevelLog>>(System.IO.File.ReadAllText(@"usrdata/SavedLogs/LevelLog.json"));
-                LogLists.EnvLog       = JsonConvert.DeserializeObject<List<cEnvLog>>(System.IO.File.ReadAllText(@"usrdata/SavedLogs/EnvironmentLog.json"));
-                LogLists.PowerLog     = JsonConvert.DeserializeObject<List<cPowerLog>>(System.IO.File.ReadAllText(@"usrdata/SavedLogs/PowerLog.json"));
+
+                LogLists.JournalLog = JsonConvert.DeserializeObject<List<cJournal>>(System.IO.File.ReadAllText(@"usrdata/SavedLogs/JournalLog.json"));
+                LogLists.LevelLog = JsonConvert.DeserializeObject<List<cLevelLog>>(System.IO.File.ReadAllText(@"usrdata/SavedLogs/LevelLog.json"));
+                LogLists.EnvLog = JsonConvert.DeserializeObject<List<cEnvLog>>(System.IO.File.ReadAllText(@"usrdata/SavedLogs/EnvironmentLog.json"));
+                LogLists.PowerLog = JsonConvert.DeserializeObject<List<cPowerLog>>(System.IO.File.ReadAllText(@"usrdata/SavedLogs/PowerLog.json"));
                 LogLists.WateringLog1 = JsonConvert.DeserializeObject<List<cWaterLog>>(System.IO.File.ReadAllText(@"usrdata/SavedLogs/Watering1Log.json"));
                 LogLists.WateringLog2 = JsonConvert.DeserializeObject<List<cWaterLog>>(System.IO.File.ReadAllText(@"usrdata/SavedLogs/Watering2Log.json"));
                 LogLists.WateringLog3 = JsonConvert.DeserializeObject<List<cWaterLog>>(System.IO.File.ReadAllText(@"usrdata/SavedLogs/Watering3Log.json"));
@@ -822,27 +886,27 @@ namespace WateringOS_3_0.Controllers
                 LogLists.RecentEntries.Tank = 255;
 
                 Globals.GpioServer.GpioLogEvent += DebugLogEvent;
-                Globals.SpiServer.SpiLogEvent   += DebugLogEvent;
-                Globals.TwiServer.TwiLogEvent   += DebugLogEvent;
+                Globals.SpiServer.SpiLogEvent += DebugLogEvent;
+                Globals.TwiServer.TwiLogEvent += DebugLogEvent;
 
                 Globals.GpioServer.InitGPIO();
                 Globals.SpiServer.InitSPI();
                 Globals.TwiServer.InitTWIAsync();
-                                
-                Globals.FastTask.Elapsed        += new ElapsedEventHandler(BackgroundTaskController.FastTask_Routine);
-                Globals.MainTask.Elapsed        += new ElapsedEventHandler(BackgroundTaskController.MainTask_Routine);
-                Globals.SaveTask.Elapsed        += new ElapsedEventHandler(BackgroundTaskController.SaveTask_Routine);
-                Globals.LevelLogger.Elapsed     += new ElapsedEventHandler(BackgroundTaskController.LevelLogger_Routine);
-                Globals.EnvLogger.Elapsed       += new ElapsedEventHandler(BackgroundTaskController.EnvLogger_Routine);
-                Globals.PowerLogger.Elapsed     += new ElapsedEventHandler(BackgroundTaskController.PowerLogger_Routine);
+
+                Globals.FastTask.Elapsed += new ElapsedEventHandler(BackgroundTaskController.FastTask_Routine);
+                Globals.MainTask.Elapsed += new ElapsedEventHandler(BackgroundTaskController.MainTask_Routine);
+                Globals.SaveTask.Elapsed += new ElapsedEventHandler(BackgroundTaskController.SaveTask_Routine);
+                Globals.LevelLogger.Elapsed += new ElapsedEventHandler(BackgroundTaskController.LevelLogger_Routine);
+                Globals.EnvLogger.Elapsed += new ElapsedEventHandler(BackgroundTaskController.EnvLogger_Routine);
+                Globals.PowerLogger.Elapsed += new ElapsedEventHandler(BackgroundTaskController.PowerLogger_Routine);
                 Globals.BufferCleanTask.Elapsed += new ElapsedEventHandler(BackgroundTaskController.BufferClean_Task);
 
-                Globals.FastTask.Enabled        = true;
-                Globals.MainTask.Enabled        = true;
-                Globals.SaveTask.Enabled        = true;
-                Globals.LevelLogger.Enabled     = true;
-                Globals.EnvLogger.Enabled       = true;
-                Globals.PowerLogger.Enabled     = true;
+                Globals.FastTask.Enabled = true;
+                Globals.MainTask.Enabled = true;
+                Globals.SaveTask.Enabled = true;
+                Globals.LevelLogger.Enabled = true;
+                Globals.EnvLogger.Enabled = true;
+                Globals.PowerLogger.Enabled = true;
                 Globals.BufferCleanTask.Enabled = true;
 
                 Globals.IsInitialized = true;
@@ -933,8 +997,8 @@ namespace WateringOS_3_0.Controllers
         {
             try
             {
-                if (LogLists.JournalLog.Count == 65500)  { LogLists.JournalLog.RemoveAt(0); }
-                if (LogLists.JournalBuffer.Count == 250) { LogLists.JournalBuffer.RemoveAt(0); }
+                while (LogLists.JournalLog.Count > 10000) { LogLists.JournalLog.RemoveAt(0); }
+                while (LogLists.JournalBuffer.Count > 250) { LogLists.JournalBuffer.RemoveAt(0); }
 
                 LogLists.JournalLog.Add(new cJournal
                 {

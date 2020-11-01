@@ -36,18 +36,18 @@ namespace WateringOS_3_0
         private SpiConnectionSettings AtMega_Settings;
 
         // Public Declarations
-        public byte   Flow1 { get; private set; }
-        public byte   Flow2 { get; private set; }
-        public byte   Flow3 { get; private set; }
-        public byte   Flow4 { get; private set; }
-        public byte   Flow5 { get; private set; }
-        public byte   Rain { get; private set; }
-        public byte   Level { get; private set; }
-        public byte   LevelRaw { get; private set; }
+        public byte Flow1 { get; private set; }
+        public byte Flow2 { get; private set; }
+        public byte Flow3 { get; private set; }
+        public byte Flow4 { get; private set; }
+        public byte Flow5 { get; private set; }
+        public byte Rain { get; private set; }
+        public byte Level { get; private set; }
+        public byte LevelRaw { get; private set; }
         public double Pressure { get; private set; }
-        public byte   Ground { get; private set; }
-        public int    MinLevel { get; set; }
-        public int    MaxLevel { get; set; }
+        public byte Ground { get; private set; }
+        public int MinLevel { get; set; }
+        public int MaxLevel { get; set; }
 
         public void InitSPI()
         {
@@ -87,8 +87,9 @@ namespace WateringOS_3_0
                     this.Pressure = ReadBuf[9] * 0.049;
                     this.Ground = ReadBuf[10];
 
-                    try   { this.Level = Convert.ToByte(Math.Round(((double)(ReadBuf[8] - this.MinLevel) / (this.MaxLevel - this.MinLevel)) * 100.0)); }
-                    catch { this.Level = ReadBuf[8]; }
+                    // CHANGE: below not used since level measured by I2C force sensor 
+                    //try   { this.Level = Convert.ToByte(Math.Round(((double)(ReadBuf[8] - this.MinLevel) / (this.MaxLevel - this.MinLevel)) * 100.0)); }
+                    //catch (Exception e) { this.Level = 105; SpiLog(LogType.Error, "SPI_Read().Level - Calculation error", e.Message); }
 
                     return true;
                 }
