@@ -268,6 +268,39 @@ namespace WateringOS_3_0.Controllers
                 Globals.ALM_MaxPressactive = false;
             }
 
+            // NEW: MQTT publish
+            MQTT.Update(MQTT.Flow1, LogLists.RecentEntries.Flow1);
+            MQTT.Update(MQTT.Flow2, LogLists.RecentEntries.Flow2);
+            MQTT.Update(MQTT.Flow3, LogLists.RecentEntries.Flow3);
+            MQTT.Update(MQTT.Flow4, LogLists.RecentEntries.Flow4);
+            MQTT.Update(MQTT.Flow5, LogLists.RecentEntries.Flow5);
+            MQTT.Update(MQTT.Pump, LogLists.RecentEntries.Pump);
+            MQTT.Update(MQTT.Valve1, LogLists.RecentEntries.Valve1);
+            MQTT.Update(MQTT.Valve2, LogLists.RecentEntries.Valve2);
+            MQTT.Update(MQTT.Valve3, LogLists.RecentEntries.Valve3);
+            MQTT.Update(MQTT.Valve4, LogLists.RecentEntries.Valve4);
+            MQTT.Update(MQTT.Valve5, LogLists.RecentEntries.Valve5);
+            MQTT.Update(MQTT.Tank, LogLists.RecentEntries.Tank);
+            MQTT.Update(MQTT.TankForce, LogLists.RecentEntries.TankForce);
+            MQTT.Update(MQTT.Rain, LogLists.RecentEntries.Rain);
+            MQTT.Update(MQTT.Ground, LogLists.RecentEntries.Ground);
+            MQTT.Update(MQTT.Pressure, LogLists.RecentEntries.Pressure);
+            MQTT.Update(MQTT.LevelRaw, LogLists.RecentEntries.LevelRaw);
+            MQTT.Update(MQTT.TempCPU, LogLists.RecentEntries.TempCPU);
+            MQTT.Update(MQTT.TempAmb, LogLists.RecentEntries.TempAmb);
+            MQTT.Update(MQTT.TempExp, LogLists.RecentEntries.TempExp);
+            MQTT.Update(MQTT.PowerGood_5V, LogLists.RecentEntries.PowerGood_5V);
+            MQTT.Update(MQTT.PowerGood_12V, LogLists.RecentEntries.PowerGood_12V);
+            MQTT.Update(MQTT.PowerGood_24V, LogLists.RecentEntries.PowerGood_24V);
+            MQTT.Update(MQTT.PowerFail_5V, LogLists.RecentEntries.PowerFail_5V);
+            MQTT.Update(MQTT.PowerFail_12V, LogLists.RecentEntries.PowerFail_12V);
+            MQTT.Update(MQTT.PowerFail_24V, LogLists.RecentEntries.PowerFail_24V);
+            MQTT.Update(MQTT.WatchDog, LogLists.RecentEntries.WatchdogPrealarm);
+            MQTT.Update(MQTT.TempDiff, (LogLists.RecentEntries.TempExp - LogLists.RecentEntries.TempAmb));
+
+            MQTT.Publish();
+
+
             // NEW: Tank Level Stack for avarage calculation
             if (!Globals.WateringActive)
             {
