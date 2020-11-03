@@ -93,10 +93,10 @@ namespace WateringOS_3_0.Controllers
             MQTTvalues[Metric] = Value;
         }
 
-        public static void Publish()
+        public static string Publish()
         {
             ProcessStartInfo start = new ProcessStartInfo();
-            start.FileName = "/home/pi/app/mqtt.py";
+            start.FileName = "/app/mqtt.py";
 
             start.Arguments = MQTT.CreateArguments(MQTT.MQTTvalues);
 
@@ -109,12 +109,8 @@ namespace WateringOS_3_0.Controllers
                 using (StreamReader reader = process.StandardOutput)
                 {
                     string vErr = process.StandardError.ReadToEnd();
-
-                    if (vErr!="")
-                    {
-                        Console.Write(vErr);
-                        // TODO: LogError
-                    }
+                    Console.WriteLine(reader.ReadToEnd());
+                    return(vErr);
                 }
             }
         }

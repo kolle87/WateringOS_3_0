@@ -21,4 +21,6 @@ while len(param) > 0:
 
 vpayload = vpayload[:-1] + " ] }"
 
+print (vpayload)
+
 publish.single(topic=vtopic, payload=vpayload, hostname="localhost", port=18884, tls={'ca_certs':"/var/lib/teamviewer-iot-agent/certs/TeamViewerAuthority.crt",'certfile':"/home/pi/clientCert.crt",'keyfile':"/home/pi/privkey.pem"})
