@@ -204,21 +204,21 @@ namespace WateringOS_3_0
 
         private int ReadTankWeight()
         {
-
-            try
-            {
-                //var vASr = new byte[] { };    
-                var vASa = new byte[2];
-                //this.TWI_TankWeight.Write(vASr);
-                this.TWI_TankWeight.Read(vASa);
-                int tForce = (int)(((vASa[0] & 63) * 256) + (vASa[1]));
-                return tForce;
-            }
-            catch (Exception e)
-            {
-                TwiLog(LogType.Error, "Error reading Tank force sensor", e.Message);
-                return -50;
-            }
+            return 2000;
+            //try
+            //{
+            //    //var vASr = new byte[] { };    
+            //    var vASa = new byte[2];
+            //    //this.TWI_TankWeight.Write(vASr);
+            //    this.TWI_TankWeight.Read(vASa);
+            //    int tForce = (int)(((vASa[0] & 63) * 256) + (vASa[1]));
+            //    return tForce;
+            //}
+            //catch (Exception e)
+            //{
+            //    TwiLog(LogType.Error, "Error reading Tank force sensor", e.Message);
+            //    return -50;
+            //}
         }
 
         private void TwiLog(string vType, string vMessage, string vDetail)

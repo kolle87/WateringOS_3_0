@@ -40,9 +40,6 @@ namespace WateringOS_3_0.Controllers
 {
     public class BackgroundTaskController : Controller
     {
-        static int LogNumber = 0;
-        static int LogCount = 0;
-
         private static void FastTask_Routine(object sender, ElapsedEventArgs e)
         {
             Globals.SpiServer.SPI_Read();
@@ -269,36 +266,36 @@ namespace WateringOS_3_0.Controllers
             }
 
             // NEW: MQTT publish
-            MQTT.Update(MQTT.Flow1, LogLists.RecentEntries.Flow1);
-            MQTT.Update(MQTT.Flow2, LogLists.RecentEntries.Flow2);
-            MQTT.Update(MQTT.Flow3, LogLists.RecentEntries.Flow3);
-            MQTT.Update(MQTT.Flow4, LogLists.RecentEntries.Flow4);
-            MQTT.Update(MQTT.Flow5, LogLists.RecentEntries.Flow5);
-            MQTT.Update(MQTT.Pump, (byte)(LogLists.RecentEntries.Pump ? 1 : 0));
-            MQTT.Update(MQTT.Valve1, (byte)(LogLists.RecentEntries.Valve1 ? 1 : 0));
-            MQTT.Update(MQTT.Valve2, (byte)(LogLists.RecentEntries.Valve2 ? 1 : 0));
-            MQTT.Update(MQTT.Valve3, (byte)(LogLists.RecentEntries.Valve3 ? 1 : 0));
-            MQTT.Update(MQTT.Valve4, (byte)(LogLists.RecentEntries.Valve4 ? 1 : 0));
-            MQTT.Update(MQTT.Valve5, (byte)(LogLists.RecentEntries.Valve5 ? 1 : 0));
-            MQTT.Update(MQTT.Tank, LogLists.RecentEntries.Tank);
-            MQTT.Update(MQTT.TankForce, LogLists.RecentEntries.TankForce);
-            MQTT.Update(MQTT.Rain, LogLists.RecentEntries.Rain);
-            MQTT.Update(MQTT.Ground, LogLists.RecentEntries.Ground);
-            MQTT.Update(MQTT.Pressure, LogLists.RecentEntries.Pressure);
-            MQTT.Update(MQTT.LevelRaw, LogLists.RecentEntries.LevelRaw);
-            MQTT.Update(MQTT.TempCPU, LogLists.RecentEntries.TempCPU);
-            MQTT.Update(MQTT.TempAmb, LogLists.RecentEntries.TempAmb);
-            MQTT.Update(MQTT.TempExp, LogLists.RecentEntries.TempExp);
-            MQTT.Update(MQTT.PowerGood_5V, (byte)(LogLists.RecentEntries.PowerGood_5V ? 1 : 0));
-            MQTT.Update(MQTT.PowerGood_12V, (byte)(LogLists.RecentEntries.PowerGood_12V ? 1 : 0));
-            MQTT.Update(MQTT.PowerGood_24V, (byte)(LogLists.RecentEntries.PowerGood_24V ? 1 : 0));
-            MQTT.Update(MQTT.PowerFail_5V, (byte)(LogLists.RecentEntries.PowerFail_5V ? 1 : 0));
-            MQTT.Update(MQTT.PowerFail_12V, (byte)(LogLists.RecentEntries.PowerFail_12V ? 1 : 0));
-            MQTT.Update(MQTT.PowerFail_24V, (byte)(LogLists.RecentEntries.PowerFail_24V ? 1 : 0));
-            MQTT.Update(MQTT.WatchDog, (byte)(LogLists.RecentEntries.WatchdogPrealarm ? 1 : 0));
-            MQTT.Update(MQTT.TempDiff, (LogLists.RecentEntries.TempExp - LogLists.RecentEntries.TempAmb));
+            Globals.MQTTServer.Update(MQTTController.Flow1, LogLists.RecentEntries.Flow1);
+            Globals.MQTTServer.Update(MQTTController.Flow2, LogLists.RecentEntries.Flow2);
+            Globals.MQTTServer.Update(MQTTController.Flow3, LogLists.RecentEntries.Flow3);
+            Globals.MQTTServer.Update(MQTTController.Flow4, LogLists.RecentEntries.Flow4);
+            Globals.MQTTServer.Update(MQTTController.Flow5, LogLists.RecentEntries.Flow5);
+            Globals.MQTTServer.Update(MQTTController.Pump, (byte)(LogLists.RecentEntries.Pump ? 1 : 0));
+            Globals.MQTTServer.Update(MQTTController.Valve1, (byte)(LogLists.RecentEntries.Valve1 ? 1 : 0));
+            Globals.MQTTServer.Update(MQTTController.Valve2, (byte)(LogLists.RecentEntries.Valve2 ? 1 : 0));
+            Globals.MQTTServer.Update(MQTTController.Valve3, (byte)(LogLists.RecentEntries.Valve3 ? 1 : 0));
+            Globals.MQTTServer.Update(MQTTController.Valve4, (byte)(LogLists.RecentEntries.Valve4 ? 1 : 0));
+            Globals.MQTTServer.Update(MQTTController.Valve5, (byte)(LogLists.RecentEntries.Valve5 ? 1 : 0));
+            Globals.MQTTServer.Update(MQTTController.Tank, LogLists.RecentEntries.Tank);
+            Globals.MQTTServer.Update(MQTTController.TankForce, LogLists.RecentEntries.TankForce);
+            Globals.MQTTServer.Update(MQTTController.Rain, LogLists.RecentEntries.Rain);
+            Globals.MQTTServer.Update(MQTTController.Ground, LogLists.RecentEntries.Ground);
+            Globals.MQTTServer.Update(MQTTController.Pressure, LogLists.RecentEntries.Pressure);
+            Globals.MQTTServer.Update(MQTTController.LevelRaw, LogLists.RecentEntries.LevelRaw);
+            Globals.MQTTServer.Update(MQTTController.TempCPU, LogLists.RecentEntries.TempCPU);
+            Globals.MQTTServer.Update(MQTTController.TempAmb, LogLists.RecentEntries.TempAmb);
+            Globals.MQTTServer.Update(MQTTController.TempExp, LogLists.RecentEntries.TempExp);
+            Globals.MQTTServer.Update(MQTTController.PowerGood_5V, (byte)(LogLists.RecentEntries.PowerGood_5V ? 1 : 0));
+            Globals.MQTTServer.Update(MQTTController.PowerGood_12V, (byte)(LogLists.RecentEntries.PowerGood_12V ? 1 : 0));
+            Globals.MQTTServer.Update(MQTTController.PowerGood_24V, (byte)(LogLists.RecentEntries.PowerGood_24V ? 1 : 0));
+            Globals.MQTTServer.Update(MQTTController.PowerFail_5V, (byte)(LogLists.RecentEntries.PowerFail_5V ? 1 : 0));
+            Globals.MQTTServer.Update(MQTTController.PowerFail_12V, (byte)(LogLists.RecentEntries.PowerFail_12V ? 1 : 0));
+            Globals.MQTTServer.Update(MQTTController.PowerFail_24V, (byte)(LogLists.RecentEntries.PowerFail_24V ? 1 : 0));
+            Globals.MQTTServer.Update(MQTTController.WatchDog, (byte)(LogLists.RecentEntries.WatchdogPrealarm ? 1 : 0));
+            Globals.MQTTServer.Update(MQTTController.TempDiff, (LogLists.RecentEntries.TempExp - LogLists.RecentEntries.TempAmb));
 
-            MQTT.Publish();
+            Globals.MQTTServer.Publish();
 
             // NEW: Tank Level Stack for avarage calculation
             if (!Globals.WateringActive)
@@ -899,14 +896,7 @@ namespace WateringOS_3_0.Controllers
                 Globals.SpiServer.MinLevel = Settings.System.Tank_Min;
                 Globals.SpiServer.MaxLevel = Settings.System.Tank_Max;
 
-                // DEBUG : Log Tank Force
-                string filename1 = "usrdata/TankLog0.csv";
-                System.IO.File.WriteAllText(filename1, "Timestamp;Value\n");
-                string filename2 = "usrdata/IPaccess.csv";
-                System.IO.File.WriteAllText(filename2, "TimeStamp;IP address;Target;Country;Region;City;Timezone\n");
-
                 // Load saved Logs
-
                 LogLists.JournalLog = JsonConvert.DeserializeObject<List<cJournal>>(System.IO.File.ReadAllText(@"usrdata/SavedLogs/JournalLog.json"));
                 LogLists.LevelLog = JsonConvert.DeserializeObject<List<cLevelLog>>(System.IO.File.ReadAllText(@"usrdata/SavedLogs/LevelLog.json"));
                 LogLists.EnvLog = JsonConvert.DeserializeObject<List<cEnvLog>>(System.IO.File.ReadAllText(@"usrdata/SavedLogs/EnvironmentLog.json"));
@@ -920,10 +910,12 @@ namespace WateringOS_3_0.Controllers
                 Globals.GpioServer.GpioLogEvent += DebugLogEvent;
                 Globals.SpiServer.SpiLogEvent += DebugLogEvent;
                 Globals.TwiServer.TwiLogEvent += DebugLogEvent;
+                Globals.MQTTServer.MQTTLogEvent += DebugLogEvent;
 
                 Globals.GpioServer.InitGPIO();
                 Globals.SpiServer.InitSPI();
                 Globals.TwiServer.InitTWIAsync();
+                Globals.MQTTServer.Initialize();
 
                 Globals.FastTask.Elapsed += new ElapsedEventHandler(BackgroundTaskController.FastTask_Routine);
                 Globals.MainTask.Elapsed += new ElapsedEventHandler(BackgroundTaskController.MainTask_Routine);

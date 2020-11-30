@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections;
 using System.Timers;
+using WateringOS_3_0.Controllers;
 
 /* DISCLAIMER
 
@@ -43,6 +44,7 @@ namespace WateringOS_3_0.Models
         public static ILogger Logger_TWIController;
         public static ILogger Logger_SPIController;
         public static ILogger Logger_SQLController;
+        public static ILogger Logger_MQTTController;
     }
     public static class Authorization
     {
@@ -54,7 +56,7 @@ namespace WateringOS_3_0.Models
     public static class Globals
     {
         public static readonly bool AppInDebug = false;
-        public static readonly string Version = "v3.2-dev-0804";
+        public static readonly string Version = "v3.2-dev-1130";
         public static readonly Timer FastTask = new Timer(200);      // 200 ms
         public static readonly Timer MainTask = new Timer(1000);     //   1 s
         public static readonly Timer SaveTask = new Timer(1200000);  //  20 min
@@ -66,6 +68,7 @@ namespace WateringOS_3_0.Models
         public static readonly TWIController TwiServer = new TWIController();
         public static readonly SQLController SqlServer = new SQLController();
         public static readonly SPIController SpiServer = new SPIController();
+        public static readonly MQTTController MQTTServer = new MQTTController();
         public static Queue TankLevel = new Queue(1200, 1);
         public static bool IsInitialized = false;
         public static DateTime ServerStart;
@@ -78,6 +81,7 @@ namespace WateringOS_3_0.Models
         public static string SqlLog_Prefix = "INSERT INTO Log(TimeStamp, Instance, Type, Name, Details, TEST) VALUES ";
         public static string SqlLog_Data = "";
 
+        public static bool MQTT_IsBusy = false;
 
         public static bool WateringActive = false;
         public static bool ALM_WarnTempCPUactive = false;

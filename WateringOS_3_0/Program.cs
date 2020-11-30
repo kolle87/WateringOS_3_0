@@ -61,6 +61,7 @@ namespace WateringOS_3_0
             Parents.Logger_SPIController = Parents.Host.Services.GetRequiredService<ILogger<SPIController>>();
             Parents.Logger_SQLController = Parents.Host.Services.GetRequiredService<ILogger<SQLController>>();
             Parents.Logger_TWIController = Parents.Host.Services.GetRequiredService<ILogger<TWIController>>();
+            Parents.Logger_MQTTController = Parents.Host.Services.GetRequiredService<ILogger<MQTTController>>();
 
             if (BackgroundTaskController.Initialize())
             {
