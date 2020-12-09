@@ -56,7 +56,6 @@ namespace WateringOS_3_0.Models
     public static class Globals
     {
         public static readonly bool AppInDebug = false;
-        public static readonly string Version = "v3.2-dev-1130";
         public static readonly Timer FastTask = new Timer(200);      // 200 ms
         public static readonly Timer MainTask = new Timer(1000);     //   1 s
         public static readonly Timer SaveTask = new Timer(1200000);  //  20 min
@@ -72,6 +71,7 @@ namespace WateringOS_3_0.Models
         public static Queue TankLevel = new Queue(1200, 1);
         public static bool IsInitialized = false;
         public static DateTime ServerStart;
+        public static string Version = "v0.0-___-mmdd";
         public static int vTest = 0;
         public static byte WateringRecord = 0;
 

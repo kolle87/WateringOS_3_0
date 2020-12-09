@@ -27,17 +27,35 @@
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/Chart.bundle.js"></script>
     <script src="~/js/moment.js"></script>
+    <style type="text/css">
+        /*  Start by setting display:none to make this hidden.
+            Then we position it in relation to the viewport window
+            with position:fixed. Width, height, top and left speak
+            for themselves. Background we set to 80% white with
+            our animation centered, and no-repeating */
+        /*
+        .load_img {
+            display: block;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: 
+        }
+        */
+    </style>
 </head>
 
 <div class="container-fluid" style="width:100%;padding:90px 0px 0px 60px">
     <table class="grid" width="100%">
         <tbody>
             <tr>
-                <td style="width:130px"><h5>Tank Level</h5></td>
+                <td style="width:130px"><h5><span class="text" id="txt_title">Tank Level</span></h5></td>
                 <td></td>
                 <td style="width:80px"><button style="width:72px" onclick="Show24h()" id="btn_24H" class="btn btn-outline-primary btn-sm btn-block" default>24 hrs</button></td>
                 <td style="width:80px"><button style="width:72px" onclick="Show1wk()" id="btn_1WK" class="btn btn-outline-primary btn-sm btn-block" default>1 week</button></td>
-
             </tr>
         </tbody>
     </table>
@@ -45,8 +63,24 @@
 <canvas id="level_chart" style="width:100%;height:600px;min-height:300px;margin:10px 0px 0px 0px;"></canvas>
 
 <script>
-        var ctx = document.getElementById('level_chart').getContext('2d');
-        var myChart = new Chart(ctx, {
+    function finishLoading() { document.getElementById('img_load').style.display = "none"; }
+    function startLoading() { document.getElementById('img_load').style.display = "block"; }
+</script>
+<div class="load_img" id="img_load" style="display:block;position:fixed;z-index:1000;top:0;left:0;height:100%;width:100%;background:rgba( 0, 0, 0, .4 )">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-5">
+            </div>
+            <div class="col-2" style="min-width:512px">
+                <img src="~/Loading_Infinity.svg" />
+            </div>
+        </div>
+    </div>
+</div>
+    
+<script>
+    var ctx = document.getElementById('level_chart').getContext('2d');
+    var myChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: [],
@@ -157,6 +191,7 @@
     }
 
     function Show24h() {
+        startLoading();
         ClearData();
         var MinLevel = 0;
         $.post("/DataProvision/GetTankAlarmLevel", function (result) { MinLevel = result; });
@@ -164,7 +199,8 @@
 				type: "POST",
 				dataType: "json",
 				contentType: "application/json",
-				url: '@Url.Action("GetLevelData","DataProvision")',
+                url: '@Url.Action("GetLevelData","DataProvision")',
+                beforeSend: startLoading(),
                 success: function (result) {
                     myChart.data.labels.push(moment().subtract(24, 'hours'));
                     // Major Gridlines
@@ -184,11 +220,13 @@
                     });
                     myChart.data.labels.push(moment());
                     myChart.update();
+                    finishLoading()
                 }
-            });
+        });
     }
 
     function Show1wk() {
+        startLoading();
         ClearData();
         var MinLevel = 0;
         $.post("/DataProvision/GetTankAlarmLevel", function (result) { MinLevel = result; });
@@ -196,7 +234,8 @@
 				type: "POST",
 				dataType: "json",
 				contentType: "application/json",
-				url: '@Url.Action("GetLevelData", "DataProvision")',
+                url: '@Url.Action("GetLevelData", "DataProvision")',
+                beforeSend: startLoading(),
                 success: function (result) {
                     myChart.data.labels.push(moment().minute(0).subtract(168, 'hour'));
                     // Major Gridlines
@@ -228,7 +267,9 @@
                     });
                     myChart.data.labels.push(moment().minute(0).add(1,'hour'));
                     myChart.update();
+                    finishLoading()
                 }
-            });
+        });
+        
     }
 </script>

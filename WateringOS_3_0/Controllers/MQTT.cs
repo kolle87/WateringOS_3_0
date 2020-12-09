@@ -102,7 +102,8 @@ namespace WateringOS_3_0
 
         public void Publish()
         {
-            if (Globals.MQTT_IsBusy)
+            MQTTLog(LogType.Status, string.Format("MQTT.Publish() - Process count: {0}",Globals.vTest), "Processes actively running when MQTT.Publish() is called.");
+            if (Globals.vTest>0)//(Globals.MQTT_IsBusy)
             {
                 MQTTLog(LogType.Warning, "MQTT in busy state - publish skipped", "MQTT_IsBusy found true. The start of process mqtt_pub.Start() was supressed");
             }
@@ -110,6 +111,7 @@ namespace WateringOS_3_0
             {
                 using (Process mqtt_pub = new Process())
                 {
+                    Globals.vTest += 1;
                     mqtt_pub.StartInfo.FileName = "/app/mqtt.py";
                     mqtt_pub.StartInfo.Arguments = CreateArguments(MQTTvalues);
                     mqtt_pub.StartInfo.UseShellExecute = false;
@@ -118,13 +120,13 @@ namespace WateringOS_3_0
                     mqtt_pub.StartInfo.RedirectStandardOutput = true;
                     if (mqtt_pub.Start())
                     {
-                        //Globals.MQTT_IsBusy = true;
-                        //mqtt_pub.WaitForExit();
-                        while (!mqtt_pub.HasExited)
+                        Globals.MQTT_IsBusy = true;
+                        mqtt_pub.WaitForExit();
+                        if (mqtt_pub.HasExited)
                         {
-                            Globals.MQTT_IsBusy = true;
+                            Globals.vTest -= 1;
+                            Globals.MQTT_IsBusy = false;
                         }
-                        Globals.MQTT_IsBusy = false;
                     }
                     else
                     {

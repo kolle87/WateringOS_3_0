@@ -266,36 +266,38 @@ namespace WateringOS_3_0.Controllers
             }
 
             // NEW: MQTT publish
-            Globals.MQTTServer.Update(MQTTController.Flow1, LogLists.RecentEntries.Flow1);
-            Globals.MQTTServer.Update(MQTTController.Flow2, LogLists.RecentEntries.Flow2);
-            Globals.MQTTServer.Update(MQTTController.Flow3, LogLists.RecentEntries.Flow3);
-            Globals.MQTTServer.Update(MQTTController.Flow4, LogLists.RecentEntries.Flow4);
-            Globals.MQTTServer.Update(MQTTController.Flow5, LogLists.RecentEntries.Flow5);
-            Globals.MQTTServer.Update(MQTTController.Pump, (byte)(LogLists.RecentEntries.Pump ? 1 : 0));
-            Globals.MQTTServer.Update(MQTTController.Valve1, (byte)(LogLists.RecentEntries.Valve1 ? 1 : 0));
-            Globals.MQTTServer.Update(MQTTController.Valve2, (byte)(LogLists.RecentEntries.Valve2 ? 1 : 0));
-            Globals.MQTTServer.Update(MQTTController.Valve3, (byte)(LogLists.RecentEntries.Valve3 ? 1 : 0));
-            Globals.MQTTServer.Update(MQTTController.Valve4, (byte)(LogLists.RecentEntries.Valve4 ? 1 : 0));
-            Globals.MQTTServer.Update(MQTTController.Valve5, (byte)(LogLists.RecentEntries.Valve5 ? 1 : 0));
-            Globals.MQTTServer.Update(MQTTController.Tank, LogLists.RecentEntries.Tank);
-            Globals.MQTTServer.Update(MQTTController.TankForce, LogLists.RecentEntries.TankForce);
-            Globals.MQTTServer.Update(MQTTController.Rain, LogLists.RecentEntries.Rain);
-            Globals.MQTTServer.Update(MQTTController.Ground, LogLists.RecentEntries.Ground);
-            Globals.MQTTServer.Update(MQTTController.Pressure, LogLists.RecentEntries.Pressure);
-            Globals.MQTTServer.Update(MQTTController.LevelRaw, LogLists.RecentEntries.LevelRaw);
-            Globals.MQTTServer.Update(MQTTController.TempCPU, LogLists.RecentEntries.TempCPU);
-            Globals.MQTTServer.Update(MQTTController.TempAmb, LogLists.RecentEntries.TempAmb);
-            Globals.MQTTServer.Update(MQTTController.TempExp, LogLists.RecentEntries.TempExp);
-            Globals.MQTTServer.Update(MQTTController.PowerGood_5V, (byte)(LogLists.RecentEntries.PowerGood_5V ? 1 : 0));
-            Globals.MQTTServer.Update(MQTTController.PowerGood_12V, (byte)(LogLists.RecentEntries.PowerGood_12V ? 1 : 0));
-            Globals.MQTTServer.Update(MQTTController.PowerGood_24V, (byte)(LogLists.RecentEntries.PowerGood_24V ? 1 : 0));
-            Globals.MQTTServer.Update(MQTTController.PowerFail_5V, (byte)(LogLists.RecentEntries.PowerFail_5V ? 1 : 0));
-            Globals.MQTTServer.Update(MQTTController.PowerFail_12V, (byte)(LogLists.RecentEntries.PowerFail_12V ? 1 : 0));
-            Globals.MQTTServer.Update(MQTTController.PowerFail_24V, (byte)(LogLists.RecentEntries.PowerFail_24V ? 1 : 0));
-            Globals.MQTTServer.Update(MQTTController.WatchDog, (byte)(LogLists.RecentEntries.WatchdogPrealarm ? 1 : 0));
-            Globals.MQTTServer.Update(MQTTController.TempDiff, (LogLists.RecentEntries.TempExp - LogLists.RecentEntries.TempAmb));
+            /*
+                Globals.MQTTServer.Update(MQTTController.Flow1, LogLists.RecentEntries.Flow1);
+                Globals.MQTTServer.Update(MQTTController.Flow2, LogLists.RecentEntries.Flow2);
+                Globals.MQTTServer.Update(MQTTController.Flow3, LogLists.RecentEntries.Flow3);
+                Globals.MQTTServer.Update(MQTTController.Flow4, LogLists.RecentEntries.Flow4);
+                Globals.MQTTServer.Update(MQTTController.Flow5, LogLists.RecentEntries.Flow5);
+                Globals.MQTTServer.Update(MQTTController.Pump, (byte)(LogLists.RecentEntries.Pump ? 1 : 0));
+                Globals.MQTTServer.Update(MQTTController.Valve1, (byte)(LogLists.RecentEntries.Valve1 ? 1 : 0));
+                Globals.MQTTServer.Update(MQTTController.Valve2, (byte)(LogLists.RecentEntries.Valve2 ? 1 : 0));
+                Globals.MQTTServer.Update(MQTTController.Valve3, (byte)(LogLists.RecentEntries.Valve3 ? 1 : 0));
+                Globals.MQTTServer.Update(MQTTController.Valve4, (byte)(LogLists.RecentEntries.Valve4 ? 1 : 0));
+                Globals.MQTTServer.Update(MQTTController.Valve5, (byte)(LogLists.RecentEntries.Valve5 ? 1 : 0));
+                Globals.MQTTServer.Update(MQTTController.Tank, LogLists.RecentEntries.Tank);
+                Globals.MQTTServer.Update(MQTTController.TankForce, LogLists.RecentEntries.TankForce);
+                Globals.MQTTServer.Update(MQTTController.Rain, LogLists.RecentEntries.Rain);
+                Globals.MQTTServer.Update(MQTTController.Ground, LogLists.RecentEntries.Ground);
+                Globals.MQTTServer.Update(MQTTController.Pressure, LogLists.RecentEntries.Pressure);
+                Globals.MQTTServer.Update(MQTTController.LevelRaw, LogLists.RecentEntries.LevelRaw);
+                Globals.MQTTServer.Update(MQTTController.TempCPU, LogLists.RecentEntries.TempCPU);
+                Globals.MQTTServer.Update(MQTTController.TempAmb, LogLists.RecentEntries.TempAmb);
+                Globals.MQTTServer.Update(MQTTController.TempExp, LogLists.RecentEntries.TempExp);
+                Globals.MQTTServer.Update(MQTTController.PowerGood_5V, (byte)(LogLists.RecentEntries.PowerGood_5V ? 1 : 0));
+                Globals.MQTTServer.Update(MQTTController.PowerGood_12V, (byte)(LogLists.RecentEntries.PowerGood_12V ? 1 : 0));
+                Globals.MQTTServer.Update(MQTTController.PowerGood_24V, (byte)(LogLists.RecentEntries.PowerGood_24V ? 1 : 0));
+                Globals.MQTTServer.Update(MQTTController.PowerFail_5V, (byte)(LogLists.RecentEntries.PowerFail_5V ? 1 : 0));
+                Globals.MQTTServer.Update(MQTTController.PowerFail_12V, (byte)(LogLists.RecentEntries.PowerFail_12V ? 1 : 0));
+                Globals.MQTTServer.Update(MQTTController.PowerFail_24V, (byte)(LogLists.RecentEntries.PowerFail_24V ? 1 : 0));
+                Globals.MQTTServer.Update(MQTTController.WatchDog, (byte)(LogLists.RecentEntries.WatchdogPrealarm ? 1 : 0));
+                Globals.MQTTServer.Update(MQTTController.TempDiff, (LogLists.RecentEntries.TempExp - LogLists.RecentEntries.TempAmb));
 
-            Globals.MQTTServer.Publish();
+                Globals.MQTTServer.Publish();
+            */
 
             // NEW: Tank Level Stack for avarage calculation
             if (!Globals.WateringActive)

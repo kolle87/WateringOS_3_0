@@ -45,6 +45,22 @@
 <canvas id="watchdog_chart" style="width:100%;height:200px;min-height:150px;margin:10px 0px 0px 0px;"></canvas>
 
 <script>
+    function finishLoading() { document.getElementById('img_load').style.display = "none"; }
+    function startLoading() { document.getElementById('img_load').style.display = "block"; }
+</script>
+<div class="load_img" id="img_load" style="display:block;position:fixed;z-index:1000;top:0;left:0;height:100%;width:100%;background:rgba( 0, 0, 0, .4 )">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-5">
+            </div>
+            <div class="col-2" style="min-width:512px">
+                <img src="~/Loading_Infinity.svg" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
     var power_canvas    = document.getElementById('power_chart').getContext('2d');
     var watchdog_canvas = document.getElementById('watchdog_chart').getContext('2d');
     var PowerChart = new Chart(power_canvas, {
@@ -299,7 +315,8 @@
 				type: "POST",
 				dataType: "json",
 				contentType: "application/json",
-				url: '@Url.Action("GetPowerData", "DataProvision")',
+                url: '@Url.Action("GetPowerData", "DataProvision")',
+                beforeSend: startLoading(),
                 success: function (result) {
                     PowerChart.data.labels.push(moment().subtract(24, 'hour'));
                     WatchdogChart.data.labels.push(moment().subtract(24, 'hour'));
@@ -346,6 +363,7 @@
                     PowerChart.data.labels.push(moment());
                     WatchdogChart.update();
                     PowerChart.update();
+                    finishLoading()
                 }
             });
     }
@@ -356,7 +374,8 @@
 				type: "POST",
 				dataType: "json",
 				contentType: "application/json",
-				url: '@Url.Action("GetPowerData", "DataProvision")',
+                url: '@Url.Action("GetPowerData", "DataProvision")',
+                beforeSend: startLoading(),
                 success: function (result) {
                     PowerChart.data.labels.push(moment().minute(0).subtract(168, 'hour'));
                     WatchdogChart.data.labels.push(moment().minute(0).subtract(168, 'hour'));
@@ -427,6 +446,7 @@
                     PowerChart.data.labels.push(moment().minute(0).add(1, 'hour'));
                     WatchdogChart.update();
                     PowerChart.update();
+                    finishLoading()
                 }
             });
     }

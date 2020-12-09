@@ -47,6 +47,22 @@
 <canvas id="press_chart" style="width:100%;height:200px;min-height:150px;margin:10px 0px 0px 0px;"></canvas>
 
 <script>
+    function finishLoading() { document.getElementById('img_load').style.display = "none"; }
+    function startLoading() { document.getElementById('img_load').style.display = "block"; }
+</script>
+<div class="load_img" id="img_load" style="display:block;position:fixed;z-index:1000;top:0;left:0;height:100%;width:100%;background:rgba( 0, 0, 0, .4 )">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-5">
+            </div>
+            <div class="col-2" style="min-width:512px">
+                <img src="~/Loading_Infinity.svg" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
     var valve_canvas = document.getElementById('valve_chart').getContext('2d');
     var flow_canvas  = document.getElementById('flow_chart').getContext('2d');
     var press_canvas = document.getElementById('press_chart').getContext('2d');
@@ -393,7 +409,8 @@
 			type: "POST",
 			dataType: "json",
 			contentType: "application/json",
-			url: '@Url.Action("GetWatering1", "DataProvision")',
+            url: '@Url.Action("GetWatering1", "DataProvision")',
+            beforeSend: startLoading(),
             success: function (result) {
                 $.each(result, function (i, v) {
                         if (i == 0) { document.getElementById("txt_Date").textContent = moment(v.TimeStamp).format('MMM Do, H:mm'); }
@@ -449,6 +466,7 @@
                 ValveChart.update();
                 FlowChart.update();
                 PressChart.update();
+                finishLoading()
             }
         });
     }
@@ -458,7 +476,8 @@
 			type: "POST",
 			dataType: "json",
 			contentType: "application/json",
-			url: '@Url.Action("GetWatering2", "DataProvision")',
+            url: '@Url.Action("GetWatering2", "DataProvision")',
+            beforeSend: startLoading(),
             success: function (result) {
                 $.each(result, function (i, v) {
                         if (i == 0) { document.getElementById("txt_Date").textContent = moment(v.TimeStamp).format('MMM Do, H:mm'); }
@@ -514,6 +533,7 @@
                 ValveChart.update();
                 FlowChart.update();
                 PressChart.update();
+                finishLoading()
             }
         });
     }
@@ -523,7 +543,8 @@
 			type: "POST",
 			dataType: "json",
 			contentType: "application/json",
-			url: '@Url.Action("GetWatering3", "DataProvision")',
+            url: '@Url.Action("GetWatering3", "DataProvision")',
+            beforeSend: startLoading(),
             success: function (result) {
                 $.each(result, function (i, v) {
                         if (i == 0) { document.getElementById("txt_Date").textContent = moment(v.TimeStamp).format('MMM Do, H:mm'); }
@@ -579,6 +600,7 @@
                 ValveChart.update();
                 FlowChart.update();
                 PressChart.update();
+                finishLoading()
             }
         });
     }

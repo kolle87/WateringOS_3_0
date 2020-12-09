@@ -1,0 +1,1 @@
+@echo %1 %2>"testout.txt"
