@@ -43,8 +43,7 @@ namespace WateringOS_3_0.Controllers
         private static void FastTask_Routine(object sender, ElapsedEventArgs e)
         {
             Globals.SpiServer.SPI_Read();
-            Globals.TwiServer.TWI_Read();
-
+            
             byte vRain = 0;
             byte vGround = 0;
 
@@ -83,13 +82,16 @@ namespace WateringOS_3_0.Controllers
                 case 2: vRain = 2; break;
                 default: vRain = 0; break;
             }
-
+            /*
             switch (Math.Floor((double)(Globals.SpiServer.Ground / 100)))
             {
                 case 1: vGround = 1; break;
                 case 2: vGround = 2; break;
                 default: vGround = 0; break;
             }
+            */
+
+            //vGround = Globals.TwiServer.Ground;
 
             // Pump protection
             if ((Globals.GpioServer.PumpActive) && (!Globals.GpioServer.Valve1Open) && (!Globals.GpioServer.Valve2Open) && (!Globals.GpioServer.Valve3Open) && (!Globals.GpioServer.Valve4Open) && (!Globals.GpioServer.Valve5Open))
@@ -109,7 +111,7 @@ namespace WateringOS_3_0.Controllers
                     {
                         TimeStamp = DateTime.Now,
                         Rain = vRain,
-                        Ground = vGround,
+                        Ground = Globals.TwiServer.Ground,
                         TempAmb = LogLists.RecentEntries.TempAmb,
                         TempCPU = LogLists.RecentEntries.TempCPU,
                         TempExp = LogLists.RecentEntries.TempExp
@@ -144,7 +146,6 @@ namespace WateringOS_3_0.Controllers
             {
                 try
                 {
-                    Globals.PowerLogger.Stop();
                     while (LogLists.PowerLog.Count > 65500) { LogLists.PowerLog.RemoveAt(0); }
                     LogLists.PowerLog.Add(new cPowerLog
                     {
@@ -158,7 +159,7 @@ namespace WateringOS_3_0.Controllers
                         WatchdogPrealarm = (byte)(Globals.GpioServer.WatchDog_Prewarn ? 1 : 0)
                     });
                 }
-                finally { Globals.PowerLogger.Start(); }
+                finally { /*Globals.PowerLogger.Start();*/ }
             }
 
             // Log Watering Data with FastLog
@@ -198,7 +199,7 @@ namespace WateringOS_3_0.Controllers
             //Console.WriteLine($">>> Get TWI data");
             LogLists.RecentEntries.TempAmb = Globals.TwiServer.AmbientTemp;
             LogLists.RecentEntries.TempExp = Globals.TwiServer.ExposedTemp;
-            LogLists.RecentEntries.TankForce = Globals.TwiServer.TankWeight;
+            LogLists.RecentEntries.TankForce = 0;
 
             LogLists.RecentEntries.TempAmbFiltered = 0; // not used
             LogLists.RecentEntries.TempCPUFiltered = 0; // not used
@@ -212,10 +213,10 @@ namespace WateringOS_3_0.Controllers
             LogLists.RecentEntries.Flow5 = Globals.SpiServer.Flow5 * 10;
             //if ((Globals.SpiServer.Level < LogLists.RecentEntries.Tank) || (Globals.SpiServer.Level > LogLists.RecentEntries.Tank + Settings.System.Tank_RefillHyst))
             //    { LogLists.RecentEntries.Tank = Globals.SpiServer.Level; }
-            double TankLevel_L = (Globals.TwiServer.TankWeight * 0.0081) - 18;                      // Force to volume in liter
-            LogLists.RecentEntries.Tank = (byte)Math.Floor(((TankLevel_L / 75) - 0.063) * 100);     // Liter to Percent
+            double TankLevel_L = Globals.SpiServer.LevelRaw  - Settings.System.Tank_Min;                      
+            LogLists.RecentEntries.Tank = (byte)Math.Floor((TankLevel_L / (Settings.System.Tank_Max-Settings.System.Tank_Min)) * 100);     // Liter to Percent
             LogLists.RecentEntries.Rain = vRain;
-            LogLists.RecentEntries.Ground = vGround;
+            LogLists.RecentEntries.Ground = Globals.TwiServer.Ground;
             LogLists.RecentEntries.Pressure = Globals.SpiServer.Pressure;
             LogLists.RecentEntries.LevelRaw = Globals.SpiServer.LevelRaw;
 
@@ -242,6 +243,8 @@ namespace WateringOS_3_0.Controllers
 
         private static void MainTask_Routine(object sender, ElapsedEventArgs e)
         {
+            Globals.TwiServer.TWI_Read();
+
             // reset alarm jitter suppression
             int vCurrentTemp = DataProvisionController.GetTemperature();
             if ((Globals.ALM_WarnTempCPUactive) && (vCurrentTemp < Settings.System.ALM_WarnTempCPU - 5))
@@ -302,7 +305,7 @@ namespace WateringOS_3_0.Controllers
             // NEW: Tank Level Stack for avarage calculation
             if (!Globals.WateringActive)
             {
-                Globals.TankLevel.Enqueue(LogLists.RecentEntries.TankForce);
+                Globals.TankLevel.Enqueue(LogLists.RecentEntries.Tank);
             }
             else
             {
@@ -789,13 +792,13 @@ namespace WateringOS_3_0.Controllers
         {
             int sum = 0;
             int num = Globals.TankLevel.Count;
-            foreach (Object obj in Globals.TankLevel)
+            foreach (Object obj in Globals.TankLevel) // TankLevel already in percent
             {
                 sum += (int)obj;
             }
             double avg = sum / num;
-            avg = (avg * 0.0081) - 18;          // Force to volume in liter
-            avg = ((avg / 75) - 0.063) * 100;   // Liter to Percent
+            //double TankLevel_L = avg - Settings.System.Tank_Min;
+            //avg = (byte)Math.Floor((TankLevel_L / (Settings.System.Tank_Max - Settings.System.Tank_Min)) * 100);   // Liter to Percent
 
             while (LogLists.LevelLog.Count > 65500) { LogLists.LevelLog.RemoveAt(0); }
             LogLists.LevelLog.Add(new cLevelLog
@@ -807,6 +810,7 @@ namespace WateringOS_3_0.Controllers
 
         private static void EnvLogger_Routine(object sender, ElapsedEventArgs e)
         {
+            Globals.tmpGround = Globals.TwiServer.ReadGround();
             byte vRain = 0;
             byte vGround = 0;
             switch (Math.Floor((double)(Globals.SpiServer.Rain / 100)))
@@ -828,7 +832,7 @@ namespace WateringOS_3_0.Controllers
             {
                 TimeStamp = DateTime.Now,
                 Rain = vRain,
-                Ground = vGround,
+                Ground = Globals.tmpGround,
                 TempAmb = Globals.TwiServer.AmbientTemp,
                 TempCPU = DataProvisionController.GetTemperature(),
                 TempExp = Globals.TwiServer.ExposedTemp

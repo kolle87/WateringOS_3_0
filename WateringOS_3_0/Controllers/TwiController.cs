@@ -33,15 +33,16 @@ namespace WateringOS_3_0
         private I2cDevice TWI_TempCPU;      // 0x48
         private I2cDevice TWI_TempAmbient;  // 0x4F
         private I2cDevice TWI_TempExposed;  // 0x4B
-        private I2cDevice TWI_TankWeight;   // 0x28
+        private I2cDevice TWI_Ground;   // 0x28
         private I2cConnectionSettings settings1;
         private I2cConnectionSettings settings2;
         private I2cConnectionSettings settings3;
         private I2cConnectionSettings settings4;
+        private bool IsBusy = false;
         public short AmbientTemp { get; private set; }
         public short ExposedTemp { get; private set; }
         public short CPUTemp { get; private set; }
-        public int TankWeight { get; private set; }
+        public int Ground { get; private set; }
 
         public async void InitTWIAsync()
         {
@@ -91,7 +92,7 @@ namespace WateringOS_3_0
                 try
                 {
                     TwiLog(LogType.Information, "0x4B: Loading slave", "Loading slave settings for 0x4B (exposed temperature sensor) and starting interface");
-                    this.settings3 = new I2cConnectionSettings(1, 0x4B);   // Ambient Temperature
+                    this.settings3 = new I2cConnectionSettings(1, 0x4B);   // Exposed Temperature
                     this.TWI_TempExposed = I2cDevice.Create(settings3);
                     await Task.Delay(100);
                 }
@@ -100,17 +101,17 @@ namespace WateringOS_3_0
                     TwiLog(LogType.Error, "0x4B: Error initializing exposed temperature sensor", e.Message);
                 }
 
-                // Initialize Tank Force Sensor (FX29)
+                // Initialize Ground Sensor (Arduino Nano)
                 try
                 {
-                    TwiLog(LogType.Information, "0x28: Loading slave", "Loading slave settings for 0x28 (tank force sensor) and starting interface");
-                    this.settings4 = new I2cConnectionSettings(1, 0x28);   // Force sensor
-                    this.TWI_TankWeight = I2cDevice.Create(settings4);
+                    TwiLog(LogType.Information, "0x56: Loading slave", "Loading slave settings for 0x56 (ground sensor) and starting interface");
+                    this.settings4 = new I2cConnectionSettings(1, 0x56);   // Ground sensor
+                    this.TWI_Ground = I2cDevice.Create(settings4);
                     await Task.Delay(100);
                 }
                 catch (Exception e)
                 {
-                    TwiLog(LogType.Error, "0x28: Error initializing tank force sensor", e.Message);
+                    TwiLog(LogType.Error, "0x56: Error initializing ground sensor", e.Message);
                 }
             }
             catch (Exception e)
@@ -120,28 +121,31 @@ namespace WateringOS_3_0
         }
         public void TWI_Read()
         {
-            AmbientTemp = ReadAmbientTemp();
-            using (Task t_wait = Task.Run(async delegate { await Task.Delay(50); }))
+            if (!this.IsBusy) { AmbientTemp = ReadAmbientTemp(); }
+            
+            using (Task t_wait = Task.Run(async delegate { await Task.Delay(100); }))
             {
                 t_wait.Wait();
             }
-            ExposedTemp = ReadExposedTemp();
-            using (Task t_wait = Task.Run(async delegate { await Task.Delay(50); }))
+            if (!this.IsBusy) { ExposedTemp = ReadExposedTemp(); }            
+            using (Task t_wait = Task.Run(async delegate { await Task.Delay(100); }))
             {
                 t_wait.Wait();
             }
-            TankWeight = ReadTankWeight();
-            using (Task t_wait = Task.Run(async delegate { await Task.Delay(50); }))
+            /*
+            if (!this.IsBusy) { Ground = ReadGround(); }            
+            using (Task t_wait = Task.Run(async delegate { await Task.Delay(100); }))
             {
                 t_wait.Wait();
-            }
-            CPUTemp = ReadCPUTemp();
+            }*/
+            if (!this.IsBusy) { CPUTemp = ReadCPUTemp(); }
         }
+
         private short ReadCPUTemp()
         {
-
             try
             {
+                this.IsBusy = true;
                 /*
                     var vASr = new byte[] { 0xAA };    // 0xAA = DS1621 read temp
                     var vASa = new byte[2];
@@ -153,11 +157,13 @@ namespace WateringOS_3_0
                     sbyte tTcpu = (sbyte)vASa[0];
                     return tTcpu;
                 */
+                this.IsBusy = false;
                 return 50;
             }
             catch (Exception e)
             {
                 TwiLog(LogType.Error, "Error reading CPU temperature", e.Message);
+                this.IsBusy = false;
                 return -50;
             }
         }
@@ -165,6 +171,7 @@ namespace WateringOS_3_0
         {
             try
             {
+                this.IsBusy = true;
                 var vASr = new byte[] { 0x00 };    // 0x00 = LM75 Read Temp
                 var vASa = new byte[2];
                 this.TWI_TempAmbient.Write(vASr);
@@ -173,11 +180,13 @@ namespace WateringOS_3_0
                 // if ((vASa[0] & 128) == 1) { vNeg = -1; }
                 // int tTamb = (vASa[0] & 127) * vNeg;
                 sbyte tTair = (sbyte)vASa[0];
+                this.IsBusy = false;
                 return tTair;
             }
             catch (Exception e)
             {
                 TwiLog(LogType.Error, "Error reading ambient temperature", e.Message);
+                this.IsBusy = false;
                 return -50;
             }
         }
@@ -185,40 +194,55 @@ namespace WateringOS_3_0
         {
             try
             {
-                // var vASr = new byte[] { 0x00 };    // 0x00 = LM75 Read Temp
-                // var vASa = new byte[2];
-                // this.TWI_TempExposed.Write(vASr);
-                // this.TWI_TempExposed.Read(vASa);
+                this.IsBusy = true;
+                var vASr = new byte[] { 0x00 };    // 0x00 = LM75 Read Temp
+                var vASa = new byte[2];
+                this.TWI_TempExposed.Write(vASr);
+                this.TWI_TempExposed.Read(vASa);
                 // var vNeg = 1;
                 // if ((vASa[0] & 128) == 1) { vNeg = -1; }
                 // return ((vASa[0] & 127) * vNeg);
-                sbyte tTexp = (sbyte)(-18);
+                sbyte tTexp = (sbyte)(vASa[0]);
+                this.IsBusy = false;
                 return tTexp;
             }
             catch (Exception e)
             {
                 TwiLog(LogType.Error, "Error reading exposed temperature", e.Message);
+                this.IsBusy = false;
                 return -50;
             }
         }
 
-        private int ReadTankWeight()
+        public int ReadGround()
         {
-            return 2000;
-            //try
-            //{
-            //    //var vASr = new byte[] { };    
-            //    var vASa = new byte[2];
-            //    //this.TWI_TankWeight.Write(vASr);
-            //    this.TWI_TankWeight.Read(vASa);
-            //    int tForce = (int)(((vASa[0] & 63) * 256) + (vASa[1]));
-            //    return tForce;
-            //}
-            //catch (Exception e)
-            //{
-            //    TwiLog(LogType.Error, "Error reading Tank force sensor", e.Message);
-            //    return -50;
-            //}
+            try
+            {
+                if (!this.IsBusy)
+                {
+                    this.IsBusy = true;
+                    //var vASr = new byte[] { };    
+                    var vASa = new byte[2];
+                    //this.TWI_TankWeight.Write(vASr);
+                    this.TWI_Ground.Read(vASa);
+                    TwiLog(LogType.Information, ("ReadGround() [0] "+ vASa[0] +"  [1] " + vASa[1]), "ReadGround() - TWI busy");
+                    int tGround = vASa[0] * 256;
+                    this.IsBusy = false;
+                    return tGround;
+                }
+                else
+                {
+                    TwiLog(LogType.Warning, "ReadGround() - TWI busy", "ReadGround() - TWI busy");
+                    this.IsBusy = false;
+                    return 10;
+                }
+            }
+            catch (Exception e)
+            {
+                TwiLog(LogType.Error, "Error reading ground sensor", e.Message);
+                this.IsBusy = false;
+                return 10;
+            }
         }
 
         private void TwiLog(string vType, string vMessage, string vDetail)

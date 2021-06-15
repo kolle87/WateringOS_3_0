@@ -110,8 +110,8 @@
             scales: {
                 yAxes: [{
                     ticks: {
-                        max:  2,
-                        min: -2,
+                        max:  10,
+                        min: 0,
                         stepSize: 1,
                         callback: function (value, index, values) { return '  ' + value; }
                     },
@@ -321,7 +321,7 @@
                             });
                             EnvChart.data.datasets[1].data.push({
                                 x: moment(v.TimeStamp),
-                                y: v.Ground * (-1)
+                                y: v.Ground/1000
                             });
                         }
                     });
@@ -397,7 +397,7 @@
                             });
                             EnvChart.data.datasets[1].data.push({
                                 x: moment(v.TimeStamp),
-                                y: v.Ground * (-1)
+                                y: v.Ground/1000
                             });
                         }
                     });

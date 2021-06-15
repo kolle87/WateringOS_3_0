@@ -75,6 +75,8 @@ namespace WateringOS_3_0.Models
         public static int vTest = 0;
         public static byte WateringRecord = 0;
 
+        public static int tmpGround = 0;
+
         public static bool SqlIsBusy = false;
         public static string SqlDat_Prefix = "INSERT INTO Signals(DateTime, Flow1, Flow2, Flow3, Flow4, Flow5, Rain, Ground, TankLevel, Pressure, TempCPU, TempAmb, TempExp, Pump, Valve1, Valve2, Valve3, Valve4, Valve5, PG5, PG12, PG24, PF5, PF12, PF24, Watchdog, TEST) VALUES ";
         public static string SqlDat_Data = "";

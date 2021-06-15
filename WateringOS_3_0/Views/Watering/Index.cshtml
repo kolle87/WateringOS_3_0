@@ -229,11 +229,14 @@
             }
         });
         $.post("/DataProvision/GetCurrentGround", function (result) {
+            document.getElementById("stat_Ground").textContent = result;
+            /*
             switch (result) {
                 case 1: document.getElementById("stat_Ground").textContent = "DRY"; break;
                 case 2: document.getElementById("stat_Ground").textContent = "DAMP"; break;
                 default: document.getElementById("stat_Ground").textContent = "---"; document.getElementById("stat_Ground").style.color = "red"; break;
             }
+            */
         });
 
         $.post("/DataProvision/GetCurrentFlow1", function (result) {
@@ -261,6 +264,8 @@
         $.post("/DataProvision/GetCurrentTempAmb", function (result) { document.getElementById('stat_Amb').textContent = result; });
         $.post("/DataProvision/GetCurrentTempExp", function (result) { document.getElementById('stat_Exp').textContent = result; });
     }
+
+    function ReadGround() { $.post("/Manual/ReadGround"); };
 </script>
 
 <div class="container" style="width:100%;margin:80px 0px 0px 0px;max-width:1140px">
@@ -498,6 +503,11 @@
                             <td style="text-align:center;padding-left:8px;width:30px"><span class="text" id="stat_Ground">DAMP</span></td>
                             <td></td>
                         </tr>
+                        <tr>
+                            <td><button type="button" onClick="ReadGround()" class="btn btn-warning btn-sm btn-block" style="width:fit-content">ReadGround()</button></td>
+                            <td></td>
+                            <td></td>
+                        </tr>                        
                     </tbody>
                 </table>
             </div>

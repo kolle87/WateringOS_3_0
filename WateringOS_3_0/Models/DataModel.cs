@@ -69,7 +69,7 @@ namespace WateringOS_3_0.Models
     {
         public DateTime TimeStamp { get; set; }
         public byte Rain { get; set; }
-        public byte Ground { get; set; }
+        public int Ground { get; set; }
         public int TempCPU { get; set; }
         public int TempAmb { get; set; }
         public int TempExp { get; set; }
@@ -157,7 +157,7 @@ namespace WateringOS_3_0.Models
         public byte Tank { get; set; }
         public int TankForce { get; set; }
         public byte Rain { get; set; }
-        public byte Ground { get; set; }
+        public int Ground { get; set; }
         public double Pressure { get; set; }
         public byte LevelRaw { get; set; }
         public int TempCPU { get; set; }

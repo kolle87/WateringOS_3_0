@@ -30,14 +30,14 @@ namespace WateringOS_3_0.Controllers
         public bool   CurrentStatePF12()   { if (!SIM_MODE) { return LogLists.RecentEntries.PowerFail_12V; }  else { return true; } }
         public bool   CurrentStatePF24()   { if (!SIM_MODE) { return LogLists.RecentEntries.PowerFail_24V; }  else { return true; } }
         public int    GetCurrentRain()     { if (!SIM_MODE) { return LogLists.RecentEntries.Rain; }           else { return rdm.Next(2) + 1; } }
-        public int    GetCurrentGround()   { if (!SIM_MODE) { return LogLists.RecentEntries.Ground; }         else { return rdm.Next(2) + 1; ; } }
+        public int    GetCurrentGround()   { if (!SIM_MODE) { return Globals.tmpGround; }         else { return rdm.Next(2) + 1; ; } }
         public int    GetCurrentFlow1()    { if (!SIM_MODE) { return LogLists.RecentEntries.Flow1; }          else { return rdm.Next(181)*10 + 200; } }
         public int    GetCurrentFlow2()    { if (!SIM_MODE) { return LogLists.RecentEntries.Flow2; }          else { return rdm.Next(181)*10 + 200; } }
         public int    GetCurrentFlow3()    { if (!SIM_MODE) { return LogLists.RecentEntries.Flow3; }          else { return rdm.Next(181)*10 + 200; } }
         public int    GetCurrentFlow4()    { if (!SIM_MODE) { return LogLists.RecentEntries.Flow4; }          else { return rdm.Next(181)*10 + 200; } }
         public int    GetCurrentFlow5()    { if (!SIM_MODE) { return LogLists.RecentEntries.Flow5; }          else { return rdm.Next(181)*10 + 200; } }
         public int    GetCurrentLevel()    { if (!SIM_MODE) { return LogLists.RecentEntries.Tank; }           else { return rdm.Next(90) + 10; } }
-        public int    GetCurrentTankForce(){ if (!SIM_MODE) { return LogLists.RecentEntries.TankForce; }      else { return rdm.Next(14000) + 1000; } }
+        public int    GetCurrentTankForce(){ if (!SIM_MODE) { return LogLists.RecentEntries.LevelRaw; }       else { return rdm.Next(14000) + 1000; } }
         public double GetCurrentPressure() { if (!SIM_MODE) { return LogLists.RecentEntries.Pressure; }       else { return rdm.NextDouble() * 10; } }
         public int    GetCurrentTempCPU()  { if (!SIM_MODE) { return LogLists.RecentEntries.TempCPU; }        else { return rdm.Next(20) + 30; } }
         public int    GetCurrentTempAmb()  { if (!SIM_MODE) { return LogLists.RecentEntries.TempAmb; }        else { return rdm.Next(20) + 7; } }
