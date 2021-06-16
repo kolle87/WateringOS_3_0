@@ -216,6 +216,7 @@ namespace WateringOS_3_0
 
         public int ReadGround()
         {
+            var _vGround = this.Ground;
             try
             {
                 if (!this.IsBusy)
@@ -225,24 +226,23 @@ namespace WateringOS_3_0
                     var vASa = new byte[2];
                     //this.TWI_TankWeight.Write(vASr);
                     this.TWI_Ground.Read(vASa);
-                    TwiLog(LogType.Information, ("ReadGround() [0] "+ vASa[0] +"  [1] " + vASa[1]), "ReadGround() - TWI busy");
-                    int tGround = vASa[0] * 256;
+                    int tGround = (vASa[0] * 256) + vASa[1];
                     this.IsBusy = false;
-                    return tGround;
+                    this.Ground = tGround;
+                    _vGround = tGround;
                 }
                 else
                 {
                     TwiLog(LogType.Warning, "ReadGround() - TWI busy", "ReadGround() - TWI busy");
                     this.IsBusy = false;
-                    return 10;
                 }
             }
             catch (Exception e)
             {
                 TwiLog(LogType.Error, "Error reading ground sensor", e.Message);
                 this.IsBusy = false;
-                return 10;
             }
+            return _vGround;
         }
 
         private void TwiLog(string vType, string vMessage, string vDetail)

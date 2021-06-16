@@ -39,9 +39,5 @@
       PostBuildMacros;
     </PostBuildEventDependsOn>    
   </PropertyGroup>
-  
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="cd $(SolutionDir)&#xD;&#xA;call version.cmd $(AssemblyVersion) $(ConfigurationName) $(TargetDir)" />
-  </Target>
 
 </Project>
