@@ -62,7 +62,8 @@ namespace WateringOS_3_0.Controllers
         public void CloseValve3() { if (!SIM_MODE) { Globals.GpioServer.CloseValve3(); } else { Parents.Logger_ManualController.LogInformation("Action triggered: CloseValve3()"); } }
         public void CloseValve4() { if (!SIM_MODE) { Globals.GpioServer.CloseValve4(); } else { Parents.Logger_ManualController.LogInformation("Action triggered: CloseValve4()"); } }
         public void CloseValve5() { if (!SIM_MODE) { Globals.GpioServer.CloseValve5(); } else { Parents.Logger_ManualController.LogInformation("Action triggered: CloseValve5()"); } }
-
-        public void ReadGround() { Globals.tmpGround = Globals.TwiServer.ReadGround(); }
+        
+        public void EnableInflux() { InfluxController.OpenConnection(); Globals.UseInfluxDB = true; }
+        public void DisableInflux() { InfluxController.CloseConnection(); Globals.UseInfluxDB = false; }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections;
 using System.Timers;
+using Newtonsoft.Json.Serialization;
 using WateringOS_3_0.Controllers;
 
 /* DISCLAIMER
@@ -84,6 +85,9 @@ namespace WateringOS_3_0.Models
         public static string SqlLog_Data = "";
 
         public static bool MQTT_IsBusy = false;
+
+        public static bool UseInfluxDB = false;
+        public static readonly char[] InfluxToken="".ToCharArray();
 
         public static bool WateringActive = false;
         public static bool ALM_WarnTempCPUactive = false;

@@ -263,9 +263,19 @@
         $.post("/DataProvision/GetCurrentTempCPU", function (result) { document.getElementById('stat_CPU').textContent = result; });
         $.post("/DataProvision/GetCurrentTempAmb", function (result) { document.getElementById('stat_Amb').textContent = result; });
         $.post("/DataProvision/GetCurrentTempExp", function (result) { document.getElementById('stat_Exp').textContent = result; });
+        
+        $.post("/DataProvision/GetInfluxState", function (result) {
+            if (result == true) {
+                document.getElementById("stat_Influx").textContent = "Enabled";
+            }
+            else {
+                document.getElementById("stat_Influx").textContent = "Disabled";
+            }
+        });
     }
 
-    function ReadGround() { $.post("/Manual/ReadGround"); };
+    function EnableDBLog() { $.post("/Manual/EnableInflux"); }
+    function DisableDBLog() { $.post("/Manual/DisableInflux"); }
 </script>
 
 <div class="container" style="width:100%;margin:80px 0px 0px 0px;max-width:1140px">
@@ -504,9 +514,9 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td><button type="button" onClick="ReadGround()" class="btn btn-warning btn-sm btn-block" style="width:fit-content">ReadGround()</button></td>
-                            <td></td>
-                            <td></td>
+                            <td><button type="button" onClick="EnableDBLog()" class="btn btn-warning btn-sm btn-block" style="width:fit-content">Enable InfluxDB</button></td>
+                            <td style="text-align: center"><span class="text" id="stat_Influx">---</span></td>
+                            <td><button type="button" onClick="DisableDBLog()" class="btn btn-warning btn-sm btn-block" style="width:fit-content">Disable InfluxDB</button></td>
                         </tr>                        
                     </tbody>
                 </table>

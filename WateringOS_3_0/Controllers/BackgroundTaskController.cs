@@ -13,7 +13,8 @@ using System.Threading.Tasks.Dataflow;
 using Newtonsoft.Json;
 using System.IO;
 using System.Text;
-using Microsoft.AspNetCore.Components.Forms;
+using InfluxDB.Client.Api.Domain;
+using InfluxDB.Client.Writes;
 
 /* DISCLAIMER
 
@@ -214,14 +215,12 @@ namespace WateringOS_3_0.Controllers
             //if ((Globals.SpiServer.Level < LogLists.RecentEntries.Tank) || (Globals.SpiServer.Level > LogLists.RecentEntries.Tank + Settings.System.Tank_RefillHyst))
             //    { LogLists.RecentEntries.Tank = Globals.SpiServer.Level; }
             double TankLevel_L = Globals.SpiServer.LevelRaw  - Settings.System.Tank_Min;                      
-            LogLists.RecentEntries.Tank = (byte)Math.Floor((TankLevel_L / (Settings.System.Tank_Max-Settings.System.Tank_Min)) * 100);     // Liter to Percent
+            LogLists.RecentEntries.Tank = (byte)Math.Floor((TankLevel_L / (Settings.System.Tank_Max-Settings.System.Tank_Min)) * 100);     // Byte to Percent
             LogLists.RecentEntries.Rain = vRain;
             LogLists.RecentEntries.Ground = Globals.TwiServer.Ground;
             LogLists.RecentEntries.Pressure = Globals.SpiServer.Pressure;
             LogLists.RecentEntries.LevelRaw = Globals.SpiServer.LevelRaw;
-
-
-
+            
             LogLists.RecentEntries.TempCPU = DataProvisionController.GetTemperature();
 
             //Console.WriteLine($">>> Get GPIO data");
@@ -239,6 +238,38 @@ namespace WateringOS_3_0.Controllers
             LogLists.RecentEntries.PowerFail_24V = Globals.GpioServer.PowerFail_24V;
             LogLists.RecentEntries.WatchdogPrealarm = Globals.GpioServer.WatchDog_Prewarn;
 
+            // InfluxDB: Adding measurement
+            if (Globals.UseInfluxDB)
+            {
+                var MeasPoint = PointData.Measurement("Measurement")
+                    .Timestamp(LogLists.RecentEntries.TimeStamp, WritePrecision.Ms)
+                    .Field("TempAmb", LogLists.RecentEntries.TempAmb)
+                    .Field("TempExp", LogLists.RecentEntries.TempExp)
+                    .Field("TempCPU", LogLists.RecentEntries.TempCPU)
+                    .Field("Flow1", LogLists.RecentEntries.Flow1)
+                    .Field("Flow2", LogLists.RecentEntries.Flow2)
+                    .Field("Flow3", LogLists.RecentEntries.Flow3)
+                    .Field("Flow4", LogLists.RecentEntries.Flow4)
+                    .Field("Flow5", LogLists.RecentEntries.Flow5)
+                    .Field("Tank", LogLists.RecentEntries.Tank)
+                    .Field("Rain", LogLists.RecentEntries.Rain)
+                    .Field("Ground", LogLists.RecentEntries.Ground)
+                    .Field("Pressure", LogLists.RecentEntries.Pressure)
+                    .Field("Pump", LogLists.RecentEntries.Pump)
+                    .Field("Valve1", LogLists.RecentEntries.Valve1)
+                    .Field("Valve2", LogLists.RecentEntries.Valve2)
+                    .Field("Valve3", LogLists.RecentEntries.Valve3)
+                    .Field("Valve4", LogLists.RecentEntries.Valve4)
+                    .Field("Valve5", LogLists.RecentEntries.Valve5)
+                    .Field("PowerGood_5V", LogLists.RecentEntries.PowerGood_5V)
+                    .Field("PowerGood_12V", LogLists.RecentEntries.PowerGood_12V)
+                    .Field("PowerGood_24V", LogLists.RecentEntries.PowerGood_24V)
+                    .Field("PowerFail_5V", LogLists.RecentEntries.PowerFail_5V)
+                    .Field("PowerFail_12V", LogLists.RecentEntries.PowerFail_12V)
+                    .Field("PowerFail_24V", LogLists.RecentEntries.PowerFail_24V)
+                    .Field("WatchdogPrealarm", LogLists.RecentEntries.WatchdogPrealarm);
+                InfluxController.AddInfluxMeasurement(MeasPoint);
+            }
         }
 
         private static void MainTask_Routine(object sender, ElapsedEventArgs e)
