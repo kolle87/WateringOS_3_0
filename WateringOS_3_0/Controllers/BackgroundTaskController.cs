@@ -13,8 +13,7 @@ using System.Threading.Tasks.Dataflow;
 using Newtonsoft.Json;
 using System.IO;
 using System.Text;
-using InfluxDB.Client.Api.Domain;
-using InfluxDB.Client.Writes;
+using InfluxDB.LineProtocol.Payload;
 
 /* DISCLAIMER
 
@@ -241,33 +240,38 @@ namespace WateringOS_3_0.Controllers
             // InfluxDB: Adding measurement
             if (Globals.UseInfluxDB)
             {
-                var MeasPoint = PointData.Measurement("Measurement")
-                    .Timestamp(LogLists.RecentEntries.TimeStamp, WritePrecision.Ms)
-                    .Field("TempAmb", LogLists.RecentEntries.TempAmb)
-                    .Field("TempExp", LogLists.RecentEntries.TempExp)
-                    .Field("TempCPU", LogLists.RecentEntries.TempCPU)
-                    .Field("Flow1", LogLists.RecentEntries.Flow1)
-                    .Field("Flow2", LogLists.RecentEntries.Flow2)
-                    .Field("Flow3", LogLists.RecentEntries.Flow3)
-                    .Field("Flow4", LogLists.RecentEntries.Flow4)
-                    .Field("Flow5", LogLists.RecentEntries.Flow5)
-                    .Field("Tank", LogLists.RecentEntries.Tank)
-                    .Field("Rain", LogLists.RecentEntries.Rain)
-                    .Field("Ground", LogLists.RecentEntries.Ground)
-                    .Field("Pressure", LogLists.RecentEntries.Pressure)
-                    .Field("Pump", LogLists.RecentEntries.Pump)
-                    .Field("Valve1", LogLists.RecentEntries.Valve1)
-                    .Field("Valve2", LogLists.RecentEntries.Valve2)
-                    .Field("Valve3", LogLists.RecentEntries.Valve3)
-                    .Field("Valve4", LogLists.RecentEntries.Valve4)
-                    .Field("Valve5", LogLists.RecentEntries.Valve5)
-                    .Field("PowerGood_5V", LogLists.RecentEntries.PowerGood_5V)
-                    .Field("PowerGood_12V", LogLists.RecentEntries.PowerGood_12V)
-                    .Field("PowerGood_24V", LogLists.RecentEntries.PowerGood_24V)
-                    .Field("PowerFail_5V", LogLists.RecentEntries.PowerFail_5V)
-                    .Field("PowerFail_12V", LogLists.RecentEntries.PowerFail_12V)
-                    .Field("PowerFail_24V", LogLists.RecentEntries.PowerFail_24V)
-                    .Field("WatchdogPrealarm", LogLists.RecentEntries.WatchdogPrealarm);
+                var MeasPoint = new LineProtocolPoint(
+                    "Measurement",
+                    new Dictionary<string, object>
+                    {
+                        { "TempAmb", LogLists.RecentEntries.TempAmb },
+                        { "TempExp", LogLists.RecentEntries.TempExp },
+                        { "TempCPU", LogLists.RecentEntries.TempCPU },
+                        { "Flow1", LogLists.RecentEntries.Flow1 },
+                        { "Flow2", LogLists.RecentEntries.Flow2 },
+                        { "Flow3", LogLists.RecentEntries.Flow3 },
+                        { "Flow4", LogLists.RecentEntries.Flow4 },
+                        { "Flow5", LogLists.RecentEntries.Flow5 },
+                        { "Tank", LogLists.RecentEntries.Tank },
+                        { "Rain", LogLists.RecentEntries.Rain },
+                        { "Ground", LogLists.RecentEntries.Ground },
+                        { "Pressure", LogLists.RecentEntries.Pressure },
+                        { "Pump", LogLists.RecentEntries.Pump },
+                        { "Valve1", LogLists.RecentEntries.Valve1 },
+                        { "Valve2", LogLists.RecentEntries.Valve2 },
+                        { "Valve3", LogLists.RecentEntries.Valve3 },
+                        { "Valve4", LogLists.RecentEntries.Valve4 },
+                        { "Valve5", LogLists.RecentEntries.Valve5 },
+                        { "PowerGood_5V", LogLists.RecentEntries.PowerGood_5V },
+                        { "PowerGood_12V", LogLists.RecentEntries.PowerGood_12V },
+                        { "PowerGood_24V", LogLists.RecentEntries.PowerGood_24V },
+                        { "PowerFail_5V", LogLists.RecentEntries.PowerFail_5V },
+                        { "PowerFail_12V", LogLists.RecentEntries.PowerFail_12V },
+                        { "PowerFail_24V", LogLists.RecentEntries.PowerFail_24V },
+                        { "WatchdogPrealarm", LogLists.RecentEntries.WatchdogPrealarm }
+                    },
+                    null,
+                    LogLists.RecentEntries.TimeStamp);
                 InfluxController.AddInfluxMeasurement(MeasPoint);
             }
         }
@@ -1040,6 +1044,7 @@ namespace WateringOS_3_0.Controllers
             vDetail = vDetail.Replace(Globals.IllegalCharacters[0], Globals.ReplaceCharacters[0]);
             //Globals.SqlLog_Data += String.Format("('{0}', '{1}', '{2}', '{3}', '{4}', '{5}'),", DateTime.Now.ToString("o", CultureInfo.CurrentCulture), vInstance, vType, vMsg, vDetail, Globals.AppInDebug);
             AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "[SYS]", vType, vMessage, vDetail);
+            InfluxController.AddInfluxJournal(DateTime.Now, "[SYS]", vType, vMessage, vDetail);
         }
 
         public static void DebugLogEvent(object sender, LoggingEventArgs e)
@@ -1052,6 +1057,7 @@ namespace WateringOS_3_0.Controllers
             e.Detail = e.Detail.Replace(Globals.IllegalCharacters[0], Globals.ReplaceCharacters[0]);
             //Globals.SqlLog_Data += String.Format("('{0}', '{1}', '{2}', '{3}', '{4}', '{5}'),", e.TimeStamp.ToString("o", CultureInfo.CurrentCulture), e.Instance, e.Type, e.Message, e.Detail, Globals.AppInDebug);
             AddJournal(e.TimeStamp.ToString("o", CultureInfo.CurrentCulture), e.Instance, e.Type, e.Message, e.Detail);
+            InfluxController.AddInfluxJournal(DateTime.Now, e.Instance, e.Type, e.Message, e.Detail);
         }
 
         public static void AddJournal(string TimeStamp, string App, string Type, string Message, string Details)
