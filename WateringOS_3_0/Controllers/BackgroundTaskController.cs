@@ -82,6 +82,11 @@ namespace WateringOS_3_0.Controllers
                 case 2: vRain = 2; break;
                 default: vRain = 0; break;
             }
+
+            if (Globals.SpiServer.Rain != LogLists.RecentEntries.Rain)
+            {
+                InfluxController.WriteInfluxRain(vRain);
+            }
             /*
             switch (Math.Floor((double)(Globals.SpiServer.Ground / 100)))
             {
@@ -120,20 +125,11 @@ namespace WateringOS_3_0.Controllers
                 finally { Globals.EnvLogger.Start(); }
             }
 
-            // Log Level if smaller than before or 5% bigger
-            //if ((Globals.SpiServer.Level < LogLists.RecentEntries.Tank)||(Globals.SpiServer.Level > LogLists.RecentEntries.Tank+Settings.System.Tank_RefillHyst))
-            //{
-            //    try
-            //    {
-            //        Globals.LevelLogger.Stop();
-            //        if (LogLists.LevelLog.Count == 65500) { LogLists.LevelLog.RemoveAt(0); }
-            //        LogLists.LevelLog.Add(new cLevelLog
-            //        {
-            //            TimeStamp = DateTime.Now,
-            //            Tank = Globals.SpiServer.Level
-            //        });
-            //    } finally { Globals.LevelLogger.Start(); }
-            //}
+            // Log Level if change detected
+            if (Globals.SpiServer.Level != LogLists.RecentEntries.Tank)
+            {
+                InfluxController.WriteInfluxTank(Globals.SpiServer.Level, Globals.SpiServer.LevelRaw);
+            }
 
             // Log Power if change detected
             if ((LogLists.RecentEntries.PowerGood_5V != Globals.GpioServer.PowerGood_5V) ||
@@ -144,6 +140,17 @@ namespace WateringOS_3_0.Controllers
                 (LogLists.RecentEntries.PowerFail_24V != Globals.GpioServer.PowerFail_24V) ||
                 (LogLists.RecentEntries.WatchdogPrealarm != Globals.GpioServer.WatchDog_Prewarn))
             {
+                if (Globals.UseInfluxDB)
+                {
+                    InfluxController.WriteInfluxPower(
+                        Globals.GpioServer.PowerGood_5V,
+                        Globals.GpioServer.PowerGood_12V,
+                        Globals.GpioServer.PowerGood_24V,
+                        Globals.GpioServer.PowerFail_5V,
+                        Globals.GpioServer.PowerFail_12V,
+                        Globals.GpioServer.PowerFail_24V,
+                        Globals.GpioServer.WatchDog_Prewarn);
+                }
                 try
                 {
                     while (LogLists.PowerLog.Count > 65500) { LogLists.PowerLog.RemoveAt(0); }
@@ -165,6 +172,20 @@ namespace WateringOS_3_0.Controllers
             // Log Watering Data with FastLog
             if (Globals.WateringActive)
             {
+                InfluxController.WriteInfluxWatering(
+                    Globals.SpiServer.Flow1*10,
+                    Globals.SpiServer.Flow2*10,
+                    Globals.SpiServer.Flow3*10,
+                    Globals.SpiServer.Flow4*10,
+                    Globals.SpiServer.Flow5*10,
+                    Globals.SpiServer.Pressure,
+                    Globals.GpioServer.PumpActive,
+                    Globals.GpioServer.Valve1Open,
+                    Globals.GpioServer.Valve2Open,
+                    Globals.GpioServer.Valve3Open,
+                    Globals.GpioServer.Valve4Open,
+                    Globals.GpioServer.Valve5Open);
+                
                 LogLists.WateringLog1.Add(new cWaterLog
                 {
                     TimeStamp = DateTime.Now,
@@ -210,11 +231,8 @@ namespace WateringOS_3_0.Controllers
             LogLists.RecentEntries.Flow2 = Globals.SpiServer.Flow2 * 10;
             LogLists.RecentEntries.Flow3 = Globals.SpiServer.Flow3 * 10;
             LogLists.RecentEntries.Flow4 = Globals.SpiServer.Flow4 * 10;
-            LogLists.RecentEntries.Flow5 = Globals.SpiServer.Flow5 * 10;
-            //if ((Globals.SpiServer.Level < LogLists.RecentEntries.Tank) || (Globals.SpiServer.Level > LogLists.RecentEntries.Tank + Settings.System.Tank_RefillHyst))
-            //    { LogLists.RecentEntries.Tank = Globals.SpiServer.Level; }
-            double TankLevel_L = Globals.SpiServer.LevelRaw  - Settings.System.Tank_Min;                      
-            LogLists.RecentEntries.Tank = (byte)Math.Floor((TankLevel_L / (Settings.System.Tank_Max-Settings.System.Tank_Min)) * 100);     // Byte to Percent
+            LogLists.RecentEntries.Flow5 = Globals.SpiServer.Flow5 * 10;                 
+            LogLists.RecentEntries.Tank = Globals.SpiServer.Level;     // Byte to Percent
             LogLists.RecentEntries.Rain = vRain;
             LogLists.RecentEntries.Ground = Globals.TwiServer.Ground;
             LogLists.RecentEntries.Pressure = Globals.SpiServer.Pressure;
@@ -238,47 +256,19 @@ namespace WateringOS_3_0.Controllers
             LogLists.RecentEntries.WatchdogPrealarm = Globals.GpioServer.WatchDog_Prewarn;
 
             // InfluxDB: Adding measurement
-            if (Globals.UseInfluxDB)
-            {
-                var MeasPoint = new LineProtocolPoint(
-                    "Measurement",
-                    new Dictionary<string, object>
-                    {
-                        { "TempAmb", LogLists.RecentEntries.TempAmb },
-                        { "TempExp", LogLists.RecentEntries.TempExp },
-                        { "TempCPU", LogLists.RecentEntries.TempCPU },
-                        { "Flow1", LogLists.RecentEntries.Flow1 },
-                        { "Flow2", LogLists.RecentEntries.Flow2 },
-                        { "Flow3", LogLists.RecentEntries.Flow3 },
-                        { "Flow4", LogLists.RecentEntries.Flow4 },
-                        { "Flow5", LogLists.RecentEntries.Flow5 },
-                        { "Tank", LogLists.RecentEntries.Tank },
-                        { "Rain", LogLists.RecentEntries.Rain },
-                        { "Ground", LogLists.RecentEntries.Ground },
-                        { "Pressure", LogLists.RecentEntries.Pressure },
-                        { "Pump", LogLists.RecentEntries.Pump },
-                        { "Valve1", LogLists.RecentEntries.Valve1 },
-                        { "Valve2", LogLists.RecentEntries.Valve2 },
-                        { "Valve3", LogLists.RecentEntries.Valve3 },
-                        { "Valve4", LogLists.RecentEntries.Valve4 },
-                        { "Valve5", LogLists.RecentEntries.Valve5 },
-                        { "PowerGood_5V", LogLists.RecentEntries.PowerGood_5V },
-                        { "PowerGood_12V", LogLists.RecentEntries.PowerGood_12V },
-                        { "PowerGood_24V", LogLists.RecentEntries.PowerGood_24V },
-                        { "PowerFail_5V", LogLists.RecentEntries.PowerFail_5V },
-                        { "PowerFail_12V", LogLists.RecentEntries.PowerFail_12V },
-                        { "PowerFail_24V", LogLists.RecentEntries.PowerFail_24V },
-                        { "WatchdogPrealarm", LogLists.RecentEntries.WatchdogPrealarm }
-                    },
-                    null,
-                    LogLists.RecentEntries.TimeStamp);
-                InfluxController.AddInfluxMeasurement(MeasPoint);
-            }
+            
         }
 
         private static void MainTask_Routine(object sender, ElapsedEventArgs e)
         {
             Globals.TwiServer.TWI_Read();
+
+            if ((Globals.TwiServer.AmbientTemp != LogLists.RecentEntries.TempAmb) ||
+                (Globals.TwiServer.ExposedTemp != LogLists.RecentEntries.TempExp) ||
+                (Globals.TwiServer.CPUTemp != LogLists.RecentEntries.TempCPU))
+            {
+                InfluxController.WriteInfluxTemp(Globals.TwiServer.CPUTemp,Globals.TwiServer.AmbientTemp,Globals.TwiServer.ExposedTemp);
+            }
 
             // reset alarm jitter suppression
             int vCurrentTemp = DataProvisionController.GetTemperature();
@@ -303,39 +293,6 @@ namespace WateringOS_3_0.Controllers
                 Globals.ALM_MaxPressactive = false;
             }
 
-            // NEW: MQTT publish
-            /*
-                Globals.MQTTServer.Update(MQTTController.Flow1, LogLists.RecentEntries.Flow1);
-                Globals.MQTTServer.Update(MQTTController.Flow2, LogLists.RecentEntries.Flow2);
-                Globals.MQTTServer.Update(MQTTController.Flow3, LogLists.RecentEntries.Flow3);
-                Globals.MQTTServer.Update(MQTTController.Flow4, LogLists.RecentEntries.Flow4);
-                Globals.MQTTServer.Update(MQTTController.Flow5, LogLists.RecentEntries.Flow5);
-                Globals.MQTTServer.Update(MQTTController.Pump, (byte)(LogLists.RecentEntries.Pump ? 1 : 0));
-                Globals.MQTTServer.Update(MQTTController.Valve1, (byte)(LogLists.RecentEntries.Valve1 ? 1 : 0));
-                Globals.MQTTServer.Update(MQTTController.Valve2, (byte)(LogLists.RecentEntries.Valve2 ? 1 : 0));
-                Globals.MQTTServer.Update(MQTTController.Valve3, (byte)(LogLists.RecentEntries.Valve3 ? 1 : 0));
-                Globals.MQTTServer.Update(MQTTController.Valve4, (byte)(LogLists.RecentEntries.Valve4 ? 1 : 0));
-                Globals.MQTTServer.Update(MQTTController.Valve5, (byte)(LogLists.RecentEntries.Valve5 ? 1 : 0));
-                Globals.MQTTServer.Update(MQTTController.Tank, LogLists.RecentEntries.Tank);
-                Globals.MQTTServer.Update(MQTTController.TankForce, LogLists.RecentEntries.TankForce);
-                Globals.MQTTServer.Update(MQTTController.Rain, LogLists.RecentEntries.Rain);
-                Globals.MQTTServer.Update(MQTTController.Ground, LogLists.RecentEntries.Ground);
-                Globals.MQTTServer.Update(MQTTController.Pressure, LogLists.RecentEntries.Pressure);
-                Globals.MQTTServer.Update(MQTTController.LevelRaw, LogLists.RecentEntries.LevelRaw);
-                Globals.MQTTServer.Update(MQTTController.TempCPU, LogLists.RecentEntries.TempCPU);
-                Globals.MQTTServer.Update(MQTTController.TempAmb, LogLists.RecentEntries.TempAmb);
-                Globals.MQTTServer.Update(MQTTController.TempExp, LogLists.RecentEntries.TempExp);
-                Globals.MQTTServer.Update(MQTTController.PowerGood_5V, (byte)(LogLists.RecentEntries.PowerGood_5V ? 1 : 0));
-                Globals.MQTTServer.Update(MQTTController.PowerGood_12V, (byte)(LogLists.RecentEntries.PowerGood_12V ? 1 : 0));
-                Globals.MQTTServer.Update(MQTTController.PowerGood_24V, (byte)(LogLists.RecentEntries.PowerGood_24V ? 1 : 0));
-                Globals.MQTTServer.Update(MQTTController.PowerFail_5V, (byte)(LogLists.RecentEntries.PowerFail_5V ? 1 : 0));
-                Globals.MQTTServer.Update(MQTTController.PowerFail_12V, (byte)(LogLists.RecentEntries.PowerFail_12V ? 1 : 0));
-                Globals.MQTTServer.Update(MQTTController.PowerFail_24V, (byte)(LogLists.RecentEntries.PowerFail_24V ? 1 : 0));
-                Globals.MQTTServer.Update(MQTTController.WatchDog, (byte)(LogLists.RecentEntries.WatchdogPrealarm ? 1 : 0));
-                Globals.MQTTServer.Update(MQTTController.TempDiff, (LogLists.RecentEntries.TempExp - LogLists.RecentEntries.TempAmb));
-
-                Globals.MQTTServer.Publish();
-            */
 
             // NEW: Tank Level Stack for avarage calculation
             if (!Globals.WateringActive)
@@ -353,24 +310,6 @@ namespace WateringOS_3_0.Controllers
             }
 
             if (Globals.TankLevel.Count > 1200) { Globals.TankLevel.Dequeue(); } // avoid exceptional growing
-
-            // DEBUG : Log Tank Force
-            /*
-            if (LogCount < 86400)
-            {
-                LogCount++; 
-                string filename = "usrdata/TankLog" + LogNumber.ToString() + ".csv";
-                System.IO.File.AppendAllText(filename, DateTime.Now.ToString() + ";" + LogLists.RecentEntries.TankForce.ToString()+"\n");
-            }
-            else
-            {
-                LogCount = 0;
-                LogNumber++;
-                string filename = "usrdata/TankLog" + LogNumber.ToString() + ".csv";
-                System.IO.File.WriteAllText(filename, "");
-            }
-            */
-
 
             // Main task for watering
             if (!Globals.WateringActive)
@@ -872,6 +811,7 @@ namespace WateringOS_3_0.Controllers
                 TempCPU = DataProvisionController.GetTemperature(),
                 TempExp = Globals.TwiServer.ExposedTemp
             });
+            InfluxController.WriteInfluxGround(Globals.tmpGround);
         }
 
         private static void PowerLogger_Routine(object sender, ElapsedEventArgs e)
@@ -945,9 +885,7 @@ namespace WateringOS_3_0.Controllers
                 LogLists.WateringLog1 = JsonConvert.DeserializeObject<List<cWaterLog>>(System.IO.File.ReadAllText(@"usrdata/SavedLogs/Watering1Log.json"));
                 LogLists.WateringLog2 = JsonConvert.DeserializeObject<List<cWaterLog>>(System.IO.File.ReadAllText(@"usrdata/SavedLogs/Watering2Log.json"));
                 LogLists.WateringLog3 = JsonConvert.DeserializeObject<List<cWaterLog>>(System.IO.File.ReadAllText(@"usrdata/SavedLogs/Watering3Log.json"));
-
-                LogLists.RecentEntries.Tank = 255;
-
+                
                 Globals.GpioServer.GpioLogEvent += DebugLogEvent;
                 Globals.SpiServer.SpiLogEvent += DebugLogEvent;
                 Globals.TwiServer.TwiLogEvent += DebugLogEvent;
@@ -957,6 +895,16 @@ namespace WateringOS_3_0.Controllers
                 Globals.SpiServer.InitSPI();
                 Globals.TwiServer.InitTWIAsync();
                 Globals.MQTTServer.Initialize();
+                
+                LogLists.RecentEntries.TimeStamp = DateTime.Now;
+
+                InfluxController.OpenConnection();
+                InfluxController.WriteInfluxGround(0);
+                InfluxController.WriteInfluxRain(0);
+                InfluxController.WriteInfluxPower(true,true,true,true,true,true,false);
+                InfluxController.WriteInfluxTank(100,255);
+                InfluxController.WriteInfluxTemp(0,0,0);
+                InfluxController.WriteInfluxWatering(0,0,0,0,0,0.0,false,false,false,false,false,false);
 
                 Globals.FastTask.Elapsed += new ElapsedEventHandler(BackgroundTaskController.FastTask_Routine);
                 Globals.MainTask.Elapsed += new ElapsedEventHandler(BackgroundTaskController.MainTask_Routine);
@@ -1044,7 +992,6 @@ namespace WateringOS_3_0.Controllers
             vDetail = vDetail.Replace(Globals.IllegalCharacters[0], Globals.ReplaceCharacters[0]);
             //Globals.SqlLog_Data += String.Format("('{0}', '{1}', '{2}', '{3}', '{4}', '{5}'),", DateTime.Now.ToString("o", CultureInfo.CurrentCulture), vInstance, vType, vMsg, vDetail, Globals.AppInDebug);
             AddJournal(DateTime.Now.ToString("o", CultureInfo.CurrentCulture), "[SYS]", vType, vMessage, vDetail);
-            InfluxController.AddInfluxJournal(DateTime.Now, "[SYS]", vType, vMessage, vDetail);
         }
 
         public static void DebugLogEvent(object sender, LoggingEventArgs e)
@@ -1057,7 +1004,6 @@ namespace WateringOS_3_0.Controllers
             e.Detail = e.Detail.Replace(Globals.IllegalCharacters[0], Globals.ReplaceCharacters[0]);
             //Globals.SqlLog_Data += String.Format("('{0}', '{1}', '{2}', '{3}', '{4}', '{5}'),", e.TimeStamp.ToString("o", CultureInfo.CurrentCulture), e.Instance, e.Type, e.Message, e.Detail, Globals.AppInDebug);
             AddJournal(e.TimeStamp.ToString("o", CultureInfo.CurrentCulture), e.Instance, e.Type, e.Message, e.Detail);
-            InfluxController.AddInfluxJournal(DateTime.Now, e.Instance, e.Type, e.Message, e.Detail);
         }
 
         public static void AddJournal(string TimeStamp, string App, string Type, string Message, string Details)
@@ -1084,6 +1030,9 @@ namespace WateringOS_3_0.Controllers
                     Message = Message,
                     Details = Details
                 });
+                
+                if (Globals.UseInfluxDB)
+                    InfluxController.AddInfluxJournal(DateTime.Now, App, Type, Message, Details);
             }
             catch
             {

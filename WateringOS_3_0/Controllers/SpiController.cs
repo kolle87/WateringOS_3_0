@@ -87,9 +87,13 @@ namespace WateringOS_3_0
                     this.Pressure = ReadBuf[9] * 0.049;
                     this.Ground = ReadBuf[10];
 
-                    // CHANGE: below not used since level measured by I2C force sensor 
-                    //try   { this.Level = Convert.ToByte(Math.Round(((double)(ReadBuf[8] - this.MinLevel) / (this.MaxLevel - this.MinLevel)) * 100.0)); }
-                    //catch (Exception e) { this.Level = 105; SpiLog(LogType.Error, "SPI_Read().Level - Calculation error", e.Message); }
+
+                    try
+                    {
+                        double TankLevel_L = ReadBuf[8]  - Settings.System.Tank_Min;
+                        this.Level = (byte)Math.Floor(( TankLevel_L / (Settings.System.Tank_Max-Settings.System.Tank_Min)) * 100);
+                    }
+                    catch (Exception e) { this.Level = 105; SpiLog(LogType.Error, "SPI_Read().Level - Calculation error", e.Message); }
 
                     return true;
                 }
